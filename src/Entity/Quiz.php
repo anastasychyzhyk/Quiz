@@ -39,9 +39,15 @@ class Quiz
      */
     private $plays;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Question::class, inversedBy="quizzes")
+     */
+    private $question;
+
     public function __construct()
     {
         $this->plays = new ArrayCollection();
+        $this->question = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,6 +117,32 @@ class Quiz
             if ($play->getQuiz() === $this) {
                 $play->setQuiz(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestion(): Collection
+    {
+        return $this->question;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->question->contains($question)) {
+            $this->question[] = $question;
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->question->contains($question)) {
+            $this->question->removeElement($question);
         }
 
         return $this;

@@ -6,12 +6,18 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User
+class User implements UserInterface
 {
+    public const ROLE_USER = 'ROLE_USER';
+    public const USER_STATUS_AWAITING = 'Awaiting Activation';
+    public const USER_STATUS_ACTIVE = 'Active';
+    public const USER_STATUS_BLOCKED = 'Blocked';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -49,9 +55,16 @@ class User
      */
     private $plays;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $confirmationCode;
+
     public function __construct()
     {
         $this->plays = new ArrayCollection();
+        $this->role = [self::ROLE_USER];
+        $this->status = [self::USER_STATUS_AWAITING];
     }
 
     public function getId(): ?int
@@ -141,12 +154,42 @@ class User
     {
         if ($this->plays->contains($play)) {
             $this->plays->removeElement($play);
-            // set the owning side to null (unless already changed)
             if ($play->getUser() === $this) {
                 $play->setUser(null);
             }
         }
 
+        return $this;
+    }
+
+    public function getRoles()
+    {
+        // TODO: Implement getRoles() method.
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function getUsername(): string
+    {
+        return $this->name;
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getConfirmationCode(): string
+    {
+        return $this->confirmationCode;
+    }
+
+    public function setConfirmationCode(string $confirmationCode): self
+    {
+        $this->confirmationCode = $confirmationCode;
         return $this;
     }
 }

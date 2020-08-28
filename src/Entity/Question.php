@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QuestionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,13 +22,23 @@ class Question
     /**
      * @ORM\Column(type="text")
      */
-    private $Text;
+    private $text;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Quiz::class, inversedBy="questions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity=Play::class, mappedBy="question")
      */
-    private $quiz;
+    private $plays;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Quiz::class, mappedBy="question")
+     */
+    private $quizzes;
+
+    public function __construct()
+    {
+        $this->plays = new ArrayCollection();
+        $this->quizzes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -35,24 +47,58 @@ class Question
 
     public function getText(): ?string
     {
-        return $this->Text;
+        return $this->text;
     }
 
-    public function setText(string $Text): self
+    public function setText(string $text): self
     {
-        $this->Text = $Text;
+        $this->text = $text;
 
         return $this;
     }
 
-    public function getQuiz(): ?Quiz
+    /**
+     * @return Collection|Play[]
+     */
+    public function getPlays(): Collection
     {
-        return $this->quiz;
+        return $this->plays;
     }
 
-    public function setQuiz(?Quiz $quiz): self
+    public function addPlay(Play $play): self
     {
-        $this->quiz = $quiz;
+        if (!$this->plays->contains($play)) {
+            $this->plays[] = $play;
+            $play->setQuestion($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Quiz[]
+     */
+    public function getQuizzes(): Collection
+    {
+        return $this->quizzes;
+    }
+
+    public function addQuiz(Quiz $quiz): self
+    {
+        if (!$this->quizzes->contains($quiz)) {
+            $this->quizzes[] = $quiz;
+            $quiz->addQuestion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuiz(Quiz $quiz): self
+    {
+        if ($this->quizzes->contains($quiz)) {
+            $this->quizzes->removeElement($quiz);
+            $quiz->removeQuestion($this);
+        }
 
         return $this;
     }

@@ -20,7 +20,7 @@ class Answer
     /**
      * @ORM\Column(type="text")
      */
-    private $Text;
+    private $text;
 
     /**
      * @ORM\Column(type="boolean")
@@ -40,12 +40,12 @@ class Answer
 
     public function getText(): ?string
     {
-        return $this->Text;
+        return $this->text;
     }
 
-    public function setText(string $Text): self
+    public function setText(string $text): self
     {
-        $this->Text = $Text;
+        $this->text = $text;
 
         return $this;
     }

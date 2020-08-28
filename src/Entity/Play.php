@@ -39,6 +39,11 @@ class Play
      */
     private $isFinish;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="plays")
+     */
+    private $question;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -88,6 +93,18 @@ class Play
     public function setIsFinish(bool $isFinish): self
     {
         $this->isFinish = $isFinish;
+
+        return $this;
+    }
+
+    public function getQuestion(): ?Question
+    {
+        return $this->question;
+    }
+
+    public function setQuestion(?Question $question): self
+    {
+        $this->question = $question;
 
         return $this;
     }
