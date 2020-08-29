@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirm registration</title>
+</head>
+<body>
+<div class="container">
+    <p>{{ user.name }}, welcome to Quiz!</p>
+    <p><a href="{{ url('confirmation', {'code': user.confirmationCode }) }}">Click here to activate your account</a></p>
+</div>
+</body>
+</html>
