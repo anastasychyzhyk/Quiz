@@ -67,6 +67,11 @@ class User implements UserInterface
         $this->status = self::USER_STATUS_AWAITING;
     }
 
+    public function activate()
+	{
+		$this->status = self::USER_STATUS_ACTIVE;
+	}
+	
     public function getId(): ?int
     {
         return $this->id;
