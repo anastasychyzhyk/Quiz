@@ -10,25 +10,32 @@ use Symfony\Component\Mime\Address;
 
 class Mailer
 {
-	  private MailerInterface $mailer;
+    private MailerInterface $mailer;
 
     public function __construct(MailerInterface $mailer)
     {
         $this->mailer=$mailer;
     }
 
-    public function sendConfirmationMessage(string $subject, User $user)
+    private function createEmail(string $to, string $subject):TemplatedEmail
     {
-        $email = (new TemplatedEmail())
+        return (new TemplatedEmail())
             ->from(new Address('quiz-mailer@mail.ru', 'Quiz'))
-            ->to($user->getEmail())
-            ->subject($subject)
-			->htmlTemplate('email/confirmation.html.twig', ['user'=>$user])
+            ->to($to)
+            ->subject($subject);
+    }
+
+    public function sendConfirmationMessage(string $subject, User $user): bool
+    {
+        $email = $this->createEmail($user->getEmail(), $subject)
+			->htmlTemplate('email/confirmation.html.twig')
 			->context(['user'=>$user,]);
         try {
             $this->mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-           echo $e->getDebug();
+            return true;
+        }
+        catch (TransportExceptionInterface $e) {
+            return false;
         }
     }
 }

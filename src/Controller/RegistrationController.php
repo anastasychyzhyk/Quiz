@@ -9,47 +9,55 @@ use App\Form\RegistrationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
-use App\Service\CodeGenerator;
+use App\Service\UserEditor;
 use App\Service\Mailer;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegistrationController extends AbstractController
 {
+    private UserEditor $userEditor;
+
+    public function __construct(UserEditor $userEditor)
+    {
+        $this->userEditor=$userEditor;
+    }
+
     /**
      * @Route("/registration", name="registration")
      */
-    public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder, CodeGenerator $codeGenerator, Mailer $mailer)
+    public function index(Request $request, Mailer $mailer)
     {
         $user = new User();
+        $errorMessage = '';
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-            $password = $passwordEncoder->encodePassword(
-                $user,
-                $user->getPassword()
-            );
-            $user->setPassword($password);
-            $user->setConfirmationCode($codeGenerator->getConfirmationCode());
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-			$mailer->sendConfirmationMessage('Confirm registration', $user); 
-            //return $this->redirectToRoute('app_login');
+            $user=$form->getData();
+            $user=$this->userEditor->createUser($user, $this->getDoctrine()->getManager());
+            if (!$user) {
+                $errorMessage = 'Please check your email or login. User with this email is already registered.';
+            }
+            else if (!$mailer->sendConfirmationMessage('Confirm registration', $user)) {
+                $errorMessage = 'An error occurred during sending confirmation email. Please contact support.';
+            }
         }
         return $this->render('registration/index.html.twig', [
-            'controller_name' => 'RegistrationController','form' => $form->createView()
+            'controller_name' => 'RegistrationController', 'form' => $form->createView(), 'message' => $errorMessage,
         ]);
     }
 	
 	/**
      * @Route("/confirmation/{code}", name="confirmation")
      */
-    public function confirm(Request $request, UserRepository $userRepository, $code)
+    public function confirm(Request $request, UserRepository $userRepository, string $code)
     {
-		echo 'Ok';		
-		$userRepository->findOneBy(['confirmationCode' => $code])->activate();
-		$this->getDoctrine()->getManager()->flush();
-		return $this->render('base.html.twig');
+        $user=$userRepository->findOneBy(['confirmationCode' => $code]);
+		if($user) {
+            $user->activate();
+            $this->getDoctrine()->getManager()->flush();
+        }
+		else {
+		    echo 'Invalid confirmation code';
+        }
+        return $this->render('base.html.twig');
 	}
 }

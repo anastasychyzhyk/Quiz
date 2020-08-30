@@ -7,10 +7,7 @@ class CodeGenerator
 {
     public const RANDOM_STRING = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    /**
-     * @return string
-     */
-    public function getConfirmationCode()
+    public function getConfirmationCode(): string
     {
         $stringLength = strlen(self::RANDOM_STRING);
         $code = '';
