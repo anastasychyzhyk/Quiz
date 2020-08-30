@@ -12,7 +12,6 @@ class UserEditor
 {
     private UserPasswordEncoderInterface $passwordEncoder;
     private UserRepository $userRepository;
-    private Mailer $mailer;
 
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository)
     {
