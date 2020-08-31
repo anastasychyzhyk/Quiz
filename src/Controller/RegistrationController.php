@@ -22,7 +22,7 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/registration", name="registration")
+     * @Route("/{_locale<%app.supported_locales%>}/registration", name="registration")
      */
     public function index(Request $request, Mailer $mailer)
     {
