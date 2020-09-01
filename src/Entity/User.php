@@ -23,32 +23,32 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=30)
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $email;
+    private string $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $password;
+    private string $password;
 
     /**
      * @ORM\Column(type="string", length=20)
      */
-    private $status;
+    private string $status;
 
     /**
      * @ORM\Column(type="string", length=10)
      */
-    private $role;
+    private string $role;
 
     /**
      * @ORM\OneToMany(targetEntity=Play::class, mappedBy="user", orphanRemoval=true)
@@ -58,15 +58,20 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private $confirmationCode;
+    private string $confirmationCode;
 
     public function __construct()
     {
         $this->plays = new ArrayCollection();
-        $this->role = [self::ROLE_USER];
-        $this->status = [self::USER_STATUS_AWAITING];
+        $this->role = self::ROLE_USER;
+        $this->status = self::USER_STATUS_AWAITING;
     }
 
+    public function activate()
+	{
+		$this->status = self::USER_STATUS_ACTIVE;
+	}
+	
     public function getId(): ?int
     {
         return $this->id;
@@ -164,12 +169,10 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        // TODO: Implement getRoles() method.
     }
 
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
     }
 
     public function getUsername(): string
@@ -179,7 +182,6 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
     }
 
     public function getConfirmationCode(): string

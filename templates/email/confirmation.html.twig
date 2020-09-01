@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans %}Confirm registration{% endtrans %}</title>
+</head>
+<body>
+<div class="container">
+    <p>{{ user.name }}, {% trans %}welcome to Quiz!{% endtrans %}</p>
+    <p>
+        <a href="{{ url('confirmation', {'code': user.confirmationCode }) }}">
+            {% trans %}Click here to activate your account{% endtrans %}
+        </a>
+    </p>
+</div>
+</body>
+</html>
