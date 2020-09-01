@@ -15,6 +15,9 @@ use App\Service\Mailer;
 class RegistrationController extends AbstractController
 {
     private UserEditor $userEditor;
+    private const EMAIL_INPUT_ERROR='Please check your email. User with this email is already registered.';
+    private const EMAIL_SEND_ERROR='An error occurred during sending confirmation email. Please contact support.';
+    private const INVALID_CONFIRMATION='Invalid confirmation code';
 
     public function __construct(UserEditor $userEditor)
     {
@@ -27,21 +30,20 @@ class RegistrationController extends AbstractController
     public function index(Request $request, Mailer $mailer)
     {
         $user = new User();
-        $errorMessage = '';
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user=$form->getData();
             $user=$this->userEditor->createUser($user, $this->getDoctrine()->getManager());
             if (!$user) {
-                $errorMessage = 'Please check your email or login. User with this email is already registered.';
+                $this->addFlash('error', self::EMAIL_INPUT_ERROR);
             }
             else if (!$mailer->sendConfirmationMessage('Confirm registration', $user)) {
-                $errorMessage = 'An error occurred during sending confirmation email. Please contact support.';
+                $this->addFlash('error', self::EMAIL_SEND_ERROR);
             }
         }
         return $this->render('registration/index.html.twig', [
-            'controller_name' => 'RegistrationController', 'form' => $form->createView(), 'message' => $errorMessage,
+            'controller_name' => 'RegistrationController', 'form' => $form->createView()
         ]);
     }
 	
@@ -56,7 +58,7 @@ class RegistrationController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
         }
 		else {
-		    echo 'Invalid confirmation code';
+            $this->addFlash( 'error',self::INVALID_CONFIRMATION);
         }
         return $this->render('base.html.twig');
 	}

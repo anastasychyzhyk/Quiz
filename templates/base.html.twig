@@ -10,6 +10,13 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash-{{ label }}">
+                    {{ message|trans() }}
+                </div>
+            {% endfor %}
+        {% endfor %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
