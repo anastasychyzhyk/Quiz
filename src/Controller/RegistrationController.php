@@ -18,6 +18,7 @@ class RegistrationController extends AbstractController
     private const EMAIL_INPUT_ERROR='Please check your email. User with this email is already registered.';
     private const EMAIL_SEND_ERROR='An error occurred during sending confirmation email. Please contact support.';
     private const INVALID_CONFIRMATION='Invalid confirmation code';
+    private const CONFIRM_SUCCESS='Account verified successfully';
 
     public function __construct(UserEditor $userEditor)
     {
@@ -48,7 +49,7 @@ class RegistrationController extends AbstractController
     }
 	
 	/**
-     * @Route("/confirmation/{code}", name="confirmation")
+     * @Route("/{_locale<%app.supported_locales%>}/confirmation/{code}", name="confirmation")
      */
     public function confirm(Request $request, UserRepository $userRepository, string $code)
     {
@@ -56,6 +57,7 @@ class RegistrationController extends AbstractController
 		if($user) {
             $user->activate();
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('error', self::CONFIRM_SUCCESS);
         }
 		else {
             $this->addFlash( 'error',self::INVALID_CONFIRMATION);
