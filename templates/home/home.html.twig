@@ -1,0 +1,52 @@
+{# app/Resources/views/blog/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Quiz{% endblock %}
+
+{% block container %}
+    <header class="header">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="description rellax">
+                <h1> Hello, Welcome To our Quiz Website
+                    <p>
+                        This is a great playground for playing with friends and random people :)
+                        This is a great playground for playing with friends and random people :)
+                    </p>
+                    <button class="btn btn-outline-secondary btn-lg">start the game</button> </h1>
+            </div>
+        </div>
+    </header>
+    <div class="about text-center">
+        <h1 class="p-3">About</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm item">
+                    <img src="../public/img/money.svg" alt="">
+                    <p>
+                        To start the game, you just need to register.
+                        No payments or subscriptions - you can start
+                        playing right away!</p>
+                </div>
+                <div class="col-sm item">
+                    <img src="../public/img/friends.svg" alt="">
+                    <p>
+                        Add other players as friends,
+                        play together and coordinate actions
+                        in a convenient chat for private messages!</p>
+                </div>
+                <div class="col-sm item">
+                    <img src="../public/img/play-button.svg" alt="">
+                    <p>The game works without using a flash,
+                        which means that you can even play on
+                        an iPad!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block javascripts %}
+    <script src={{ asset('js/rellax.min.js')}}></script>
+    <script src={{ asset('js/rellax.js')}}></script>
+{% endblock %}

@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+html,h1,h2,h3,h4,h5,h6,a{
+    font-family: "Raleway";
+}
+.navbar{
+    background:#F97300;
+}
+.nav-link , .navbar-brand{
+    color: #f4f4f4; cursor: pointer;
+}
+.nav-link{
+    margin-right: 1em !important;
+}
+.nav-link:hover{
+    background: #f4f4f4; color: #f97300;
+}
+.navbar-collapse{
+    justify-content: flex-end;
+}
+.navbar-toggler{
+    background:#fff !important;
+}
+.header{
+    background-image: url('../img/header.jpg');
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: 25% 75%;
+    /*background-position: center;*/
+    width: 100%;
+}
+.overlay{
+    /*position: absolute;*/
+    min-height: 100%;
+    min-width: 100%;
+    left: 0;
+    top: 0;
+    background: rgba(244, 244, 244, 0.79);
+}
+.description{
+    position: absolute;
+    top: 30%;
+    margin: auto;
+    padding: 2em;
+}
+.description h1{
+    color:#F97300 ;
+}
+.description p{
+    color:#666;
+    font-size: 20px;
+    width: 50%;
+    line-height: 1.5;
+}
+.description button{
+    border:1px  solid #F97300;
+    background:#F97300;
+    color:#fff;
+}
+.about{
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+.orange{
+    background:#F97300;
+}
+.footer-title h5{
+    color: #fff;
+}
+.footer-title p{
+    color: #fff;
+}
+.contact li a img{
+    width: 30px;
+}
+.copy{
+    color: #fff;
+}
+.copy a{
+    color: #858585;
+}
+.item
+{
+    /*background-color: red;*/
+    margin: 5px;
+}
+.item img{
+    width: 60px;
+    margin-bottom: 10px;
+}
