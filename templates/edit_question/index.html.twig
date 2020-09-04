@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %} {% block container %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 ml-md-auto">
+                <div class="card bg-light mb-3 mt-5" style="width: 800px">
+                    <div class="card-body">
+                        <div class="card-header mb-3">{% trans %}Question{% endtrans %}</div>
+                        {{ form_start(form) }}
+                        <div class="form_group">
+                            <div class="col-md-12 mb-3">
+                                {{ form_row(form.text, {'attr': {'class': 'form-control', 'placeholder': 'Input question...'}}) }}
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            {% for answer in answers %}
+                            <div class="form-group row">
+                                <div class="form-check">
+                                    <input class="form-check-input position-static" type="radio" name="exampleRadios"
+                                        {% if answer.isTrue %}
+                                            checked
+                                        {% endif %}
+                                    >
+                                </div>
+                                    <div class="input-group-append">
+                                        <input class="form-control" type="text" placeholder="{% trans %}Input answer...{% endtrans %}"value={{ answer.text}}>
+                                    </div>
+                                {% if loop.index >2 %}
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-danger" type="submit" name="delete" value={{answer.id}}>
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                {% endif %}
+                                {% if loop.last %}
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-success" type="submit" name="add" value={{answer.id}}>
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4" style="margin-top:5px;">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-btn fa-user"></i> {% trans %}Save{% endtrans %}
+                                </button>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
