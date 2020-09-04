@@ -33,10 +33,16 @@ class Question
      * @ORM\ManyToMany(targetEntity=Quiz::class, mappedBy="question")
      */
     private $quizzes;
+    /**
+     * @ORM\OneToMany(targetEntity=Answer::class, mappedBy="question", orphanRemoval=true)
+     */
+    private $answers;
+
 
     public function __construct()
     {
         $this->plays = new ArrayCollection();
+        $this->answers = new ArrayCollection();
         $this->quizzes = new ArrayCollection();
     }
 
@@ -72,6 +78,32 @@ class Question
             $play->setQuestion($this);
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Collection|Answer[]
+     */
+    public function getAnswers(): Collection
+    {
+        return $this->answers;
+    }
+
+    public function addAnswer(Answer $answer): self
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers[] = $answer;
+            $answer->setQuestion($this);
+        }
+        return $this;
+    }
+
+    public function removeAnswer(Quiz $answer): self
+    {
+        if ($this->answers->contains($answer)) {
+            $this->answers->removeElement($answer);
+            $answer->removeQuestion($this);
+        }
         return $this;
     }
 

@@ -57,7 +57,7 @@ class RegistrationController extends AbstractController
 		if($user) {
             $user->activate();
             $this->getDoctrine()->getManager()->flush();
-            $this->addFlash('error', self::CONFIRM_SUCCESS);
+            $this->addFlash('notice', self::CONFIRM_SUCCESS);
         }
 		else {
             $this->addFlash( 'error',self::INVALID_CONFIRMATION);
