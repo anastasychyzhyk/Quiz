@@ -33,21 +33,25 @@ class QuestionEditorController extends AbstractController
     {
         $form = $this->createForm(QuestionEditorType::class);
         $form->handleRequest($request);
+        $condition='';
         if ($form->isSubmitted() && $form->isValid()) {
-            if($request->request->get('find')!== null) {
-                $questions=$this->questionRepository->findByTextQuery($request->request->get('findText'));
-            }
-            if($request->request->get('delete')!== null) {
-                $questionEditor->deleteQuestion($request->request->get('checkbox'), $this->questionRepository, $this->getDoctrine()->getManager());
-                $questions=$this->questionRepository->findQuery();
-            }
+            $condition=$this->processRequest($request, $questionEditor);
         }
-        else {
-            $questions=$this->questionRepository->findQuery();
-        }
+        $questions=$this->questionRepository->findByTextQuery($condition);
         $pagination = $paginator->paginate($questions, $request->query->getInt('page', 1), 20);
         return $this->render('question_editor/index.html.twig', ['form' => $form->createView(),
             'pagination' => $pagination,
         ]);
+    }
+    private function processRequest(Request $request, QuestionEditor $questionEditor): ?string
+    {
+        if($request->request->get('find')!== null) {
+            return $request->request->get('findText');
+        }
+        else if($request->request->get('delete')!== null) {
+            $questionEditor->deleteQuestion($request->request->get('checkbox'), $this->questionRepository,
+                $this->getDoctrine()->getManager());
+            return '';
+        }
     }
 }
