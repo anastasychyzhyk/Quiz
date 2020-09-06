@@ -48,14 +48,24 @@
         </ul>
     </div>
 </nav>
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="flash-{{ label }}">
-            {{ message|trans() }}
-        </div>
-    {% endfor %}
-{% endfor %}
+
 {% block container %}{% endblock %}
+<div class="message position-fixed">
+    <div class="alert alert-success alert-dismissible" role="alert" >
+        Это пример уведомление для пользователя с <a href="#" class="alert-link">примером ссылки</a>.
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash-{{ label }}">
+                    {{ message|trans() }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+</div>
 <footer class="page-footer font-small orange pt-4">
     <div class="container-fluid text-center text-md-left">
         <div class="row">
@@ -68,7 +78,7 @@
                 <h5>Anastasia Chizhik</h5>
                 <ul class="list-unstyled list-group list-group-horizontal contact">
                     <li class="mr-4">
-                        <a href="https://vk.com/n_a_s_t_i_k_a" target="_blank">
+                        <a href="https://telegram.im/@Sty_ch" target="_blank">
                             <img src="../img/telegram.svg" alt="">
                         </a>
                     </li>

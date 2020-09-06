@@ -87,3 +87,9 @@ html,h1,h2,h3,h4,h5,h6,a{
     width: 60px;
     margin-bottom: 10px;
 }
+.message{
+    top: 20%;
+    left: 50%;
+    position: fixed;
+    max-width: 600px;
+}
