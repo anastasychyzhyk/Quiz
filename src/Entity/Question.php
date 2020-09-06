@@ -34,7 +34,7 @@ class Question
      */
     private $quizzes;
     /**
-     * @ORM\OneToMany(targetEntity=Answer::class, mappedBy="question", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Answer::class, mappedBy="question", orphanRemoval=true, cascade={"persist"})
      */
     private $answers;
 
@@ -98,11 +98,10 @@ class Question
         return $this;
     }
 
-    public function removeAnswer(Quiz $answer): self
+    public function removeAnswer(Answer $answer): self
     {
         if ($this->answers->contains($answer)) {
             $this->answers->removeElement($answer);
-            $answer->removeQuestion($this);
         }
         return $this;
     }

@@ -66,7 +66,7 @@ class Answer
         return $this->question;
     }
 
-    public function setQuestion(?Quiz $question): self
+    public function setQuestion(?Question $question): self
     {
         $this->question = $question;
 
