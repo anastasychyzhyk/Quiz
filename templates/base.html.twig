@@ -22,26 +22,26 @@
     <div class="collapse navbar-collapse " id="navbarSupportedContent">
         <ul class="navbar-nav mr-4">
             <li class="nav-item">
-                <a class="nav-link" data-value="logIn" href="#">log in</a>
+                <a class="nav-link" data-value="logIn" href="#">{% trans %}log in{% endtrans %}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-value="signUp" href="#">Sign up</a>
+                <a class="nav-link" data-value="signUp" href="#">{% trans %}Sign up{% endtrans %}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " data-value="about" href="#">About</a>
+                <a class="nav-link " data-value="about" href="#">{% trans %}About{% endtrans %}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " data-value="contact" href="#">Contact</a>
+                <a class="nav-link " data-value="contact" href="#">{% trans %}Contact{% endtrans %}</a>
             </li>
             <li>
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Language
+                        {% trans %}Language{% endtrans %}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#en">English</a>
+                        <a class="dropdown-item" href="/en">English</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#ru">Russian</a>
+                        <a class="dropdown-item" href="/ru">{% trans %}Russian{% endtrans %}</a>
                     </div>
                 </div>
             </li>
@@ -52,7 +52,7 @@
 {% block container %}{% endblock %}
 <div class="message position-fixed">
     <div class="alert alert-success alert-dismissible" role="alert" >
-        Это пример уведомление для пользователя с <a href="#" class="alert-link">примером ссылки</a>.
+        This is an example user <a href="#" class="alert-link">notification with an example link.</a>.
         {% for label, messages in app.flashes %}
             {% for message in messages %}
                 <div class="flash-{{ label }}">
@@ -70,12 +70,12 @@
     <div class="container-fluid text-center text-md-left">
         <div class="row">
             <div class="col-md-6 mt-md-0 mt-3 footer-title">
-                <h5 class="text-uppercase">Developers</h5>
-                <p>This site is part of a study assignment</p>
+                <h5 class="text-uppercase">{% trans %}Developers{% endtrans %}</h5>
+                <p>{% trans %}This site is part of a study assignment{% endtrans %}</p>
             </div>
             <hr class="clearfix w-100 d-md-none pb-3">
             <div class="col-md-3 mb-md-0 mb-3 footer-title">
-                <h5>Anastasia Chizhik</h5>
+                <h5>{% trans %}Anastasia Chizhik{% endtrans %}</h5>
                 <ul class="list-unstyled list-group list-group-horizontal contact">
                     <li class="mr-4">
                         <a href="https://telegram.im/@Sty_ch" target="_blank">
@@ -95,7 +95,7 @@
                 </ul>
             </div>
             <div class="col-md-3 mb-md-0 mb-3 footer-title">
-                <h5>Alisa Goncharova</h5>
+                <h5>{% trans %}Alisa Goncharova{% endtrans %}</h5>
                 <ul class="list-unstyled list-group list-group-horizontal contact">
                     <li class="mr-4">
                         <a href="https://telegram.im/@q_qq_q" target="_blank">
