@@ -62,6 +62,6 @@ class RegistrationController extends AbstractController
 		else {
             $this->addFlash( 'error',self::INVALID_CONFIRMATION);
         }
-        return $this->render('base.html.twig');
+        return $this->redirectToRoute('home');
 	}
 }
