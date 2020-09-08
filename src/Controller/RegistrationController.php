@@ -17,8 +17,10 @@ class RegistrationController extends AbstractController
     private UserEditor $userEditor;
     private const EMAIL_INPUT_ERROR='Please check your email. User with this email is already registered.';
     private const EMAIL_SEND_ERROR='An error occurred during sending confirmation email. Please contact support.';
+	private const CONFIRM_SENDED='Congratulate with successfull registration! Please check your email and confirm accont.';
     private const INVALID_CONFIRMATION='Invalid confirmation code';
     private const CONFIRM_SUCCESS='Account verified successfully';
+	
 
     public function __construct(UserEditor $userEditor)
     {
