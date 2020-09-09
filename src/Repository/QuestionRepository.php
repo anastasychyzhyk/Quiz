@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -31,14 +32,6 @@ class QuestionRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findQuery()
-    {
-        $qb = $this->createQueryBuilder('q');
-        return $qb
-            ->orderBy('q.text', 'ASC')
-            ->getQuery()
-            ;
-    }
 
     // /**
     //  * @return Question[] Returns an array of Question objects

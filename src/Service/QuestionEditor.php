@@ -1,13 +1,11 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\Answer;
 use App\Entity\Question;
 use App\Repository\QuestionRepository;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\HttpFoundation\Request;
 
 class QuestionEditor
 {
@@ -31,9 +29,18 @@ class QuestionEditor
         $em->flush();
     }
 
-    public function saveQuestion(Question $question,ObjectManager $em): void
+    public function saveQuestion(Question $question, ObjectManager $em): void
     {
         $em->persist($question);
         $em->flush();
+    }
+
+    public function changeRightAnswer(Question $question, int $rightAnswerPosition): Question
+    {
+        foreach ($question->getAnswers() as $answer) {
+            $answer->setIsTrue(false);
+        }
+        $question->getAnswers()[$rightAnswerPosition]->setIsTrue(true);
+        return $question;
     }
 }

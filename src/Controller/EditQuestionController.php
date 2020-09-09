@@ -1,8 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Answer;
+use App\Repository\AnswerRepository;
 use App\Entity\Question;
 use App\Form\EditQuestionType;
 use App\Service\QuestionEditor;
@@ -15,6 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class EditQuestionController extends AbstractController
 {
     private QuestionEditor $questionEditor;
+    private const RIGHT_ANSWERS_COUNT_ERROR="Error occurred! More than 1 right answer";
+
     public function __construct(QuestionEditor $questionEditor)
     {
         $this->questionEditor=$questionEditor;
@@ -24,13 +27,20 @@ class EditQuestionController extends AbstractController
      * @Route("/{_locale<%app.supported_locales%>}/edit/question/{id}", name="edit_question")
      * @param Request $request
      * @param QuestionRepository $questionRepository
+     * @param AnswerRepository $answerRepository
      * @param int $id
      * @return Response
      */
-    public function edit(Request $request,QuestionRepository $questionRepository, int $id): Response
+    public function edit(Request $request,QuestionRepository $questionRepository, AnswerRepository $answerRepository, int $id): Response
     {
         $question = $questionRepository->findOneBy(['id'=>$id]);
-        return $this->processRequest($request, $question);
+        $rightAnswer=$answerRepository->findRightAnswer($question);
+        if(count($rightAnswer)>1)
+        {
+            $this->addFlash('error', $this::RIGHT_ANSWERS_COUNT_ERROR);
+        }
+        $rightAnswerPosition=array_search($rightAnswer[0], $question->getAnswers()->toArray());
+        return $this->processRequest($request, $question, $rightAnswerPosition);
     }
 
     /**
@@ -43,20 +53,19 @@ class EditQuestionController extends AbstractController
     {
         $question=new Question();
         return $this->processRequest($request, $question);
-
     }
 
-    private function processRequest(Request $request, Question $question)
+    private function processRequest(Request $request, Question $question, int $rightAnswer=null): Response
     {
         $form = $this->createForm(EditQuestionType::class, $question);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $question=$form->getData();
+            $question= $this->questionEditor->changeRightAnswer($form->getData(), $request->request->get('isTrue'));
             $this->questionEditor->saveQuestion($question, $this->getDoctrine()->getManager());
             return $this->redirectToRoute('question_editor');
         }
         return $this->render('edit_question/index.html.twig', [
-            'controller_name' => 'EditQuestionController','form' => $form->createView(),
+            'form' => $form->createView(), 'rightAnswerPos'=>$rightAnswer,
         ]);
     }
 }
