@@ -60,7 +60,7 @@ class EditQuestionController extends AbstractController
         $form = $this->createForm(EditQuestionType::class, $question);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $question= $this->questionEditor->changeRightAnswer($form->getData(), $request->request->get('isTrue'));
+            $question= $this->questionEditor->changeRightAnswer($form->getData(), intval($request->request->get('isTrue')));
             $this->questionEditor->saveQuestion($question, $this->getDoctrine()->getManager());
             return $this->redirectToRoute('question_editor');
         }
