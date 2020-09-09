@@ -18,17 +18,15 @@ jQuery(document).ready(function() {
 function addNewForm($collectionHolder, $newLinkLi) {
     var $prototype=$collectionHolder.data('prototype');
     var index = $collectionHolder.data('index');
-    var $a=$('<div class="form-group row"> <div class="form-check"> <input class="form-check-input position-static" ' +
-        'type="radio" name="isTrue" id="new"></div><div class="input-group-append"> </div> </div>');
+    var $newLiElement=$('<div class="form-group row"> <div class="form-check"> <input class="form-check-input position-static" ' +
+        'type="radio" name="isTrue" value="'+index+'"</div><div class="input-group-append"> </div> </div>');
     var $newForm = $prototype;
     $newForm = $newForm.replace(/__name__/g, index);
     $collectionHolder.data('index', index + 1);
-    $newForm=$a.append($newForm);
+    $newForm=$newLiElement.append($newForm);
     var $newFormLi = $('<li></li>').append($newForm);
     $newFormLi=addDeleteLink($newFormLi);
     $newLinkLi.before($newFormLi);
-    $('#new').attr("value", index);
-    $('#new').removeAttr("id");
 }
 
 function addDeleteLink($formLi) {
