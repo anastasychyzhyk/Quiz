@@ -28,9 +28,6 @@ class UserEditor
 
     public function createUser(User $user, ObjectManager $em): ?User
     {
-        if ($this->userRepository->findOneBy(['email' => $user->getEmail()])) {
-            return null;
-        }
         $user=$this->encodeAndSetPassword($user);
         $user->setConfirmationCode((new CodeGenerator())->getConfirmationCode());
         $em->persist($user);

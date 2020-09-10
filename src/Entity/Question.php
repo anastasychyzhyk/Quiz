@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -6,9 +7,14 @@ use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\Constraints as AnswerAssert;
+
 
 /**
  * @ORM\Entity(repositoryClass=QuestionRepository::class)
+ * @UniqueEntity("text", message="Question.should.be.unique")
  */
 class Question
 {
@@ -17,12 +23,12 @@ class Question
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $text;
+    private string $text;
 
     /**
      * @ORM\OneToMany(targetEntity=Play::class, mappedBy="question")
@@ -33,10 +39,18 @@ class Question
      * @ORM\ManyToMany(targetEntity=Quiz::class, mappedBy="question")
      */
     private $quizzes;
+    /**
+     * @ORM\OneToMany(targetEntity=Answer::class, mappedBy="question", orphanRemoval=true, cascade={"persist"})
+     * @Assert\Count(min=1)
+     * @AnswerAssert\UniqueAnswers
+     */
+    private $answers;
+
 
     public function __construct()
     {
         $this->plays = new ArrayCollection();
+        $this->answers = new ArrayCollection();
         $this->quizzes = new ArrayCollection();
     }
 
@@ -72,6 +86,31 @@ class Question
             $play->setQuestion($this);
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Collection|Answer[]
+     */
+    public function getAnswers(): Collection
+    {
+        return $this->answers;
+    }
+
+    public function addAnswer(Answer $answer): self
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers[] = $answer;
+            $answer->setQuestion($this);
+        }
+        return $this;
+    }
+
+    public function removeAnswer(Answer $answer): self
+    {
+        if ($this->answers->contains($answer)) {
+            $this->answers->removeElement($answer);
+        }
         return $this;
     }
 

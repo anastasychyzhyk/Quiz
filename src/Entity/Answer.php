@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
 use App\Repository\AnswerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AnswerRepository::class)
@@ -15,17 +17,18 @@ class Answer
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $text;
+    private string $text;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=false)
+     * @Assert\NotBlank
      */
-    private $isTrue;
+    private bool $isTrue;
 
     /**
      * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="answers")
@@ -66,7 +69,7 @@ class Answer
         return $this->question;
     }
 
-    public function setQuestion(?Quiz $question): self
+    public function setQuestion(?Question $question): self
     {
         $this->question = $question;
 

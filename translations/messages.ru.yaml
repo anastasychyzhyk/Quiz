@@ -7,11 +7,19 @@ Register: Зарегистрировать
 Confirm registration: Подтверждение регистрации
 welcome to Quiz!: добро пожаловать в Quiz!
 Click here to activate your account: Нажмите, чтобы активировать аккаунт
-Congratulate with successfull registration! Please check your email and confirm accont.: Поздравляем с успешной регистрацией! Проверьте пожалуйста электронную почту для активации аккаунта.
-Please check your email. User with this email is already registered.: Пользователь с таким адресом уже существует. Пожалуйста проверьте электронный адрес.
 An error occurred during sending confirmation email. Please contact support.: В процессе отправки сообщения возникла ошибка. Пожалуйста обратитесь в службу поддержки.
 Invalid confirmation code: Неверный код подтверждения
 Account verified successfully: Аккаунт успешно подтверждён
+Question editor: Редактор вопросов
+Save: Сохранить
+Question: Вопрос
+Find: Найти
+Input question...: Введите вопрос...
+Input answer...: Введите ответ...
+Error occurred! More than 1 right answer: Возникла ошибка! Более 1 правильного ответа
+Add answers: Добавьте ответы
+Select right answer: Выберите правильный ответ
+Congratulate with successfull registration! Please check your email and confirm accont.: Поздравляем с успешной регистрацией! Проверьте пожалуйста электронную почту для активации аккаунта.
 log in: Войти
 Sign up: Зарегистрироваться
 Contact: Контакты
