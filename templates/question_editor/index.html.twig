@@ -42,7 +42,7 @@
                                         }
                                     </script>
                                 </th>
-                                <th>{% trans %}Question{% endtrans %}</th>
+                                <th>{{ knp_pagination_sortable(pagination, 'Question'|trans({}, 'messages'), 'q.text') }}</th>
                             </tr>
                             </thead>
                             <tbody id = "question">

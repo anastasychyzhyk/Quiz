@@ -48,7 +48,7 @@ class QuestionEditorController extends AbstractController
         if($request->request->get('find')!== null) {
             return $request->request->get('findText');
         }
-        else if($request->request->get('delete')!== null) {
+        else if(($request->request->get('delete')!== null) && ($request->request->get('checkbox')!==null)) {
             $this->questionEditor->deleteQuestion($request->request->get('checkbox'), $this->questionRepository,
                 $this->getDoctrine()->getManager());
             return '';
