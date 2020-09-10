@@ -35,8 +35,7 @@ class EditQuestionController extends AbstractController
     {
         $question = $questionRepository->findOneBy(['id'=>$id]);
         $rightAnswer=$answerRepository->findRightAnswer($question);
-        if(count($rightAnswer)>1)
-        {
+        if(count($rightAnswer)>1) {
             $this->addFlash('error', $this::RIGHT_ANSWERS_COUNT_ERROR);
         }
         $rightAnswerPosition=array_search($rightAnswer[0], $question->getAnswers()->toArray());
@@ -55,17 +54,22 @@ class EditQuestionController extends AbstractController
         return $this->processRequest($request, $question);
     }
 
-    private function processRequest(Request $request, Question $question, int $rightAnswer=null): Response
+    private function processRequest(Request $request, Question $question, int $rightAnswerPosition=null): Response
     {
         $form = $this->createForm(EditQuestionType::class, $question);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $question= $this->questionEditor->changeRightAnswer($form->getData(), intval($request->request->get('isTrue')));
-            $this->questionEditor->saveQuestion($question, $this->getDoctrine()->getManager());
-            return $this->redirectToRoute('question_editor');
+        if ($form->isSubmitted()) {
+            $newRightAnswerPosition = intval($request->request->get('isTrue'));
+            if(!$form->isValid()) {
+                $rightAnswerPosition=$newRightAnswerPosition;
+            }
+            else {
+                $this->questionEditor->changeQuestion($form->getData(), $newRightAnswerPosition, $this->getDoctrine()->getManager());
+                return $this->redirectToRoute('question_editor');
+            }
         }
         return $this->render('edit_question/index.html.twig', [
-            'form' => $form->createView(), 'rightAnswerPos'=>$rightAnswer,
+            'form' => $form->createView(), 'rightAnswerPosition'=>$rightAnswerPosition,
         ]);
     }
 }

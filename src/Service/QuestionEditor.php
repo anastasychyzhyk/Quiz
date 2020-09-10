@@ -29,18 +29,19 @@ class QuestionEditor
         $em->flush();
     }
 
-    public function saveQuestion(Question $question, ObjectManager $em): void
-    {
-        $em->persist($question);
-        $em->flush();
-    }
-
-    public function changeRightAnswer(Question $question, int $rightAnswerPosition): Question
+    private function changeRightAnswer(Question $question, int $rightAnswerPosition): Question
     {
         foreach ($question->getAnswers() as $answer) {
             $answer->setIsTrue(false);
         }
         $question->getAnswers()[$rightAnswerPosition]->setIsTrue(true);
         return $question;
+    }
+
+    public function changeQuestion(Question $question, int $rightAnswerPosition, ObjectManager $em): void
+    {
+        $question=$this->changeRightAnswer($question, $rightAnswerPosition);
+        $em->persist($question);
+        $em->flush();
     }
 }

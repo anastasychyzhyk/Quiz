@@ -39,10 +39,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user=$form->getData();
             $user=$this->userEditor->createUser($user, $this->getDoctrine()->getManager());
-            if (!$user) {
-                $this->addFlash('error', self::EMAIL_INPUT_ERROR);
-            }
-            else if (!$mailer->sendConfirmationMessage('Confirm registration', $user)) {
+            if (!$mailer->sendConfirmationMessage('Confirm registration', $user)) {
                 $this->addFlash('error', self::EMAIL_SEND_ERROR);
             }
         }

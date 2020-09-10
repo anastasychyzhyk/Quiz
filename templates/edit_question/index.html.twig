@@ -1,4 +1,13 @@
-{% extends 'base.html.twig' %} {% block container %}
+{% extends 'base.html.twig' %}
+{% form_theme form _self %}
+{% block form_errors %}
+    {% if errors|length > 0 %}
+        {% for error in errors %}
+            {{ error.message }}
+        {% endfor %}
+    {% endif %}
+{% endblock form_errors %}
+{% block container %}
     <div class="container">
         <div class="row">
             <div class="col-md-10 ml-md-auto">
@@ -8,9 +17,12 @@
                         {{ form_start(form) }}
                         <div class="form_group">
                             <div class="col-md-12 mb-3">
-                                {{ form_row(form.text, {'attr': {'class': 'form-control ', 'placeholder': 'Input question...'}}) }}
+                                {{ form_widget(form.text, {'attr': {'class': 'form-control', 'placeholder': 'Input question...'}}) }}
+                                <small class="form-text text-danger">{{ form_errors(form.text)}}</small>
                             </div>
                         </div>
+                        <small class="form-text text-danger">{{ form_errors(form)}}</small>
+                        <div id="errors"></div>
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4" style="margin-top:5px;">
                                 <button type="button" id="add" class="btn btn-outline-success">
@@ -27,8 +39,8 @@
                             <li>
                                 <div class="form-group row">
                                     <div class="form-check">
-                                        <input class="form-check-input position-static" type="radio" name="isTrue" value={{ loop.index0 }}
-                                        {% if loop.index0 ==rightAnswerPos %}
+                                        <input class="form-check-input position-static" type="radio" name="isTrue" id="isTrue" value={{ loop.index0 }}
+                                        {% if loop.index0 == rightAnswerPosition %}
                                                 checked
                                         {% endif %}
                                         >
@@ -42,8 +54,8 @@
                         </ul>
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4" style="margin-top:5px;">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-user"></i> {% trans %}Save{% endtrans %}
+                                <button type="submit" class="btn btn-primary" id="save">
+                                    {% trans %}Save{% endtrans %}
                                 </button>
                             </div>
                         </div>
@@ -54,6 +66,8 @@
         </div>
     </div>
 {% endblock %}
+
 {% block javascripts %}
-<script src={{ asset('js/collectionAddDeleteElement.js')}}></script>
+    <script src={{ asset('js/addAndDeleteAnswersInForm.js')}}></script>
+    <script src={{ asset('js/validateRightAnswerSelected.js')}}></script>
 {% endblock %}

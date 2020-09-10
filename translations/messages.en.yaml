@@ -7,7 +7,6 @@ Register: Register
 Confirm registration: Confirm registration
 welcome to Quiz!: welcome to Quiz!
 Click here to activate your account: Click here to activate your account
-Please check your email. User with this email is already registered.: Please check your email. User with this email is already registered.
 An error occurred during sending confirmation email. Please contact support.: An error occurred during sending confirmation email. Please contact support.
 Invalid confirmation code: Invalid confirmation code
 Account verified successfully: Account verified successfully
@@ -18,3 +17,5 @@ Find: Find
 Input question...: Input question...
 Input answer...: Input answer...
 Error occurred! More than 1 right answer: Error occurred! More than 1 right answer
+Add answers: Add answers
+Select right answer: Select right answer

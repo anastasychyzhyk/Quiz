@@ -7,7 +7,6 @@ Register: Зарегистрировать
 Confirm registration: Подтверждение регистрации
 welcome to Quiz!: добро пожаловать в Quiz!
 Click here to activate your account: Нажмите, чтобы активировать аккаунт
-Please check your email. User with this email is already registered.: Пользователь с таким адресом уже существует. Пожалуйста проверьте электронный адрес.
 An error occurred during sending confirmation email. Please contact support.: В процессе отправки сообщения возникла ошибка. Пожалуйста обратитесь в службу поддержки.
 Invalid confirmation code: Неверный код подтверждения
 Account verified successfully: Аккаунт успешно подтверждён
@@ -18,3 +17,5 @@ Find: Найти
 Input question...: Введите вопрос...
 Input answer...: Введите ответ...
 Error occurred! More than 1 right answer: Возникла ошибка! Более 1 правильного ответа
+Add answers: Добавьте ответы
+Select right answer: Выберите правильный ответ
