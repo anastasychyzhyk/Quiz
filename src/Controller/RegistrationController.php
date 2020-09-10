@@ -17,8 +17,10 @@ class RegistrationController extends AbstractController
 {
     private UserEditor $userEditor;
     private const EMAIL_SEND_ERROR='An error occurred during sending confirmation email. Please contact support.';
+	private const CONFIRM_SENDED='Congratulate with successfull registration! Please check your email and confirm accont.';
     private const INVALID_CONFIRMATION='Invalid confirmation code';
     private const CONFIRM_SUCCESS='Account verified successfully';
+	
 
     public function __construct(UserEditor $userEditor)
     {
@@ -66,6 +68,6 @@ class RegistrationController extends AbstractController
 		else {
             $this->addFlash( 'error',self::INVALID_CONFIRMATION);
         }
-        return $this->render('base.html.twig');
+        return $this->redirectToRoute('home');
 	}
 }
