@@ -2,6 +2,8 @@ Registration Form: Регистрационная форма
 Name: Имя
 Email: Эл почта
 Password: Пароль
+Status: Статус
+Role: Роль
 Confirm Password: Повторите пароль
 Register: Зарегистрировать
 Confirm registration: Подтверждение регистрации
@@ -16,6 +18,7 @@ Question: Вопрос
 Find: Найти
 Input question...: Введите вопрос...
 Input answer...: Введите ответ...
+Input name...: Введите имя...
 Error occurred! More than 1 right answer: Возникла ошибка! Более 1 правильного ответа
 Add answers: Добавьте ответы
 Select right answer: Выберите правильный ответ
@@ -36,3 +39,4 @@ Developers: Разработчики
 Anastasia Chizhik: Анастасия Чижик
 Alisa Goncharova: Алиса Гончарова
 This site is a part of study assignment: Этот сайт является частью учебного задания
+Users: Пользователи

@@ -7,13 +7,20 @@ use App\Entity\Question;
 use App\Repository\QuestionRepository;
 use Doctrine\Persistence\ObjectManager;
 
-class QuestionEditor
+class QuestionEditor implements GridEditorInterface
 {
-    public function deleteQuestion(array $ids, QuestionRepository $questionRepository, ObjectManager $em): void
+    private QuestionRepository $questionRepository;
+
+    public function __construct(QuestionRepository $questionRepository)
+    {
+        $this->questionRepository=$questionRepository;
+    }
+
+    public function deleteEntity(array $ids, ObjectManager $em): void
     {
         foreach ($ids as $id)
         {
-            $question=$questionRepository->findOneBy(['id'=>$id]);
+            $question=$this->questionRepository->findOneBy(['id'=>$id]);
             $this->deleteAnswer($question, $em);
             $em->remove($question);
         }

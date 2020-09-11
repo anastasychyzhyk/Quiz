@@ -2,6 +2,8 @@ Registration Form: Registration Form
 Name: Name
 Email: Email
 Password: Password
+Status: Status
+Role: Role
 Confirm Password: Confirm Password
 Register: Register
 Confirm registration: Confirm registration
@@ -16,6 +18,7 @@ Question: Question
 Find: Find
 Input question...: Input question...
 Input answer...: Input answer...
+Input name...: Input name...
 Error occurred! More than 1 right answer: Error occurred! More than 1 right answer
 Add answers: Add answers
 Select right answer: Select right answer
@@ -36,3 +39,4 @@ DEVELOPERS: DEVELOPERS
 Anastasia Chizhik: Anastasia Chizhik
 Alisa Goncharova: Alisa Goncharova
 This site is a part of study assignment: This site is a part of study assignment
+Users: Users

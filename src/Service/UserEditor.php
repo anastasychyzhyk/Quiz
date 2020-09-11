@@ -8,7 +8,7 @@ use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class UserEditor
+class UserEditor implements GridEditorInterface
 {
     private UserPasswordEncoderInterface $passwordEncoder;
     private UserRepository $userRepository;
@@ -33,5 +33,25 @@ class UserEditor
         $em->persist($user);
         $em->flush();
         return $user;
+    }
+
+    public function deleteEntity(array $ids, ObjectManager $em): void
+    {
+        foreach ($ids as $id)
+        {
+            $user=$this->userRepository->findOneBy(['id'=>$id]);
+            $this->deletePlays($user, $em);
+            $em->remove($user);
+        }
+        $em->flush();
+    }
+
+    public function deletePlays(User $user, ObjectManager $em): void
+    {
+        $plays=$user->getPlays();
+        foreach ($plays as $play) {
+            $em->remove($play);
+        }
+        $em->flush();
     }
 }
