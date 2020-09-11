@@ -44,6 +44,10 @@ class RegistrationController extends AbstractController
             if (!$mailer->sendConfirmationMessage('Confirm registration', $user)) {
                 $this->addFlash('error', self::EMAIL_SEND_ERROR);
             }
+            else {
+                $this->addFlash('notice', self::CONFIRM_SENDED);
+            }
+            return $this->redirectToRoute('home');
         }
         return $this->render('registration/index.html.twig', [
             'controller_name' => 'RegistrationController', 'form' => $form->createView()

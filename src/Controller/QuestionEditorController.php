@@ -43,6 +43,7 @@ class QuestionEditorController extends AbstractController
             'pagination' => $pagination,
         ]);
     }
+
     private function processRequest(Request $request): ?string
     {
         if($request->request->get('find')!== null) {

@@ -50,22 +50,21 @@
 </nav>
 
 {% block container %}{% endblock %}
-<div class="message position-fixed">
-    <div class="alert alert-success alert-dismissible" role="alert" >
-        This is an example user <a href="#" class="alert-link">notification with an example link.</a>.
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="message position-fixed">
+            <div class="alert alert-success alert-dismissible" role="alert" >
                 <div class="flash-{{ label }}">
                     {{ message|trans() }}
                 </div>
-            {% endfor %}
-        {% endfor %}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    {% endfor %}
+{% endfor %}
 
-</div>
 <footer class="page-footer font-small orange pt-4">
     <div class="container-fluid text-center text-md-left">
         <div class="row">

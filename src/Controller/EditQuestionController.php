@@ -28,12 +28,16 @@ class EditQuestionController extends AbstractController
      * @param Request $request
      * @param QuestionRepository $questionRepository
      * @param AnswerRepository $answerRepository
-     * @param int $id
+     * @param string $id
      * @return Response
      */
-    public function edit(Request $request,QuestionRepository $questionRepository, AnswerRepository $answerRepository, int $id): Response
+    public function edit(Request $request,QuestionRepository $questionRepository, AnswerRepository $answerRepository, string $id): Response
     {
         $question = $questionRepository->findOneBy(['id'=>$id]);
+        if(!$question)
+        {
+            throw $this->createNotFoundException();
+        }
         $rightAnswer=$answerRepository->findRightAnswer($question);
         if(count($rightAnswer)>1) {
             $this->addFlash('error', $this::RIGHT_ANSWERS_COUNT_ERROR);
