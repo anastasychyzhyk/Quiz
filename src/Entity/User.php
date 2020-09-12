@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface
 {
     public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
     public const USER_STATUS_AWAITING = 'Awaiting Activation';
     public const USER_STATUS_ACTIVE = 'Active';
     public const USER_STATUS_BLOCKED = 'Blocked';
@@ -75,6 +76,21 @@ class User implements UserInterface
 	{
 		$this->status = self::USER_STATUS_ACTIVE;
 	}
+
+    public function block()
+    {
+        $this->status = self::USER_STATUS_BLOCKED;
+    }
+
+    public function setAdmin()
+    {
+        $this->role=self::ROLE_ADMIN;
+    }
+
+    public function setUser()
+    {
+        $this->role=self::ROLE_USER;
+    }
 	
     public function getId(): ?int
     {
@@ -122,23 +138,9 @@ class User implements UserInterface
         return $this->status;
     }
 
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
     public function getRole(): ?string
     {
         return $this->role;
-    }
-
-    public function setRole(string $role): self
-    {
-        $this->role = $role;
-
-        return $this;
     }
 
     /**

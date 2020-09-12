@@ -15,34 +15,33 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class QuestionEditorController extends AbstractController
 {
-    private QuestionRepository $questionRepository;
-    private QuestionEditor $questionEditor;
-    private PaginatorInterface $paginator;
-    private AdminGridEditor $adminGridEditor;
-
-    public function __construct(QuestionRepository $questionRepository,  QuestionEditor $questionEditor,
-                                PaginatorInterface $paginator, AdminGridEditor $adminGridEditor)
+    /**
+     * @Route("/question/editor")
+     */
+    public function index(): Response
     {
-        $this->questionRepository=$questionRepository;
-        $this->questionEditor=$questionEditor;
-        $this->paginator=$paginator;
-        $this->adminGridEditor=$adminGridEditor;
+        return $this->redirectToRoute('question_editor');
     }
 
     /**
      * @Route("/{_locale<%app.supported_locales%>}/question/editor", name="question_editor")
      * @param Request $request
+     * @param QuestionRepository $questionRepository
+     * @param QuestionEditor $questionEditor
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function index(Request $request): Response
+    public function questionEditor(Request $request, QuestionRepository $questionRepository,  QuestionEditor $questionEditor,
+                          PaginatorInterface $paginator): Response
     {
         $form = $this->createForm(QuestionEditorType::class);
         $form->handleRequest($request);
+        $processedOperations = array('deleteEntity');
+        $adminGridEditor = new AdminGridEditor($request, $questionEditor, $questionRepository, $processedOperations, $this->getDoctrine()->getManager());
         if($form->isSubmitted()) {
-            $searchedText=$this->adminGridEditor->getSearchedText($request);
-            $this->adminGridEditor->processDelete($request, $this->questionEditor, $this->getDoctrine()->getManager());
+            $searchedText=$adminGridEditor->processRequest();
          }
-        $pagination= $this->adminGridEditor->getPagination($this->questionRepository, $searchedText??'', $request, $this->paginator);
+        $pagination= $adminGridEditor->getPagination($searchedText??'', $paginator);
         return $this->render('question_editor/index.html.twig', ['form' => $form->createView(),
             'pagination' => $pagination,
         ]);

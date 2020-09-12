@@ -24,6 +24,14 @@ class EditQuestionController extends AbstractController
     }
 
     /**
+     * @Route("/edit/question")
+     */
+    public function index(): Response
+    {
+        return $this->redirectToRoute('edit_question');
+    }
+
+    /**
      * @Route("/{_locale<%app.supported_locales%>}/edit/question/{id}", name="edit_question")
      * @param Request $request
      * @param QuestionRepository $questionRepository
@@ -44,6 +52,14 @@ class EditQuestionController extends AbstractController
         }
         $rightAnswerPosition=array_search($rightAnswer[0], $question->getAnswers()->toArray());
         return $this->processRequest($request, $question, $rightAnswerPosition);
+    }
+
+    /**
+     * @Route("/new/question")
+     */
+    public function noLocaleNewQuestion(): Response
+    {
+        return $this->redirectToRoute('new_question');
     }
 
     /**

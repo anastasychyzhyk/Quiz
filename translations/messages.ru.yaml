@@ -22,7 +22,7 @@ Input name...: Введите имя...
 Error occurred! More than 1 right answer: Возникла ошибка! Более 1 правильного ответа
 Add answers: Добавьте ответы
 Select right answer: Выберите правильный ответ
-Congratulate with successfull registration! Please check your email and confirm accont.: Поздравляем с успешной регистрацией! Проверьте пожалуйста электронную почту для активации аккаунта.
+Congratulate with successful registration! Please check your email and confirm account.: Поздравляем с успешной регистрацией! Проверьте пожалуйста электронную почту для активации аккаунта.
 log in: Войти
 Sign up: Зарегистрироваться
 Contact: Контакты
@@ -40,3 +40,10 @@ Anastasia Chizhik: Анастасия Чижик
 Alisa Goncharova: Алиса Гончарова
 This site is a part of study assignment: Этот сайт является частью учебного задания
 Users: Пользователи
+Block: Заблокировать
+Add new: Добавить
+Activate: Активировать
+Delete: Удалить
+Admin: Админ
+User: Пользователь
+Edit: Редактировать

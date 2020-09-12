@@ -16,24 +16,20 @@ class QuestionEditor implements GridEditorInterface
         $this->questionRepository=$questionRepository;
     }
 
-    public function deleteEntity(array $ids, ObjectManager $em): void
+    public function deleteEntity(string $id, ObjectManager $entityManager): void
     {
-        foreach ($ids as $id)
-        {
             $question=$this->questionRepository->findOneBy(['id'=>$id]);
-            $this->deleteAnswer($question, $em);
-            $em->remove($question);
-        }
-        $em->flush();
+            $this->deleteAnswer($question, $entityManager);
+            $entityManager->remove($question);
     }
 
-    public function deleteAnswer(Question $question, ObjectManager $em): void
+    public function deleteAnswer(Question $question, ObjectManager $entityManager): void
     {
         $answers=$question->getAnswers();
         foreach ($answers as $answer) {
-            $em->remove($answer);
+            $entityManager->remove($answer);
         }
-        $em->flush();
+        $entityManager->flush();
     }
 
     private function changeRightAnswer(Question $question, int $rightAnswerPosition): Question
@@ -45,10 +41,10 @@ class QuestionEditor implements GridEditorInterface
         return $question;
     }
 
-    public function changeQuestion(Question $question, int $rightAnswerPosition, ObjectManager $em): void
+    public function changeQuestion(Question $question, int $rightAnswerPosition, ObjectManager $entityManager): void
     {
         $question=$this->changeRightAnswer($question, $rightAnswerPosition);
-        $em->persist($question);
-        $em->flush();
+        $entityManager->persist($question);
+        $entityManager->flush();
     }
 }

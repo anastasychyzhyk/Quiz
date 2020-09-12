@@ -5,8 +5,8 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserEditor implements GridEditorInterface
 {
@@ -22,36 +22,51 @@ class UserEditor implements GridEditorInterface
     private function encodeAndSetPassword(User $user): User
     {
         $password = $this->passwordEncoder->encodePassword($user, $user->getPassword());
-        $user->setPassword($password);
-        return $user;
+        return $user->setPassword($password);
     }
 
-    public function createUser(User $user, ObjectManager $em): ?User
+    public function createUser(User $user, ObjectManager $entityManager): ?User
     {
         $user=$this->encodeAndSetPassword($user);
         $user->setConfirmationCode((new CodeGenerator())->getConfirmationCode());
-        $em->persist($user);
-        $em->flush();
+        $entityManager->persist($user);
+        $entityManager->flush();
         return $user;
     }
 
-    public function deleteEntity(array $ids, ObjectManager $em): void
+    public function deleteEntity(string $id, ObjectManager $entityManager): void
     {
-        foreach ($ids as $id)
-        {
-            $user=$this->userRepository->findOneBy(['id'=>$id]);
-            $this->deletePlays($user, $em);
-            $em->remove($user);
-        }
-        $em->flush();
+        $user = $this->userRepository->findOneBy(['id' => $id]);
+        $this->deletePlays($user, $entityManager);
+        $entityManager->remove($user);
     }
 
-    public function deletePlays(User $user, ObjectManager $em): void
+    public function activateUsers(string $id, UserRepository $userRepository): void
+    {
+        $userRepository->findOneBy(['id'=>$id])->activate();
+    }
+
+    public function blockUsers(string $id, UserRepository $userRepository): void
+    {
+        $userRepository->findOneBy(['id'=>$id])->block();
+    }
+
+    public function setUser(string $id, UserRepository $userRepository): void
+    {
+        $userRepository->findOneBy(['id'=>$id])->setUser();
+    }
+
+    public function setAdmin(string $id, UserRepository $userRepository): void
+    {
+        $userRepository->findOneBy(['id' => $id])->setAdmin();
+    }
+
+    public function deletePlays(User $user, ObjectManager $entityManager): void
     {
         $plays=$user->getPlays();
         foreach ($plays as $play) {
-            $em->remove($play);
+            $entityManager->remove($play);
         }
-        $em->flush();
+        $entityManager->flush();
     }
 }

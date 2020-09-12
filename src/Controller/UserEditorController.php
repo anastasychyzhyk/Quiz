@@ -15,37 +15,34 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserEditorController extends AbstractController
 {
-    private UserRepository $userRepository;
-    private UserEditor $userEditor;
-    private PaginatorInterface $paginator;
-    private AdminGridEditor $adminGridEditor;
-
-    public function __construct(UserRepository $userRepository,  UserEditor $userEditor,
-                                PaginatorInterface $paginator, AdminGridEditor $adminGridEditor)
+    /**
+     * @Route("/user/editor")
+     */
+    public function userEditor(): Response
     {
-        $this->userRepository=$userRepository;
-        $this->userEditor=$userEditor;
-        $this->paginator=$paginator;
-        $this->adminGridEditor=$adminGridEditor;
+        return $this->redirectToRoute('user_editor');
     }
 
     /**
      * @Route("/{_locale<%app.supported_locales%>}/user/editor", name="user_editor")
      * @param Request $request
+     * @param UserRepository $userRepository
+     * @param UserEditor $userEditor
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function index(Request $request): Response
+    public function index(Request $request, UserRepository $userRepository,  UserEditor $userEditor, PaginatorInterface $paginator): Response
     {
         $form = $this->createForm(UserEditorType::class);
         $form->handleRequest($request);
-        if($form->isSubmitted()) {
-            $searchedText=$this->adminGridEditor->getSearchedText($request);
-            $this->adminGridEditor->processDelete($request, $this->userEditor, $this->getDoctrine()->getManager());
+        $processedOperations = array('activateUsers', 'blockUsers', 'setUser', 'setAdmin', 'deleteEntity');
+        $adminGridEditor = new AdminGridEditor($request, $userEditor, $userRepository, $processedOperations, $this->getDoctrine()->getManager());
+        if ($form->isSubmitted()) {
+            $searchedText = $adminGridEditor->processRequest();
         }
-        $pagination= $this->adminGridEditor->getPagination($this->userRepository, $searchedText??'', $request, $this->paginator);
+        $pagination = $adminGridEditor->getPagination($searchedText ?? '', $paginator);
         return $this->render('user_editor/index.html.twig', ['form' => $form->createView(),
             'pagination' => $pagination,
         ]);
     }
-
 }

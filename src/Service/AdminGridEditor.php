@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Service;
 
@@ -11,22 +11,58 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AdminGridEditor
 {
-    public function getSearchedText(Request $request): string
+    private Request $request;
+    private GridEditorInterface $editor;
+    private ServiceEntityRepository $repository;
+    private array $processedOperations;
+    private ObjectManager $entityManager;
+
+    public function __construct(Request $request, GridEditorInterface $editor, ServiceEntityRepository $repository,
+                                array $processedOperations, ObjectManager $entityManager)
     {
-        return $request->request->get('find') !== null? $request->request->get('searchedText'):'';
+        $this->request=$request;
+        $this->editor=$editor;
+        $this->repository=$repository;
+        $this->processedOperations=$processedOperations;
+        $this->entityManager=$entityManager;
     }
 
-    public function processDelete(Request $request, GridEditorInterface $editor, ObjectManager $em): void
+    public function processRequest(): string
     {
-        if (($request->request->get('delete') !== null) && ($request->request->get('checkbox') !== null)) {
-            $editor->deleteEntity($request->request->get('checkbox'), $em);
+        if ($this->request->request->get('find') === null) {
+            $selectedItems = $this->request->request->get('checkbox');
+            if ($selectedItems !== null) {
+                $this->processRequestKeys($selectedItems);
+            }
         }
+        return $this->request->request->get('searchedText');
     }
 
-    public function getPagination(ServiceEntityRepository $repository, string $condition, Request $request,
-                                  PaginatorInterface $paginator): PaginationInterface
+    public function getPagination(string $condition, PaginatorInterface $paginator): PaginationInterface
     {
-        $users = $repository->findByTextQuery($condition);
-        return $paginator->paginate($users, $request->query->getInt('page', 1), 20);
+        $users = $this->repository->findByTextQuery($condition);
+        return $paginator->paginate($users, $this->request->query->getInt('page', 1), 20);
+    }
+
+    private function processRequestKeys (array $selectedItems)
+    {
+        foreach ($this->request->request->keys() as $requestData) {
+            if(array_search($requestData, $this->processedOperations)===false) {
+                continue;
+            }
+            $this->processGroupOperation($requestData, $selectedItems);
+        }
+        $this->entityManager->flush();
+    }
+
+    private function processGroupOperation(string $requestData, array $selectedItems)
+    {
+        foreach ($selectedItems as $selectedItem) {
+            if ($requestData === 'deleteEntity') {
+                $this->editor->deleteEntity($selectedItem, $this->entityManager);
+            } else {
+                call_user_func(__NAMESPACE__.'\UserEditor::'.$requestData, $selectedItem, $this->repository);
+            }
+        }
     }
 }
