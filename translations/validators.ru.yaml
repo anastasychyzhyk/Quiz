@@ -1,3 +1,4 @@
 Answers.should.be.unique: Ответы должны быть уникальны
 Question.should.be.unique: Вопрос должен быть уникальным
 User.with.this.email.is.already.registered: Пользователь с таким адресом уже существует
+User.with.this.name.is.already.registered: Пользователь с таким именем уже существует

@@ -1,3 +1,4 @@
 Answers.should.be.unique: Answers should be unique
 Question.should.be.unique: Question should be unique
 User.with.this.email.is.already.registered: User with this email is already registered
+User.with.this.name.is.already.registered: User with this name is already registered

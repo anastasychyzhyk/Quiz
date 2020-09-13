@@ -13,14 +13,26 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity("email", message="User.with.this.email.is.already.registered")
+ * @UniqueEntity("name", message="User.with.this.name.is.already.registered")
  */
 class User implements UserInterface
 {
-    public const ROLE_USER = 'ROLE_USER';
-    public const ROLE_ADMIN = 'ROLE_ADMIN';
-    public const USER_STATUS_AWAITING = 'Awaiting Activation';
-    public const USER_STATUS_ACTIVE = 'Active';
-    public const USER_STATUS_BLOCKED = 'Blocked';
+    private const ROLE_USER = 'ROLE_USER';
+    private const ROLE_ADMIN = 'ROLE_ADMIN';
+    private const USER_STATUS_AWAITING = 'Awaiting Activation';
+    private const USER_STATUS_ACTIVE = 'Active';
+    private const USER_STATUS_BLOCKED = 'Blocked';
+
+    public static function getRolesArray()
+    {
+        return ['User'=>self::ROLE_USER, 'Administrator'=>self::ROLE_ADMIN];
+    }
+
+    public static function getStatusArray()
+    {
+        return [self::USER_STATUS_AWAITING=>self::USER_STATUS_AWAITING,
+            self::USER_STATUS_ACTIVE=>self::USER_STATUS_ACTIVE, self::USER_STATUS_BLOCKED=>self::USER_STATUS_BLOCKED];
+    }
 
     /**
      * @ORM\Id
@@ -133,9 +145,23 @@ class User implements UserInterface
         return $this;
     }
 
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
     public function getStatus(): ?string
     {
         return $this->status;
+    }
+
+    public function setRole(string $role): self
+    {
+        $this->role = $role;
+
+        return $this;
     }
 
     public function getRole(): ?string
