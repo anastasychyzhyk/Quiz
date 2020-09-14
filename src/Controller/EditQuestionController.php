@@ -24,7 +24,15 @@ class EditQuestionController extends AbstractController
     }
 
     /**
-     * @Route("/{_locale<%app.supported_locales%>}/edit/question/{id}", name="edit_question")
+     * @Route("/admin/edit/question")
+     */
+    public function index(): Response
+    {
+        return $this->redirectToRoute('edit_question');
+    }
+
+    /**
+     * @Route("/admin/{_locale<%app.supported_locales%>}/edit/question/{id}", name="edit_question")
      * @param Request $request
      * @param QuestionRepository $questionRepository
      * @param AnswerRepository $answerRepository
@@ -47,7 +55,15 @@ class EditQuestionController extends AbstractController
     }
 
     /**
-     * @Route("/{_locale<%app.supported_locales%>}/new/question", name="new_question")
+     * @Route("/admin/new/question")
+     */
+    public function noLocaleNewQuestion(): Response
+    {
+        return $this->redirectToRoute('new_question');
+    }
+
+    /**
+     * @Route("/admin/{_locale<%app.supported_locales%>}/new/question", name="new_question")
      * @param Request $request
      * @param QuestionRepository $questionRepository
      * @return Response

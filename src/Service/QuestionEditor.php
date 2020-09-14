@@ -7,26 +7,29 @@ use App\Entity\Question;
 use App\Repository\QuestionRepository;
 use Doctrine\Persistence\ObjectManager;
 
-class QuestionEditor
+class QuestionEditor implements GridEditorInterface
 {
-    public function deleteQuestion(array $ids, QuestionRepository $questionRepository, ObjectManager $em): void
+    private QuestionRepository $questionRepository;
+
+    public function __construct(QuestionRepository $questionRepository)
     {
-        foreach ($ids as $id)
-        {
-            $question=$questionRepository->findOneBy(['id'=>$id]);
-            $this->deleteAnswer($question, $em);
-            $em->remove($question);
-        }
-        $em->flush();
+        $this->questionRepository=$questionRepository;
     }
 
-    public function deleteAnswer(Question $question, ObjectManager $em): void
+    public function deleteEntity(string $id, ObjectManager $entityManager): void
+    {
+            $question=$this->questionRepository->findOneBy(['id'=>$id]);
+            $this->deleteAnswer($question, $entityManager);
+            $entityManager->remove($question);
+    }
+
+    public function deleteAnswer(Question $question, ObjectManager $entityManager): void
     {
         $answers=$question->getAnswers();
         foreach ($answers as $answer) {
-            $em->remove($answer);
+            $entityManager->remove($answer);
         }
-        $em->flush();
+        $entityManager->flush();
     }
 
     private function changeRightAnswer(Question $question, int $rightAnswerPosition): Question
@@ -38,10 +41,10 @@ class QuestionEditor
         return $question;
     }
 
-    public function changeQuestion(Question $question, int $rightAnswerPosition, ObjectManager $em): void
+    public function changeQuestion(Question $question, int $rightAnswerPosition, ObjectManager $entityManager): void
     {
         $question=$this->changeRightAnswer($question, $rightAnswerPosition);
-        $em->persist($question);
-        $em->flush();
+        $entityManager->persist($question);
+        $entityManager->flush();
     }
 }

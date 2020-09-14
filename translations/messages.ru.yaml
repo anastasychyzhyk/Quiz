@@ -2,6 +2,8 @@ Registration Form: Регистрационная форма
 Name: Имя
 Email: Эл почта
 Password: Пароль
+Status: Статус
+Role: Роль
 Confirm Password: Повторите пароль
 Register: Зарегистрировать
 Confirm registration: Подтверждение регистрации
@@ -16,10 +18,11 @@ Question: Вопрос
 Find: Найти
 Input question...: Введите вопрос...
 Input answer...: Введите ответ...
+Input name...: Введите имя...
 Error occurred! More than 1 right answer: Возникла ошибка! Более 1 правильного ответа
 Add answers: Добавьте ответы
 Select right answer: Выберите правильный ответ
-Congratulate with successfull registration! Please check your email and confirm accont.: Поздравляем с успешной регистрацией! Проверьте пожалуйста электронную почту для активации аккаунта.
+Congratulate with successful registration! Please check your email and confirm account.: Поздравляем с успешной регистрацией! Проверьте пожалуйста электронную почту для активации аккаунта.
 log in: Войти
 Sign up: Зарегистрироваться
 Contact: Контакты
@@ -36,3 +39,17 @@ Developers: Разработчики
 Anastasia Chizhik: Анастасия Чижик
 Alisa Goncharova: Алиса Гончарова
 This site is a part of study assignment: Этот сайт является частью учебного задания
+Users: Пользователи
+Block: Заблокировать
+Add new: Добавить
+Activate: Активировать
+Delete: Удалить
+Administrator: Администратор
+User: Пользователь
+Edit: Редактировать
+Sorry, you are blocked: К сожалению ваш аккаунт заблокирован
+Your account is not confirmed. Please check email: Аккаунт не подтвержден. Пожалуйста проверьте почту
+You are logged in as: Вы вошли как
+Please sign in: Пожалуйста войдите в систему
+Sign in: Войти
+Logout: Выйти

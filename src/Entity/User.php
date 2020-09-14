@@ -13,13 +13,26 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity("email", message="User.with.this.email.is.already.registered")
+ * @UniqueEntity("name", message="User.with.this.name.is.already.registered")
  */
 class User implements UserInterface
 {
-    public const ROLE_USER = 'ROLE_USER';
+    private const ROLE_USER = 'ROLE_USER';
+    private const ROLE_ADMIN = 'ROLE_ADMIN';
     public const USER_STATUS_AWAITING = 'Awaiting Activation';
     public const USER_STATUS_ACTIVE = 'Active';
     public const USER_STATUS_BLOCKED = 'Blocked';
+
+    public static function getRolesArray()
+    {
+        return ['User'=>self::ROLE_USER, 'Administrator'=>self::ROLE_ADMIN];
+    }
+
+    public static function getStatusArray()
+    {
+        return [self::USER_STATUS_AWAITING=>self::USER_STATUS_AWAITING,
+            self::USER_STATUS_ACTIVE=>self::USER_STATUS_ACTIVE, self::USER_STATUS_BLOCKED=>self::USER_STATUS_BLOCKED];
+    }
 
     /**
      * @ORM\Id
@@ -75,6 +88,21 @@ class User implements UserInterface
 	{
 		$this->status = self::USER_STATUS_ACTIVE;
 	}
+
+    public function block()
+    {
+        $this->status = self::USER_STATUS_BLOCKED;
+    }
+
+    public function setAdmin()
+    {
+        $this->role=self::ROLE_ADMIN;
+    }
+
+    public function setUser()
+    {
+        $this->role=self::ROLE_USER;
+    }
 	
     public function getId(): ?int
     {
@@ -117,11 +145,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
     public function setStatus(string $status): self
     {
         $this->status = $status;
@@ -129,9 +152,9 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRole(): ?string
+    public function getStatus(): ?string
     {
-        return $this->role;
+        return $this->status;
     }
 
     public function setRole(string $role): self
@@ -139,6 +162,11 @@ class User implements UserInterface
         $this->role = $role;
 
         return $this;
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
     }
 
     /**
@@ -173,6 +201,7 @@ class User implements UserInterface
 
     public function getRoles()
     {
+        return array($this->role);
     }
 
     public function getSalt()

@@ -11,6 +11,8 @@ use Symfony\Component\Mime\Address;
 class Mailer
 {
     private MailerInterface $mailer;
+    private const EMAIL_SEND_ERROR='An error occurred during sending confirmation email. Please contact support.';
+    private const CONFIRM_SENDED='Congratulate with successful registration! Please check your email and confirm account.';
 
     public function __construct(MailerInterface $mailer)
     {
@@ -25,17 +27,18 @@ class Mailer
             ->subject($subject);
     }
 
-    public function sendConfirmationMessage(string $subject, User $user): bool
+    public function sendConfirmationMessage(string $subject, User $user): string
     {
         $email = $this->createEmail($user->getEmail(), $subject)
 			->htmlTemplate('email/confirmation.html.twig')
 			->context(['user'=>$user,]);
         try {
             $this->mailer->send($email);
-            return true;
+            return self::CONFIRM_SENDED;
         }
         catch (TransportExceptionInterface $e) {
-            return false;
+            return self::EMAIL_SEND_ERROR;
         }
+
     }
 }

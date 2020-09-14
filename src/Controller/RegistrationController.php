@@ -16,15 +16,22 @@ use App\Service\Mailer;
 class RegistrationController extends AbstractController
 {
     private UserEditor $userEditor;
-    private const EMAIL_SEND_ERROR='An error occurred during sending confirmation email. Please contact support.';
-	private const CONFIRM_SENDED='Congratulate with successfull registration! Please check your email and confirm accont.';
+    private UserRepository $userRepository;
     private const INVALID_CONFIRMATION='Invalid confirmation code';
     private const CONFIRM_SUCCESS='Account verified successfully';
-	
 
-    public function __construct(UserEditor $userEditor)
+    public function __construct(UserEditor $userEditor, UserRepository $userRepository)
     {
         $this->userEditor=$userEditor;
+        $this->userRepository=$userRepository;
+    }
+
+    /**
+     * @Route("/registration")
+     */
+    public function registration(): Response
+    {
+        return $this->redirectToRoute('registration');
     }
 
     /**
@@ -35,23 +42,14 @@ class RegistrationController extends AbstractController
      */
     public function index(Request $request, Mailer $mailer): Response
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationType::class, $user);
+        $form = $this->createForm(RegistrationType::class, new User());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user=$form->getData();
-            $user=$this->userEditor->createUser($user, $this->getDoctrine()->getManager());
-            if (!$mailer->sendConfirmationMessage('Confirm registration', $user)) {
-                $this->addFlash('error', self::EMAIL_SEND_ERROR);
-            }
-            else {
-                $this->addFlash('notice', self::CONFIRM_SENDED);
-            }
+            $user=$this->userEditor->createUser($form->getData(), $this->getDoctrine()->getManager());
+            $this->addFlash('notice', $mailer->sendConfirmationMessage('Confirm registration', $user));
             return $this->redirectToRoute('home');
         }
-        return $this->render('registration/index.html.twig', [
-            'controller_name' => 'RegistrationController', 'form' => $form->createView()
-        ]);
+        return $this->render('registration/index.html.twig', ['form' => $form->createView()]);
     }
 
     /**
