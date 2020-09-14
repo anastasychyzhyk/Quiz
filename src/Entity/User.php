@@ -19,9 +19,9 @@ class User implements UserInterface
 {
     private const ROLE_USER = 'ROLE_USER';
     private const ROLE_ADMIN = 'ROLE_ADMIN';
-    private const USER_STATUS_AWAITING = 'Awaiting Activation';
-    private const USER_STATUS_ACTIVE = 'Active';
-    private const USER_STATUS_BLOCKED = 'Blocked';
+    public const USER_STATUS_AWAITING = 'Awaiting Activation';
+    public const USER_STATUS_ACTIVE = 'Active';
+    public const USER_STATUS_BLOCKED = 'Blocked';
 
     public static function getRolesArray()
     {
@@ -201,6 +201,7 @@ class User implements UserInterface
 
     public function getRoles()
     {
+        return array($this->role);
     }
 
     public function getSalt()

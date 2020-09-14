@@ -23,7 +23,7 @@ class EditUserController extends AbstractController
     }
 
     /**
-     * @Route("/edit/user/{id}")
+     * @Route("/admin/edit/user/{id}")
      * @param string $id
      * @return Response
      */
@@ -33,7 +33,7 @@ class EditUserController extends AbstractController
     }
 
     /**
-     * @Route("/{_locale<%app.supported_locales%>}/edit/user/{id}", name="edit_user")
+     * @Route("/admin/{_locale<%app.supported_locales%>}/edit/user/{id}", name="edit_user")
      * @param Request $request
      * @param string $id
      * @return Response

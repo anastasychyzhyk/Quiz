@@ -20,34 +20,44 @@ class AdminGridEditor
     public function __construct(Request $request, GridEditorInterface $editor, ServiceEntityRepository $repository,
                                 array $processedOperations, ObjectManager $entityManager)
     {
-        $this->request=$request;
-        $this->editor=$editor;
-        $this->repository=$repository;
-        $this->processedOperations=$processedOperations;
-        $this->entityManager=$entityManager;
+        $this->request = $request;
+        $this->editor = $editor;
+        $this->repository = $repository;
+        $this->processedOperations = $processedOperations;
+        $this->entityManager = $entityManager;
     }
 
-    public function processRequest(): string
+    public function processRequest()
     {
-        if ($this->request->request->get('find') === null) {
+        if (($this->request->request->get('find') === null) && ($this->request->request->get('filter') === null)) {
             $selectedItems = $this->request->request->get('checkbox');
             if ($selectedItems !== null) {
                 $this->processRequestKeys($selectedItems);
             }
         }
-        return $this->request->request->get('searchedText');
     }
 
-    public function getPagination(string $condition, PaginatorInterface $paginator): PaginationInterface
+    private function getFilters()
     {
-        $users = $this->repository->findByTextQuery($condition);
+        $filters = null;
+        if ($this->request->request->get('filter') !== null) {
+            $role = $this->request->request->get('role') ?? '';
+            $status = $this->request->request->get('status') ?? '';
+            $filters = ['role' => $role, 'status' => $status];
+        }
+        return $filters;
+    }
+
+    public function getPagination(PaginatorInterface $paginator): PaginationInterface
+    {
+        $users = $this->repository->findByTextQuery($this->request->request->get('searchedText') ?? '', $this->getFilters());
         return $paginator->paginate($users, $this->request->query->getInt('page', 1), 20);
     }
 
     private function processRequestKeys (array $selectedItems)
     {
         foreach ($this->request->request->keys() as $requestData) {
-            if(array_search($requestData, $this->processedOperations)===false) {
+            if (array_search($requestData, $this->processedOperations) === false) {
                 continue;
             }
             $this->processGroupOperation($requestData, $selectedItems);
@@ -61,7 +71,7 @@ class AdminGridEditor
             if ($requestData === 'deleteEntity') {
                 $this->editor->deleteEntity($selectedItem, $this->entityManager);
             } else {
-                call_user_func(__NAMESPACE__.'\UserEditor::'.$requestData, $selectedItem, $this->repository);
+                call_user_func(__NAMESPACE__ . '\UserEditor::' . $requestData, $selectedItem, $this->repository);
             }
         }
     }

@@ -16,7 +16,7 @@ use Knp\Component\Pager\PaginatorInterface;
 class QuestionEditorController extends AbstractController
 {
     /**
-     * @Route("/question/editor")
+     * @Route("/admin/question/editor")
      */
     public function index(): Response
     {
@@ -24,7 +24,7 @@ class QuestionEditorController extends AbstractController
     }
 
     /**
-     * @Route("/{_locale<%app.supported_locales%>}/question/editor", name="question_editor")
+     * @Route("/admin/{_locale<%app.supported_locales%>}/question/editor", name="question_editor")
      * @param Request $request
      * @param QuestionRepository $questionRepository
      * @param QuestionEditor $questionEditor
@@ -39,11 +39,11 @@ class QuestionEditorController extends AbstractController
         $processedOperations = array('deleteEntity');
         $adminGridEditor = new AdminGridEditor($request, $questionEditor, $questionRepository, $processedOperations, $this->getDoctrine()->getManager());
         if($form->isSubmitted()) {
-            $searchedText=$adminGridEditor->processRequest();
+            $adminGridEditor->processRequest();
          }
-        $pagination= $adminGridEditor->getPagination($searchedText??'', $paginator);
+        $pagination= $adminGridEditor->getPagination($paginator);
         return $this->render('question_editor/index.html.twig', ['form' => $form->createView(),
-            'pagination' => $pagination,
+            'pagination' => $pagination
         ]);
     }
 
