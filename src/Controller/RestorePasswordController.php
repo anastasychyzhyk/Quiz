@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\EditUserType;
+use App\Form\RestorePasswordType;
 use App\Repository\UserRepository;
 use App\Service\UserEditor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +27,7 @@ class RestorePasswordController extends AbstractController
         if (!$user) {
             throw $this->createNotFoundException();
         }
-        $form = $this->createForm(EditUserType::class, $user);
+        $form = $this->createForm(RestorePasswordType::class, $user);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $userEditor->encodeAndSetPassword($form->getData());
