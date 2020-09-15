@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Form\EditUserType;
 use App\Repository\UserRepository;
@@ -40,9 +40,8 @@ class EditUserController extends AbstractController
      */
     public function editUser(Request $request, string $id): Response
     {
-        $user = $this->userRepository->findOneBy(['id'=>$id]);
-        if(!$user)
-        {
+        $user = $this->userRepository->findOneBy(['id' => $id]);
+        if (!$user) {
             throw $this->createNotFoundException();
         }
         $form = $this->createForm(EditUserType::class, $user);

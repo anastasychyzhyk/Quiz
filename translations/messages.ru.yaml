@@ -9,7 +9,7 @@ Register: Зарегистрировать
 Confirm registration: Подтверждение регистрации
 welcome to Quiz!: добро пожаловать в Quiz!
 Click here to activate your account: Нажмите, чтобы активировать аккаунт
-An error occurred during sending confirmation email. Please contact support.: В процессе отправки сообщения возникла ошибка. Пожалуйста обратитесь в службу поддержки.
+An error occurred during sending email. Please contact support.: В процессе отправки сообщения возникла ошибка. Пожалуйста обратитесь в службу поддержки.
 Invalid confirmation code: Неверный код подтверждения
 Account verified successfully: Аккаунт успешно подтверждён
 Question editor: Редактор вопросов
@@ -53,3 +53,13 @@ You are logged in as: Вы вошли как
 Please sign in: Пожалуйста войдите в систему
 Sign in: Войти
 Logout: Выйти
+Forget password?: Забыли пароль?
+Please input email: Пожалуйста введите адрес электронной почты
+Restore: Восстановить
+Email could not be found: Электронная почта не найдена
+Restore password: Восстановление пароля
+Click here to restore your password: Нажмите, чтобы восстановить пароль
+If you don't need restore password, please ignore this message: Если вам не нужно восстановление пароля, пожалуйста игнорируйте это письмо
+Message was sent successfully. Please check your email: Сообщение успешно отправлено. Пожалуйста проверьте почту
+Create new password: Создайте новый пароль
+Show results: Показать результат

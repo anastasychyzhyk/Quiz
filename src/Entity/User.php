@@ -94,12 +94,12 @@ class User implements UserInterface
         $this->status = self::USER_STATUS_BLOCKED;
     }
 
-    public function setAdmin()
+    public function setRoleAdmin()
     {
         $this->role=self::ROLE_ADMIN;
     }
 
-    public function setUser()
+    public function setRoleUser()
     {
         $this->role=self::ROLE_USER;
     }

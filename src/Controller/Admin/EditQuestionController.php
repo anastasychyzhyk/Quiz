@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Repository\AnswerRepository;
 use App\Entity\Question;
@@ -41,16 +41,15 @@ class EditQuestionController extends AbstractController
      */
     public function edit(Request $request,QuestionRepository $questionRepository, AnswerRepository $answerRepository, string $id): Response
     {
-        $question = $questionRepository->findOneBy(['id'=>$id]);
-        if(!$question)
-        {
+        $question = $questionRepository->findOneBy(['id' => $id]);
+        if (!$question) {
             throw $this->createNotFoundException();
         }
-        $rightAnswer=$answerRepository->findRightAnswer($question);
-        if(count($rightAnswer)>1) {
+        $rightAnswer = $answerRepository->findRightAnswer($question);
+        if (count($rightAnswer) > 1) {
             $this->addFlash('error', $this::RIGHT_ANSWERS_COUNT_ERROR);
         }
-        $rightAnswerPosition=array_search($rightAnswer[0], $question->getAnswers()->toArray());
+        $rightAnswerPosition = array_search($rightAnswer[0], $question->getAnswers()->toArray());
         return $this->processRequest($request, $question, $rightAnswerPosition);
     }
 
@@ -65,10 +64,9 @@ class EditQuestionController extends AbstractController
     /**
      * @Route("/admin/{_locale<%app.supported_locales%>}/new/question", name="new_question")
      * @param Request $request
-     * @param QuestionRepository $questionRepository
      * @return Response
      */
-    public function newQuestion(Request $request, QuestionRepository $questionRepository): Response
+    public function newQuestion(Request $request): Response
     {
         $question=new Question();
         return $this->processRequest($request, $question);
@@ -80,16 +78,15 @@ class EditQuestionController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()) {
             $newRightAnswerPosition = intval($request->request->get('isTrue'));
-            if(!$form->isValid()) {
-                $rightAnswerPosition=$newRightAnswerPosition;
-            }
-            else {
+            if (!$form->isValid()) {
+                $rightAnswerPosition = $newRightAnswerPosition;
+            } else {
                 $this->questionEditor->changeQuestion($form->getData(), $newRightAnswerPosition, $this->getDoctrine()->getManager());
                 return $this->redirectToRoute('question_editor');
             }
         }
         return $this->render('edit_question/index.html.twig', [
-            'form' => $form->createView(), 'rightAnswerPosition'=>$rightAnswerPosition,
+            'form' => $form->createView(), 'rightAnswerPosition' => $rightAnswerPosition,
         ]);
     }
 }

@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Log in!{% endblock %}
-
 {% block container %}
 <div class="container">
     <div class="row">
@@ -17,7 +15,7 @@
                                 {% trans %}You are logged in as{% endtrans %} {{ app.user.username }}, <a href="{{ path('app_logout') }}">{% trans %}Logout{% endtrans %}</a>
                             </div>
                         {% endif %}
-                        <h1 class="h3 mb-3 font-weight-normal">{% trans %}Please sign in{% endtrans %}</h1>
+                        <div class="card-header mb-3">{% trans %}Please sign in{% endtrans %}</div>
                         <div class="form-group">
                             <label for="inputEmail">{% trans %}Email{% endtrans %}</label>
                             <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
@@ -27,13 +25,8 @@
                             <input type="password" name="password" id="inputPassword" class="form-control" required>
                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4" style="margin-top:5px;">
-                                <button type="submit" class="btn btn-lg btn-primary">
-                                    {% trans %}Sign in{% endtrans %}
-                                </button>
-                            </div>
-                        </div>
+                        <button type="submit" class="btn btn-primary">{% trans %}Sign in{% endtrans %}</button>
+                        <a href="{{ path('forget_password', {_locale: app.request.locale}) }}" class="btn btn-secondary" role="button" data-toggle="tooltip" title="{% trans %}Forget password?{% endtrans %}">{% trans %}Forget password?{% endtrans %}</a>
                     </form>
                 </div>
             </div>

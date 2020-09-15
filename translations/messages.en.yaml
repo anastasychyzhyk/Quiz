@@ -9,7 +9,7 @@ Register: Register
 Confirm registration: Confirm registration
 welcome to Quiz!: welcome to Quiz!
 Click here to activate your account: Click here to activate your account
-An error occurred during sending confirmation email. Please contact support.: An error occurred during sending confirmation email. Please contact support.
+An error occurred during sending email. Please contact support.: An error occurred during sending email. Please contact support.
 Invalid confirmation code: Invalid confirmation code
 Account verified successfully: Account verified successfully
 Question editor: Question editor
@@ -53,3 +53,13 @@ You are logged in as: You are logged in as
 Please sign in: Please sign in
 Sign in: Sign in
 Logout: Logout
+Forget password?: Forget password?
+Please input email: Please input email
+Restore: Restore
+Email could not be found: Email could not be found
+Restore password: Restore password
+Click here to restore your password: Click here to restore your password
+If you don't need restore password, please ignore this message: If you don't need restore password, please ignore this message
+Message was sent successfully. Please check your email: Message was sent successfully. Please check your email
+Create new password: Create new password
+Show results: Show results

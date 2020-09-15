@@ -17,13 +17,15 @@ class RegistrationController extends AbstractController
 {
     private UserEditor $userEditor;
     private UserRepository $userRepository;
+    private Mailer $mailer;
     private const INVALID_CONFIRMATION='Invalid confirmation code';
     private const CONFIRM_SUCCESS='Account verified successfully';
 
-    public function __construct(UserEditor $userEditor, UserRepository $userRepository)
+    public function __construct(UserEditor $userEditor, UserRepository $userRepository,  Mailer $mailer)
     {
         $this->userEditor=$userEditor;
         $this->userRepository=$userRepository;
+        $this->mailer=$mailer;
     }
 
     /**
@@ -40,13 +42,13 @@ class RegistrationController extends AbstractController
      * @param Mailer $mailer
      * @return Response
      */
-    public function index(Request $request, Mailer $mailer): Response
+    public function index(Request $request): Response
     {
         $form = $this->createForm(RegistrationType::class, new User());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user=$this->userEditor->createUser($form->getData(), $this->getDoctrine()->getManager());
-            $this->addFlash('notice', $mailer->sendConfirmationMessage('Confirm registration', $user));
+            $user=$this->userEditor->registerUser($form->getData(), $this->getDoctrine()->getManager());
+            $this->addFlash('notice', $this->mailer->sendConfirmationMessage('Confirm registration', $user));
             return $this->redirectToRoute('home');
         }
         return $this->render('registration/index.html.twig', ['form' => $form->createView()]);

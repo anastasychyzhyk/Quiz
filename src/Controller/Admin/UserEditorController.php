@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Form\UserEditorType;
 use App\Repository\UserRepository;
 use App\Service\AdminGridEditor;
-use App\Service\UserEditor;
+use App\Service\GroupOperations\UserGroupOperations;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,17 +28,16 @@ class UserEditorController extends AbstractController
      * @Route("/admin/{_locale<%app.supported_locales%>}/user/editor", name="user_editor")
      * @param Request $request
      * @param UserRepository $userRepository
-     * @param UserEditor $userEditor
+     * @param UserGroupOperations $userGroupOperations
      * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function index(Request $request, UserRepository $userRepository,  UserEditor $userEditor,
+    public function index(Request $request, UserRepository $userRepository,  UserGroupOperations $userGroupOperations,
                           PaginatorInterface $paginator): Response
     {
         $form = $this->createForm(UserEditorType::class);
         $form->handleRequest($request);
-        $processedOperations = array('activateUsers', 'blockUsers', 'setUser', 'setAdmin', 'deleteEntity');
-        $adminGridEditor = new AdminGridEditor($request, $userEditor, $userRepository, $processedOperations,
+        $adminGridEditor = new AdminGridEditor($request, $userGroupOperations, $userRepository,
             $this->getDoctrine()->getManager());
         if ($form->isSubmitted()) {
             $adminGridEditor->processRequest();
