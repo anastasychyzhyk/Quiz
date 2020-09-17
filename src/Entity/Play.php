@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PlayRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Time;
 
 /**
  * @ORM\Entity(repositoryClass=PlayRepository::class)
@@ -38,6 +39,11 @@ class Play
      * @ORM\Column(type="boolean")
      */
     private $isFinish;
+
+    /**
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $time;
 
     /**
      * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="plays")
@@ -105,6 +111,18 @@ class Play
     public function setQuestion(?Question $question): self
     {
         $this->question = $question;
+
+        return $this;
+    }
+
+    public function getTime(): ?Time
+    {
+        return $this->time;
+    }
+
+    public function setTime(?Time $time): self
+    {
+        $this->time = $time;
 
         return $this;
     }
