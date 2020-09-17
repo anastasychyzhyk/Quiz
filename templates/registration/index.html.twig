@@ -17,10 +17,20 @@
                         {{ form_start(form) }}
                         <div class="form_group">
                             <div class="col-md-12 mb-3">
+                                {{ form_label(form.surname)}}
+                                {{ form_widget(form.surname, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="form_group">
+                            <div class="col-md-12 mb-3">
                                 {{ form_label(form.name)}}
                                 {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
-                                <small class="form-text text-danger">{{ form_errors(form.name)}}</small>
-
+                            </div>
+                        </div>
+                        <div class="form_group">
+                            <div class="col-md-12 mb-3">
+                                {{ form_label(form.patronymic)}}
+                                {{ form_widget(form.patronymic, {'attr': {'class': 'form-control'}}) }}
                             </div>
                         </div>
                         <div class="form_group">
