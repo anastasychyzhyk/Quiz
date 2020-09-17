@@ -6,6 +6,7 @@ use App\Repository\QuizRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=QuizRepository::class)
@@ -67,12 +68,12 @@ class Quiz
         return $this;
     }
 
-    public function getDateCreate(): ?\DateTimeInterface
+    public function getDateCreate(): ?DateTime
     {
         return $this->dateCreate;
     }
 
-    public function setDateCreate(\DateTimeInterface $dateCreate): self
+    public function setDateCreate(DateTime $dateCreate): self
     {
         $this->dateCreate = $dateCreate;
 
@@ -113,7 +114,6 @@ class Quiz
     {
         if ($this->plays->contains($play)) {
             $this->plays->removeElement($play);
-            // set the owning side to null (unless already changed)
             if ($play->getQuiz() === $this) {
                 $play->setQuiz(null);
             }

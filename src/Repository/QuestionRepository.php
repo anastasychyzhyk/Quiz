@@ -23,7 +23,7 @@ class QuestionRepository extends ServiceEntityRepository
     public function findByTextQuery(string $searchedText)
     {
         $qb = $this->createQueryBuilder('q');
-            $qb->andWhere('q.text LIKE :searchedText')
+            $qb->where('q.text LIKE :searchedText')
                 ->setParameter('searchedText', '%' . $searchedText . '%')
             ;
         return $qb
@@ -31,34 +31,4 @@ class QuestionRepository extends ServiceEntityRepository
             ->getQuery()
             ;
     }
-
-
-    // /**
-    //  * @return Question[] Returns an array of Question objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('q.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Question
-    {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

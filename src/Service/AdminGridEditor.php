@@ -39,11 +39,14 @@ class AdminGridEditor
 
     private function getFilters()
     {
-        $filters = null;
+        $filters = array();
         if ($this->request->request->get('filter') !== null) {
-            $role = $this->request->request->get('role') ?? '';
-            $status = $this->request->request->get('status') ?? '';
-            $filters = ['role' => $role, 'status' => $status];
+            if ($this->request->request->get('role') != '') {
+                $filters['role'] = $this->request->request->get('role');
+            }
+            if ($this->request->request->get('status') != '') {
+                $filters['status'] = $this->request->request->get('status');
+            }
         }
         return $filters;
     }
