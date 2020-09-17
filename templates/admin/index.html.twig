@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin!{% endblock %}
+{% block container %}
+    <div class="container mt-5 mb-5">
+        <div class="row">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Users</h5>
+                <p class="card-text">Click here to work with user list</p>
+                <a href="{{ path('user_editor', {_locale: app.request.locale}) }}" class="card-link">Users</a>
+            </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <a href="{{ path('question_editor', {_locale: app.request.locale}) }}" class="card-link">Questions</a>
+            </div>
+        </div>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <a href="{{ path('quiz_editor', {_locale: app.request.locale}) }}" class="card-link">Quizes</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

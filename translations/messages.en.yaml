@@ -18,7 +18,8 @@ Question: Question
 Find: Find
 Input question...: Input question...
 Input answer...: Input answer...
-Input name...: Input name...
+Input surname...: Input surname...
+Input quiz name...: Input quiz name...
 Error occurred! More than 1 right answer: Error occurred! More than 1 right answer
 Add answers: Add answers
 Select right answer: Select right answer
@@ -63,3 +64,10 @@ If you don't need restore password, please ignore this message: If you don't nee
 Message was sent successfully. Please check your email: Message was sent successfully. Please check your email
 Create new password: Create new password
 Show results: Show results
+Surname: Surname
+Patronymic: Patronymic
+Players: Players
+Winner: Winner
+Quizzes: Quizzes
+Quiz: Quiz
+Active: Active

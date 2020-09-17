@@ -18,7 +18,8 @@ Question: Вопрос
 Find: Найти
 Input question...: Введите вопрос...
 Input answer...: Введите ответ...
-Input name...: Введите имя...
+Input surname...: Введите фамилию...
+Input quiz name...: Введите название викторины...
 Error occurred! More than 1 right answer: Возникла ошибка! Более 1 правильного ответа
 Add answers: Добавьте ответы
 Select right answer: Выберите правильный ответ
@@ -63,3 +64,10 @@ If you don't need restore password, please ignore this message: Если вам 
 Message was sent successfully. Please check your email: Сообщение успешно отправлено. Пожалуйста проверьте почту
 Create new password: Создайте новый пароль
 Show results: Показать результат
+Surname: Фамилия
+Patronymic: Отчество
+Players: Игроки
+Winner: Лидер
+Quizzes: Викторины
+Quiz: Викторина
+Active: Активная

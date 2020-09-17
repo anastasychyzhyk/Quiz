@@ -1,10 +1,13 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repository;
 
 use App\Entity\Quiz;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * @method Quiz|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +22,58 @@ class QuizRepository extends ServiceEntityRepository
         parent::__construct($registry, Quiz::class);
     }
 
-    // /**
-    //  * @return Quiz[] Returns an array of Quiz objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findMaxAnswerQuery(): QueryBuilder
     {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('q.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        return $this->createQueryBuilder('qMaxAnswer')
+            ->select('max(pMaxAnswer.rightAnswersCount)')
+            ->innerJoin('qMaxAnswer.plays', 'pMaxAnswer')
+            ->where('pMaxAnswer.isFinish=true and qMaxAnswer=q');
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Quiz
+    public function findMinTimeQuery(): QueryBuilder
     {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $minTimeQuery = $this->createQueryBuilder('qMinTime');
+        $minTimeQuery->select('min(pMinTime.time)')
+            ->innerJoin('qMinTime.plays', 'pMinTime')
+            ->where($minTimeQuery->expr()->andX(
+                $minTimeQuery->expr()->eq('pMinTime.isFinish','true'),
+                $minTimeQuery->expr()->eq ('qMinTime','q'),
+                $minTimeQuery->expr()->in('pMinTime.rightAnswersCount', $this->findMaxAnswerQuery()->getDql()))
+            );
+        return $minTimeQuery;
     }
-    */
+
+    public function findWinnerIdQuery(): QueryBuilder
+    {
+        $winnerIdQuery = $this->createQueryBuilder('qWinnerId');
+        $winnerIdQuery
+            ->select('pWinnerId.id')
+            ->innerJoin('qWinnerId.plays', 'pWinnerId')
+            ->where($winnerIdQuery->expr()->andX(
+                $winnerIdQuery->expr()->eq('pWinnerId.isFinish','true'),
+                $winnerIdQuery->expr()->eq ('qWinnerId','q'),
+                $winnerIdQuery->expr()->in('pWinnerId.time', $this->findMinTimeQuery()->getDql()))
+            );
+        return $winnerIdQuery;
+    }
+
+    public function findByTextQuery(string $searchedText)
+    {
+        $qb = $this->createQueryBuilder('q');
+        $qb
+            ->select('q.id', 'q.name', 'q.isActive', "count(distinct p.user) as count",
+                "CONCAT(u.name, ' ', u.surname, ' ', u.patronymic) as userName")
+            ->leftJoin('q.plays', 'p')
+            ->leftJoin('q.plays', 'pWinner', Expr\Join::WITH,
+                $qb->expr()->andX(
+                    $qb->expr()->eq('pWinner.isFinish', 'true'),
+                    $qb->expr()->in('pWinner.id', $this->findWinnerIdQuery()->getDql())
+                )
+            )
+            ->leftJoin('pWinner.user', 'u')
+            ->where('q.name LIKE :searchedText')
+            ->setParameter('searchedText', '%' . $searchedText . '%')
+            ->groupBy('q.id');
+        return $qb->getQuery();
+    }
 }
