@@ -36,7 +36,7 @@ class Question
     private $plays;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Quiz::class, mappedBy="question")
+     * @ORM\ManyToMany(targetEntity=Quiz::class, mappedBy="question" )
      */
     private $quizzes;
     /**

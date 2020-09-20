@@ -13,30 +13,30 @@ class QuestionGroupOperations extends GroupOperations
 
     public function __construct(QuestionRepository $questionRepository)
     {
-        $this->questionRepository=$questionRepository;
+        $this->questionRepository = $questionRepository;
         parent::__construct(array('deleteQuestion'));
     }
 
     protected function doOperation(string $requestKey, string $requestValue, string $selectedItem,
-                                   ObjectManager $entityManager):void
+                                   ObjectManager $entityManager): void
     {
         if ($requestKey === 'deleteQuestion') {
             $this->deleteQuestion($selectedItem, $entityManager);
         } else {
-            call_user_func(__NAMESPACE__.'\QuestionGroupOperations::'.$requestKey, $selectedItem, $requestValue);
+            call_user_func(__NAMESPACE__ . '\QuestionGroupOperations::' . $requestKey, $selectedItem, $requestValue);
         }
     }
 
     private function deleteQuestion(string $id, ObjectManager $entityManager): void
     {
-        $question=$this->questionRepository->findOneBy(['id'=>$id]);
+        $question = $this->questionRepository->findOneBy(['id' => $id]);
         $this->deleteAnswer($question, $entityManager);
         $entityManager->remove($question);
     }
 
     private function deleteAnswer(Question $question, ObjectManager $entityManager): void
     {
-        $answers=$question->getAnswers();
+        $answers = $question->getAnswers();
         foreach ($answers as $answer) {
             $entityManager->remove($answer);
         }

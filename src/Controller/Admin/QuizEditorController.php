@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
@@ -31,7 +32,7 @@ class QuizEditorController extends AbstractController
      * @return Response
      */
     public function quizzes(Request $request, QuizRepository $quizRepository,
-                            QuizGroupOperations $quizGroupOperations, PaginatorInterface $paginator)
+                            QuizGroupOperations $quizGroupOperations, PaginatorInterface $paginator): Response
     {
         $form = $this->createForm(QuizEditorType::class);
         $form->handleRequest($request);

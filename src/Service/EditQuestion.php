@@ -7,7 +7,7 @@ use App\Entity\Question;
 use App\Repository\QuestionRepository;
 use Doctrine\Persistence\ObjectManager;
 
-class QuestionEditor
+class EditQuestion
 {
     private QuestionRepository $questionRepository;
 

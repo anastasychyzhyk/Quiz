@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Question;
+use App\Entity\Quiz;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -28,6 +29,19 @@ class QuestionRepository extends ServiceEntityRepository
             ;
         return $qb
             ->orderBy('q.text', 'ASC')
+            ->getQuery()
+            ;
+    }
+
+    public function findByQuizQuery(Quiz $quiz)
+    {
+        $qb = $this->createQueryBuilder('q');
+        $qb->innerJoin('q.quizzes', 'qq')
+        ->where('qq.id = :quizz')
+            ->setParameter('quizz', $quiz->getId())
+        ;
+        return $qb
+
             ->getQuery()
             ;
     }

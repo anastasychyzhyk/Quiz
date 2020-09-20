@@ -1,11 +1,12 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
 use App\Form\ForgetPasswordType;
 use App\Repository\UserRepository;
 use App\Service\Mailer;
-use App\Service\UserEditor;
+use App\Service\EditUser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,13 +18,13 @@ class ForgetPasswordController extends AbstractController
     /**
      * @Route("/{_locale<%app.supported_locales%>}/forget/password", name="forget_password")
      * @param Request $request
-     * @param UserEditor $userEditor
+     * @param EditUser $userEditor
      * @param Mailer $mailer
      * @param AuthenticationUtils $authenticationUtils
      * @param UserRepository $userRepository
      * @return Response
      */
-    public function index(Request $request, UserEditor $userEditor, Mailer $mailer, AuthenticationUtils $authenticationUtils, UserRepository $userRepository)
+    public function index(Request $request, EditUser $userEditor, Mailer $mailer, AuthenticationUtils $authenticationUtils, UserRepository $userRepository)
     {
         $form = $this->createForm(ForgetPasswordType::class);
         $form->handleRequest($request);

@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace App\Service;
+
 use App\Entity\User;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;

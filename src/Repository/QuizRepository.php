@@ -46,8 +46,7 @@ class QuizRepository extends ServiceEntityRepository
     public function findWinnerIdQuery(): QueryBuilder
     {
         $winnerIdQuery = $this->createQueryBuilder('qWinnerId');
-        $winnerIdQuery
-            ->select('pWinnerId.id')
+        $winnerIdQuery ->select('pWinnerId.id')
             ->innerJoin('qWinnerId.plays', 'pWinnerId')
             ->where($winnerIdQuery->expr()->andX(
                 $winnerIdQuery->expr()->eq('pWinnerId.isFinish','true'),
@@ -57,11 +56,10 @@ class QuizRepository extends ServiceEntityRepository
         return $winnerIdQuery;
     }
 
-    public function findByTextQuery(string $searchedText)
+    public function findByTextQuery(string $searchedText, array $filters=null)
     {
         $qb = $this->createQueryBuilder('q');
-        $qb
-            ->select('q.id', 'q.name', 'q.isActive', "count(distinct p.user) as count",
+        $qb ->select('q.id', 'q.name', 'q.isActive', "count(distinct p.user) as count",
                 "CONCAT(u.name, ' ', u.surname, ' ', u.patronymic) as userName")
             ->leftJoin('q.plays', 'p')
             ->leftJoin('q.plays', 'pWinner', Expr\Join::WITH,
@@ -74,6 +72,18 @@ class QuizRepository extends ServiceEntityRepository
             ->where('q.name LIKE :searchedText')
             ->setParameter('searchedText', '%' . $searchedText . '%')
             ->groupBy('q.id');
+        if($filters!=null) {
+            $qb=$this->setParametersFromArray($qb, $filters);
+        }
         return $qb->getQuery();
+    }
+
+    private function setParametersFromArray(QueryBuilder $qb, array $filters)
+    {
+        if ((array_key_exists('isActive', $filters)) && ($filters['isActive'] != null)) {
+            $qb->andWhere('q.isActive = :isActive')
+                ->setParameter('isActive', $filters['isActive']);
+        }
+        return $qb;
     }
 }

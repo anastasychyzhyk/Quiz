@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
@@ -12,7 +13,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin")
      */
-    public function index()
+    public function index(): Response
     {
         return $this->redirectToRoute('admin');
     }

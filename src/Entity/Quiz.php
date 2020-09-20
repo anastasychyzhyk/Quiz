@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -41,7 +42,7 @@ class Quiz
     private $plays;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Question::class, inversedBy="quizzes")
+     * @ORM\ManyToMany(targetEntity=Question::class, inversedBy="quizzes", cascade={"persist"})
      */
     private $question;
 

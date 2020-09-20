@@ -6,7 +6,7 @@ namespace App\Controller\Admin;
 use App\Repository\AnswerRepository;
 use App\Entity\Question;
 use App\Form\EditQuestionType;
-use App\Service\QuestionEditor;
+use App\Service\EditQuestion;
 use App\Repository\QuestionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,20 +15,20 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EditQuestionController extends AbstractController
 {
-    private QuestionEditor $questionEditor;
+    private EditQuestion $questionEditor;
     private const RIGHT_ANSWERS_COUNT_ERROR="Error occurred! More than 1 right answer";
 
-    public function __construct(QuestionEditor $questionEditor)
+    public function __construct(EditQuestion $questionEditor)
     {
         $this->questionEditor=$questionEditor;
     }
 
     /**
-     * @Route("/admin/edit/question")
+     * @Route("/admin/edit/question/{id}")
      */
-    public function index(): Response
+    public function index(string $id): Response
     {
-        return $this->redirectToRoute('edit_question');
+        return $this->redirectToRoute('edit_question', ['id'=>$id]);
     }
 
     /**

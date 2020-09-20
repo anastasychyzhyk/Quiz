@@ -9,14 +9,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Service\UserEditor;
+use App\Service\EditUser;
 
 class EditUserController extends AbstractController
 {
-    private UserEditor $userEditor;
+    private EditUser $userEditor;
     private UserRepository $userRepository;
 
-    public function __construct(UserEditor $userEditor, UserRepository $userRepository)
+    public function __construct(EditUser $userEditor, UserRepository $userRepository)
     {
         $this->userEditor=$userEditor;
         $this->userRepository=$userRepository;

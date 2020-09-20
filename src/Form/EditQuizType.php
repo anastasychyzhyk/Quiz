@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Form;
 
@@ -16,7 +17,7 @@ class EditQuizType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, ['label' => false])
-            ->add('dateCreate', DateType::class)
+            ->add('dateCreate', DateType::class, ['widget' => 'single_text',])
             ->add('isActive')
         ;
     }

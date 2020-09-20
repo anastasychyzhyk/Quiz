@@ -27,6 +27,37 @@
                                     <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                                 </svg>
                             </button>
+                            <a class="btn btn-outline-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-funnel" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="collapse multi-collapse" id="multiCollapseExample1">
+                            <div class="card card-body">
+                                <label class="form-label">
+                                    {% trans %}Status{% endtrans %}
+                                </label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="isActive" id="active" value=1>
+                                        <label class="form-check-label" for="active">
+                                            {% trans %}Active{% endtrans %}
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="isActive" id="stop" value=0>
+                                        <label class="form-check-label" for="stop">
+                                            {% trans %}Stop{% endtrans %}
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="isActive" id="all" value="" checked>
+                                        <label class="form-check-label" for="all">
+                                            {% trans %}All{% endtrans %}
+                                        </label>
+                                    </div>
+                                <button class="btn btn-outline-primary form-control" type="submit" data-toggle="tooltip" name="filter" title="{% trans %}Show results{% endtrans %}">{% trans %}Show results{% endtrans %}</button>
+                            </div>
                         </div>
                         <table class="table table-striped">
                             <thead>
@@ -49,27 +80,29 @@
                             </tr>
                             </thead>
                             <tbody id = "question">
-                            {% for quize in pagination %}
+                            {% for quiz in pagination %}
                                 <tr>
                                     <td>
-                                        <input type="checkbox" name="checkbox[]" value={{quize.id}}>
+                                        <input type="checkbox" name="checkbox[]" value={{quiz.id}}>
                                     </td>
                                     <td>
-                                        {{ quize.name }}
+                                        <a href="{{ path('edit_quiz', {_locale: app.request.locale, id: quiz.id}) }}">
+                                            {{ quiz.name  }}
+                                        </a>
                                     </td>
                                     <td>
-                                        {{ quize.count }}
+                                        {{ quiz.count }}
                                     </td>
                                     <td>
                                         <input type="checkbox"
-                                                {% if quize.isActive %}
-                                                checked
-                                               {% endif %}
+                                                {% if quiz.isActive %}
+                                                    checked
+                                                {% endif %}
                                                disabled
                                         >
                                     </td>
                                     <td>
-                                        {{ quize.userName }}
+                                        {{ quiz.userName }}
                                     </td>
                                 </tr>
                             {% endfor %}

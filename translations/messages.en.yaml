@@ -15,6 +15,7 @@ Account verified successfully: Account verified successfully
 Question editor: Question editor
 Save: Save
 Question: Question
+Questions: Questions
 Find: Find
 Input question...: Input question...
 Input answer...: Input answer...
@@ -71,3 +72,7 @@ Winner: Winner
 Quizzes: Quizzes
 Quiz: Quiz
 Active: Active
+Stop: Stop
+All: All
+Is active: Is active
+Date create: Date create
