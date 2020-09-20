@@ -39,7 +39,7 @@ class EditQuestionController extends AbstractController
      * @param string $id
      * @return Response
      */
-    public function edit(Request $request,QuestionRepository $questionRepository, AnswerRepository $answerRepository, string $id): Response
+    public function edit(Request $request, QuestionRepository $questionRepository, AnswerRepository $answerRepository, string $id): Response
     {
         $question = $questionRepository->findOneBy(['id' => $id]);
         if (!$question) {

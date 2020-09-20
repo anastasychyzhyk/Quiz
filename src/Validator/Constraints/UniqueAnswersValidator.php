@@ -11,10 +11,10 @@ class UniqueAnswersValidator extends ConstraintValidator
 {
     public function validate($value, Constraint $constraint)
     {
-        if(!$constraint instanceof UniqueAnswers) {
+        if (!$constraint instanceof UniqueAnswers) {
             throw new UnexpectedTypeException($constraint, UniqueAnswers::class);
         }
-        if(null===$value) {
+        if (null===$value) {
             return;
         }
         $answers= array();
@@ -22,7 +22,7 @@ class UniqueAnswersValidator extends ConstraintValidator
             $answers[]=$answer->getText();
         }
         $uniqueAnswers=array_unique($answers);
-        if(count($uniqueAnswers)!=count($answers)) {
+        if (count($uniqueAnswers)!=count($answers)) {
             $this->context->buildViolation($constraint->message)
                 ->addViolation();
         }

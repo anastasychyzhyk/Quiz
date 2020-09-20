@@ -27,6 +27,10 @@ abstract class GroupOperations
         $entityManager->flush();
     }
 
-    protected abstract function doOperation(string $requestKey, string $requestValue, string $selectedItem,
-                                            ObjectManager $entityManager): void;
+    abstract protected function doOperation(
+        string $requestKey,
+        string $requestValue,
+        string $selectedItem,
+        ObjectManager $entityManager
+    ): void;
 }

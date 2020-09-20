@@ -96,9 +96,9 @@ class User implements UserInterface
     }
 
     public function activate()
-	{
-		$this->status = self::USER_STATUS_ACTIVE;
-	}
+    {
+        $this->status = self::USER_STATUS_ACTIVE;
+    }
 
     public function block()
     {
@@ -114,7 +114,7 @@ class User implements UserInterface
     {
         $this->role=self::ROLE_USER;
     }
-	
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -139,7 +139,7 @@ class User implements UserInterface
 
     public function setPatronymic(?string $patronymic): self
     {
-        if($patronymic) {
+        if ($patronymic) {
             $this->patronymic = $patronymic;
         }
 

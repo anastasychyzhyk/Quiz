@@ -63,14 +63,13 @@ class RegistrationController extends AbstractController
     public function confirm(UserRepository $userRepository, string $code): Response
     {
         $user=$userRepository->findOneBy(['confirmationCode' => $code]);
-		if($user) {
+        if ($user) {
             $user->activate();
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('notice', self::CONFIRM_SUCCESS);
-        }
-		else {
-            $this->addFlash( 'error',self::INVALID_CONFIRMATION);
+        } else {
+            $this->addFlash('error', self::INVALID_CONFIRMATION);
         }
         return $this->redirectToRoute('home');
-	}
+    }
 }

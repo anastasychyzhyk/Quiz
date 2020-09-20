@@ -35,10 +35,12 @@ class QuizRepository extends ServiceEntityRepository
         $minTimeQuery = $this->createQueryBuilder('qMinTime');
         $minTimeQuery->select('min(pMinTime.time)')
             ->innerJoin('qMinTime.plays', 'pMinTime')
-            ->where($minTimeQuery->expr()->andX(
-                $minTimeQuery->expr()->eq('pMinTime.isFinish','true'),
-                $minTimeQuery->expr()->eq ('qMinTime','q'),
-                $minTimeQuery->expr()->in('pMinTime.rightAnswersCount', $this->findMaxAnswerQuery()->getDql()))
+            ->where(
+                $minTimeQuery->expr()->andX(
+                $minTimeQuery->expr()->eq('pMinTime.isFinish', 'true'),
+                $minTimeQuery->expr()->eq('qMinTime', 'q'),
+                $minTimeQuery->expr()->in('pMinTime.rightAnswersCount', $this->findMaxAnswerQuery()->getDql())
+            )
             );
         return $minTimeQuery;
     }
@@ -48,10 +50,12 @@ class QuizRepository extends ServiceEntityRepository
         $winnerIdQuery = $this->createQueryBuilder('qWinnerId');
         $winnerIdQuery ->select('pWinnerId.id')
             ->innerJoin('qWinnerId.plays', 'pWinnerId')
-            ->where($winnerIdQuery->expr()->andX(
-                $winnerIdQuery->expr()->eq('pWinnerId.isFinish','true'),
-                $winnerIdQuery->expr()->eq ('qWinnerId','q'),
-                $winnerIdQuery->expr()->in('pWinnerId.time', $this->findMinTimeQuery()->getDql()))
+            ->where(
+                $winnerIdQuery->expr()->andX(
+                $winnerIdQuery->expr()->eq('pWinnerId.isFinish', 'true'),
+                $winnerIdQuery->expr()->eq('qWinnerId', 'q'),
+                $winnerIdQuery->expr()->in('pWinnerId.time', $this->findMinTimeQuery()->getDql())
+            )
             );
         return $winnerIdQuery;
     }
@@ -59,10 +63,18 @@ class QuizRepository extends ServiceEntityRepository
     public function findByTextQuery(string $searchedText, array $filters=null)
     {
         $qb = $this->createQueryBuilder('q');
-        $qb ->select('q.id', 'q.name', 'q.isActive', "count(distinct p.user) as count",
-                "CONCAT(u.name, ' ', u.surname, ' ', u.patronymic) as userName")
+        $qb ->select(
+            'q.id',
+            'q.name',
+            'q.isActive',
+            "count(distinct p.user) as count",
+            "CONCAT(u.name, ' ', u.surname, ' ', u.patronymic) as userName"
+        )
             ->leftJoin('q.plays', 'p')
-            ->leftJoin('q.plays', 'pWinner', Expr\Join::WITH,
+            ->leftJoin(
+                'q.plays',
+                'pWinner',
+                Expr\Join::WITH,
                 $qb->expr()->andX(
                     $qb->expr()->eq('pWinner.isFinish', 'true'),
                     $qb->expr()->in('pWinner.id', $this->findWinnerIdQuery()->getDql())
@@ -72,7 +84,7 @@ class QuizRepository extends ServiceEntityRepository
             ->where('q.name LIKE :searchedText')
             ->setParameter('searchedText', '%' . $searchedText . '%')
             ->groupBy('q.id');
-        if($filters!=null) {
+        if ($filters!=null) {
             $qb=$this->setParametersFromArray($qb, $filters);
         }
         return $qb->getQuery();

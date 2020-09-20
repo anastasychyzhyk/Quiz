@@ -17,8 +17,12 @@ class QuestionGroupOperations extends GroupOperations
         parent::__construct(array('deleteQuestion'));
     }
 
-    protected function doOperation(string $requestKey, string $requestValue, string $selectedItem,
-                                   ObjectManager $entityManager): void
+    protected function doOperation(
+        string $requestKey,
+        string $requestValue,
+        string $selectedItem,
+        ObjectManager $entityManager
+    ): void
     {
         if ($requestKey === 'deleteQuestion') {
             $this->deleteQuestion($selectedItem, $entityManager);

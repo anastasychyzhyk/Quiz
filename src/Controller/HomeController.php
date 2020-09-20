@@ -17,22 +17,22 @@ class HomeController extends AbstractController
     public function home(): Response
     {
         $errorMessages = [User::USER_STATUS_BLOCKED=>'Sorry, you are blocked', User::USER_STATUS_AWAITING=>'Your account is not confirmed. Please check email'];
-        if(($this->getUser()) && ($this->getUser()->getStatus()!==User::USER_STATUS_ACTIVE)) {
+        if (($this->getUser()) && ($this->getUser()->getStatus()!==User::USER_STATUS_ACTIVE)) {
             $this->addFlash('error', $errorMessages[$this->getUser()->getStatus()]);
         }
-        if(($this->getUser()) && ($this->getUser()->getRole()===User::ROLE_ADMIN)) {
+        if (($this->getUser()) && ($this->getUser()->getRole()===User::ROLE_ADMIN)) {
             return $this->redirectToRoute('admin');
         }
-        return $this->render('home/home.html.twig',[
+        return $this->render('home/home.html.twig', [
             'controller_name'=>'HomeController'
         ]);
     }
-	
-	 /**
-     * @Route("/")
-     */
+    
+    /**
+    * @Route("/")
+    */
     public function index(): Response
     {
-         return $this->redirectToRoute('home');
+        return $this->redirectToRoute('home');
     }
 }

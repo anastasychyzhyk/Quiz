@@ -32,13 +32,21 @@ class UserEditorController extends AbstractController
      * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function index(Request $request, UserRepository $userRepository,  UserGroupOperations $userGroupOperations,
-                          PaginatorInterface $paginator): Response
+    public function index(
+        Request $request,
+        UserRepository $userRepository,
+        UserGroupOperations $userGroupOperations,
+        PaginatorInterface $paginator
+    ): Response
     {
         $form = $this->createForm(UserEditorType::class);
         $form->handleRequest($request);
-        $adminGridEditor = new AdminGridEditor($request, $userGroupOperations, $userRepository,
-            $this->getDoctrine()->getManager());
+        $adminGridEditor = new AdminGridEditor(
+            $request,
+            $userGroupOperations,
+            $userRepository,
+            $this->getDoctrine()->getManager()
+        );
         if ($form->isSubmitted()) {
             $adminGridEditor->processRequest();
         }

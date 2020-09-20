@@ -11,7 +11,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraints as AnswerAssert;
 
-
 /**
  * @ORM\Entity(repositoryClass=QuestionRepository::class)
  * @UniqueEntity("text", message="Question.should.be.unique")

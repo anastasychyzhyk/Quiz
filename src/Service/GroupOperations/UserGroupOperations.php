@@ -17,8 +17,12 @@ class UserGroupOperations extends GroupOperations
         parent::__construct(array('setRole', 'setStatus', 'deleteUser'));
     }
 
-    protected function doOperation(string $requestKey, string $requestValue, string $selectedItem,
-                                   ObjectManager $entityManager): void
+    protected function doOperation(
+        string $requestKey,
+        string $requestValue,
+        string $selectedItem,
+        ObjectManager $entityManager
+    ): void
     {
         if ($requestKey === 'deleteUser') {
             $this->deleteUser($selectedItem, $entityManager);

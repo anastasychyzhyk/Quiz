@@ -24,7 +24,7 @@ class EditQuiz
     {
         if ($request->request->get('addQuestion') !== null) {
             $quiz = $this->addQuestion($request, $quiz, $entityManager);
-        } else if ($request->request->get('deleteQuestion') !== null) {
+        } elseif ($request->request->get('deleteQuestion') !== null) {
             $this->deleteQuestion($request, $quiz, $entityManager);
         }
         return $quiz;

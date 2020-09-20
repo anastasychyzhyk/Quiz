@@ -26,7 +26,7 @@ class UserRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('u');
         $qb->where('u.surname LIKE :searchedText')
             ->setParameter('searchedText', '%' . $searchedText . '%');
-        if($filters!=null) {
+        if ($filters!=null) {
             $qb=$this->setParametersFromArray($qb, $filters);
         }
    

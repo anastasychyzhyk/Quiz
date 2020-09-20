@@ -47,8 +47,7 @@ class Mailer
         try {
             $this->mailer->send($email);
             return $successMessage;
-        }
-        catch (TransportExceptionInterface $e) {
+        } catch (TransportExceptionInterface $e) {
             return self::EMAIL_SEND_ERROR;
         }
     }

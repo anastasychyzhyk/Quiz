@@ -31,13 +31,21 @@ class QuizEditorController extends AbstractController
      * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function quizzes(Request $request, QuizRepository $quizRepository,
-                            QuizGroupOperations $quizGroupOperations, PaginatorInterface $paginator): Response
+    public function quizzes(
+        Request $request,
+        QuizRepository $quizRepository,
+        QuizGroupOperations $quizGroupOperations,
+        PaginatorInterface $paginator
+    ): Response
     {
         $form = $this->createForm(QuizEditorType::class);
         $form->handleRequest($request);
-        $adminGridEditor = new AdminGridEditor($request, $quizGroupOperations, $quizRepository,
-            $this->getDoctrine()->getManager());
+        $adminGridEditor = new AdminGridEditor(
+            $request,
+            $quizGroupOperations,
+            $quizRepository,
+            $this->getDoctrine()->getManager()
+        );
         if ($form->isSubmitted()) {
             $adminGridEditor->processRequest();
         }

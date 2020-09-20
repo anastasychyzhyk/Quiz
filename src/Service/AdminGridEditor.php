@@ -17,8 +17,12 @@ class AdminGridEditor
     private ServiceEntityRepository $repository;
     private ObjectManager $entityManager;
 
-    public function __construct(Request $request, GroupOperations $editor, ServiceEntityRepository $repository,
-                                ObjectManager $entityManager)
+    public function __construct(
+        Request $request,
+        GroupOperations $editor,
+        ServiceEntityRepository $repository,
+        ObjectManager $entityManager
+    )
     {
         $this->request = $request;
         $this->editor = $editor;

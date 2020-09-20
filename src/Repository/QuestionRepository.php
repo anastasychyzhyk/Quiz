@@ -24,7 +24,7 @@ class QuestionRepository extends ServiceEntityRepository
     public function findByTextQuery(string $searchedText)
     {
         $qb = $this->createQueryBuilder('q');
-            $qb->where('q.text LIKE :searchedText')
+        $qb->where('q.text LIKE :searchedText')
                 ->setParameter('searchedText', '%' . $searchedText . '%')
             ;
         return $qb
