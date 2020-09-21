@@ -21,7 +21,7 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findByTextQuery(string $searchedText, array $filters=null)
+    public function findByTextQuery(string $searchedText, int $limit=0, array $filters=null)
     {
         $qb = $this->createQueryBuilder('u');
         $qb->where('u.surname LIKE :searchedText')
@@ -29,7 +29,9 @@ class UserRepository extends ServiceEntityRepository
         if ($filters!=null) {
             $qb=$this->setParametersFromArray($qb, $filters);
         }
-   
+        if ($limit > 0) {
+            $qb->setMaxResults($limit);
+        }
         return $qb
             ->orderBy('u.name', 'ASC')
             ->getQuery()

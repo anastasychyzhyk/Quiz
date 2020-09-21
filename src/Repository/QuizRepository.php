@@ -60,7 +60,7 @@ class QuizRepository extends ServiceEntityRepository
         return $winnerIdQuery;
     }
 
-    public function findByTextQuery(string $searchedText, array $filters=null)
+    public function findByTextQuery(string $searchedText, int $limit=0, array $filters=null)
     {
         $qb = $this->createQueryBuilder('q');
         $qb ->select(
@@ -86,6 +86,9 @@ class QuizRepository extends ServiceEntityRepository
             ->groupBy('q.id');
         if ($filters!=null) {
             $qb=$this->setParametersFromArray($qb, $filters);
+        }
+        if ($limit > 0) {
+            $qb->setMaxResults($limit);
         }
         return $qb->getQuery();
     }

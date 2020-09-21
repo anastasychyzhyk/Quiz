@@ -59,7 +59,7 @@ class AdminGridEditor
 
     public function getPagination(PaginatorInterface $paginator): PaginationInterface
     {
-        $query = $this->repository->findByTextQuery($this->request->request->get('searchedText') ?? '', $this->getFilters());
+        $query = $this->repository->findByTextQuery($this->request->request->get('searchedText') ?? '', 0, $this->getFilters());
         return $paginator->paginate($query, $this->request->query->getInt('page', 1), 20);
     }
 }

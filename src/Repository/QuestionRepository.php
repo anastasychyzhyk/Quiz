@@ -21,12 +21,14 @@ class QuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, Question::class);
     }
 
-    public function findByTextQuery(string $searchedText)
+    public function findByTextQuery(string $searchedText, int $limit=0)
     {
         $qb = $this->createQueryBuilder('q');
         $qb->where('q.text LIKE :searchedText')
-                ->setParameter('searchedText', '%' . $searchedText . '%')
-            ;
+            ->setParameter('searchedText', '%' . $searchedText . '%');
+        if ($limit > 0) {
+            $qb->setMaxResults($limit);
+        }
         return $qb
             ->orderBy('q.text', 'ASC')
             ->getQuery()
@@ -36,12 +38,11 @@ class QuestionRepository extends ServiceEntityRepository
     public function findByQuizQuery(Quiz $quiz)
     {
         $qb = $this->createQueryBuilder('q');
-        $qb->innerJoin('q.quizzes', 'qq')
-        ->where('qq.id = :quizz')
-            ->setParameter('quizz', $quiz->getId())
+        $qb->innerJoin('q.quizzes', 'quizzes')
+        ->where('quizzes.id = :quizzesId')
+            ->setParameter('quizzesId', $quiz->getId())
         ;
         return $qb
-
             ->getQuery()
             ;
     }

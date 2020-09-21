@@ -58,7 +58,8 @@ Logout: Logout
 Forget password?: Forget password?
 Please input email: Please input email
 Restore: Restore
-Email could not be found: Email could not be found
+Email could not be found.: Email could not be found.
+Invalid credentials.: Invalid credentials.
 Restore password: Restore password
 Click here to restore your password: Click here to restore your password
 If you don't need restore password, please ignore this message: If you don't need restore password, please ignore this message

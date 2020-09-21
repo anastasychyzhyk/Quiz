@@ -52,12 +52,11 @@ class EditQuiz
         return $quiz;
     }
 
-    public function getPaginations(Request $request, Quiz $quiz): array
+    public function getQuestionLists(Request $request, Quiz $quiz): array
     {
-        $query = $this->questionRepository->findByTextQuery("");
-        $paginationFind = $this->paginator->paginate($query, $request->query->getInt('page', 1), 10);
+        $questionsFind = $this->questionRepository->findByTextQuery("", 10)->getResult();
         $query = $this->questionRepository->findByQuizQuery($quiz);
         $pagination = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
-        return ['paginationFind'=>$paginationFind, 'pagination'=>$pagination ];
+        return ['questionsFind' => $questionsFind, 'pagination' => $pagination];
     }
 }

@@ -86,10 +86,10 @@ class EditQuizController extends AbstractController
                 $quiz = $this->quizEditor->processRequest($request, $quiz, $entityManager);
             }
         }
-        $paginations = $this->quizEditor->getPaginations($request, $quiz);
+        $questionLists = $this->quizEditor->getQuestionLists($request, $quiz);
         return $this->render('edit_quiz/index.html.twig', ['questions' => $quiz->getQuestion(),
-            'form' => $form->createView(), 'pagination' => $paginations['pagination'],
-            'paginationFind' => $paginations['paginationFind'], 'id' => $quiz->getId()
+            'form' => $form->createView(), 'pagination' => $questionLists['pagination'],
+            'questionsFind' => $questionLists['questionsFind']
         ]);
     }
 
@@ -99,7 +99,7 @@ class EditQuizController extends AbstractController
     public function findQuestions(): JsonResponse
     {
         $text = $_POST['searchedText'];
-        $questions = $this->questionRepository->findByTextQuery($text)->getResult();
+        $questions = $this->questionRepository->findByTextQuery($text, 10)->getResult();
         $idx = 0;
         $jsonData = array();
         foreach ($questions as $question) {

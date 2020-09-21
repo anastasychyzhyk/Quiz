@@ -58,7 +58,8 @@ Logout: Выйти
 Forget password?: Забыли пароль?
 Please input email: Пожалуйста введите адрес электронной почты
 Restore: Восстановить
-Email could not be found: Электронная почта не найдена
+Email could not be found.: Электронная почта не найдена.
+Invalid credentials.: Неверный пароль.
 Restore password: Восстановление пароля
 Click here to restore your password: Нажмите, чтобы восстановить пароль
 If you don't need restore password, please ignore this message: Если вам не нужно восстановление пароля, пожалуйста игнорируйте это письмо

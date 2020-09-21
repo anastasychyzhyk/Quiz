@@ -3,49 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
-{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>#}
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" href={{ asset('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css')}}>
     <link rel="stylesheet" href={{ asset('css/style.css') }}>
     <link rel="stylesheet" href={{ asset('css/responsiv.css') }}>
     <link rel="stylesheet" href={{ asset('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap')}}>
-
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-expand-lg fixed-top ">
+
+<nav class="navbar fixed-top ">
     <a class="navbar-brand" href="/">Quiz</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse " id="navbarSupportedContent">
-        <ul class="navbar-nav mr-4">
-            <li class="nav-item">
-                <a class="nav-link" data-value="logIn" href="#">{% trans %}log in{% endtrans %}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-value="signUp" href="registration">{% trans %}Sign up{% endtrans %}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " data-value="about" href="#">{% trans %}About{% endtrans %}</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " data-value="contact" href="#">{% trans %}Contact{% endtrans %}</a>
-            </li>
-            <li>
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        {% trans %}Language{% endtrans %}
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/en">English</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/ru">{% trans %}Russian{% endtrans %}</a>
-                    </div>
-                </div>
-            </li>
-        </ul>
+    <div class="col-md-5 ml-md-auto">
+        <div class="card-body">
+            {{ knp_menu_render('main', {'template': 'menu/knp_menu.html.twig'}) }}
+        </div>
     </div>
 </nav>
 
@@ -69,49 +42,11 @@
     <div class="container-fluid text-center text-md-left">
         <div class="row">
             <div class="col-md-6 mt-md-0 mt-3 footer-title">
-                <h5 class="text-uppercase">{% trans %}Developers{% endtrans %}</h5>
-                <p>{% trans %}This site is a part of study assignment{% endtrans %}</p>
-            </div>
+                <h5>{% trans %}Developers{% endtrans %}</h5>
+             </div>
             <hr class="clearfix w-100 d-md-none pb-3">
             <div class="col-md-3 mb-md-0 mb-3 footer-title">
                 <h5>{% trans %}Anastasia Chizhik{% endtrans %}</h5>
-                <ul class="list-unstyled list-group list-group-horizontal contact">
-                    <li class="mr-4">
-                        <a href="https://telegram.im/@Sty_ch" target="_blank">
-                            <img src="../img/telegram.svg" alt="">
-                        </a>
-                    </li>
-                    <li class="mr-4">
-                        <a href="https://vk.com/n_a_s_t_i_k_a" target="_blank">
-                            <img src="../img/vk.svg" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://vk.com/n_a_s_t_i_k_a" target="_blank">
-                            <img src="../img/instagram.svg" alt="">
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md-3 mb-md-0 mb-3 footer-title">
-                <h5>{% trans %}Alisa Goncharova{% endtrans %}</h5>
-                <ul class="list-unstyled list-group list-group-horizontal contact">
-                    <li class="mr-4">
-                        <a href="https://telegram.im/@q_qq_q" target="_blank">
-                            <img src="../img/telegram.svg" alt="">
-                        </a>
-                    </li>
-                    <li class="mr-4">
-                        <a href="https://vk.com/id491770106" target="_blank">
-                            <img src="../img/vk.svg" alt="">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.instagram.com/alice_frontend/" target="_blank">
-                            <img src="../img/instagram.svg" alt="">
-                        </a>
-                    </li>
-                </ul>
             </div>
         </div>
     </div>
