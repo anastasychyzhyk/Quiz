@@ -20,9 +20,6 @@ class HomeController extends AbstractController
         if (($this->getUser()) && ($this->getUser()->getStatus()!==User::USER_STATUS_ACTIVE)) {
             $this->addFlash('error', $errorMessages[$this->getUser()->getStatus()]);
         }
-        if (($this->getUser()) && ($this->getUser()->getRole()===User::ROLE_ADMIN)) {
-            return $this->redirectToRoute('admin');
-        }
         return $this->render('home/home.html.twig', [
             'controller_name'=>'HomeController'
         ]);
@@ -34,5 +31,21 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/home_ru", name="home_ru")
+     */
+    public function homeRu(): Response
+    {
+        return $this->redirectToRoute('home', ['_locale'=>"ru"]);
+    }
+
+    /**
+     * @Route("/home_en", name="home_en")
+     */
+    public function homeEn(): Response
+    {
+        return $this->redirectToRoute('home', ['_locale'=>"en"]);
     }
 }

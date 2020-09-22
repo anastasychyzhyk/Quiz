@@ -25,7 +25,6 @@ Error occurred! More than 1 right answer: Error occurred! More than 1 right answ
 Add answers: Add answers
 Select right answer: Select right answer
 Congratulate with successful registration! Please check your email and confirm account.: Congratulate with successful registration! Please check your email and confirm account.
-log in: log in
 Sign up: Sign up
 Contact: Contact
 Language: Languale
@@ -47,6 +46,7 @@ Add new: Add new
 Activate: Activate
 Delete: Delete
 Administrator: Administrator
+Administration: Administration
 User: User
 Edit: Edit
 Sorry, you are blocked: Sorry, you are blocked
@@ -54,6 +54,7 @@ Your account is not confirmed. Please check email: Your account is not confirmed
 You are logged in as: You are logged in as
 Please sign in: Please sign in
 Sign in: Sign in
+Home: Home
 Logout: Logout
 Forget password?: Forget password?
 Please input email: Please input email
