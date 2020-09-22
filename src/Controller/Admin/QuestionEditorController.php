@@ -31,13 +31,21 @@ class QuestionEditorController extends AbstractController
      * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function questionEditor(Request $request, QuestionRepository $questionRepository,
-                                   QuestionGroupOperations $questionGroupOperations, PaginatorInterface $paginator): Response
+    public function questionEditor(
+        Request $request,
+        QuestionRepository $questionRepository,
+        QuestionGroupOperations $questionGroupOperations,
+        PaginatorInterface $paginator
+    ): Response
     {
         $form = $this->createForm(QuestionEditorType::class);
         $form->handleRequest($request);
-        $adminGridEditor = new AdminGridEditor($request, $questionGroupOperations, $questionRepository,
-            $this->getDoctrine()->getManager());
+        $adminGridEditor = new AdminGridEditor(
+            $request,
+            $questionGroupOperations,
+            $questionRepository,
+            $this->getDoctrine()->getManager()
+        );
         if ($form->isSubmitted()) {
             $adminGridEditor->processRequest();
         }

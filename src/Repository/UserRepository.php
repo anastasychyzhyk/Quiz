@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -20,15 +21,17 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findByTextQuery(string $searchedText, array $filters=null)
+    public function findByTextQuery(string $searchedText, int $limit=0, array $filters=null)
     {
         $qb = $this->createQueryBuilder('u');
-        $qb->andWhere('u.name LIKE :searchedText')
+        $qb->where('u.surname LIKE :searchedText')
             ->setParameter('searchedText', '%' . $searchedText . '%');
-        if($filters!=null) {
+        if ($filters!=null) {
             $qb=$this->setParametersFromArray($qb, $filters);
         }
-   
+        if ($limit > 0) {
+            $qb->setMaxResults($limit);
+        }
         return $qb
             ->orderBy('u.name', 'ASC')
             ->getQuery()
@@ -44,33 +47,4 @@ class UserRepository extends ServiceEntityRepository
         }
         return $qb;
     }
-
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

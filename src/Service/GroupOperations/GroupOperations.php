@@ -12,7 +12,7 @@ abstract class GroupOperations
 
     public function __construct(array $processedOperations)
     {
-        $this->processedOperations=$processedOperations;
+        $this->processedOperations = $processedOperations;
     }
 
     public function processGroupOperation(Request $request, array $selectedItems, ObjectManager $entityManager): void
@@ -27,6 +27,10 @@ abstract class GroupOperations
         $entityManager->flush();
     }
 
-    protected abstract function doOperation(string $requestKey, string $requestValue, string $selectedItem,
-                                            ObjectManager $entityManager):void;
+    abstract protected function doOperation(
+        string $requestKey,
+        string $requestValue,
+        string $selectedItem,
+        ObjectManager $entityManager
+    ): void;
 }

@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %} {%
     block container %}
-    <div class="container">
+    <div class="container mt-5 mb-5">
         <div class="row">
-            <div class="col-md-10 ml-md-auto">
-                <div class="card bg-light mb-3 mt-5" style="width: 800px">
+            <div class="mx-auto">
+                <div class="card bg-light mb-3 mt-5">
                     <div class="card-body">
                         <div class="card-header mb-3">{% trans %}Users{% endtrans %}</div>
                         {{ form_start(form) }}
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="searchedText" id="searchedText" placeholder="{% trans %}Input name...{% endtrans %}">
+                            <input type="text" class="form-control" name="searchedText" id="searchedText" placeholder="{% trans %}Input surname...{% endtrans %}">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="submit" name="find" >{% trans %}Find{% endtrans %}</button>
                             </div>
@@ -81,7 +81,7 @@
                                 <button class="btn btn-outline-primary" type="submit" data-toggle="tooltip" name="filter" title="{% trans %}Show results{% endtrans %}">{% trans %}Show results{% endtrans %}</button>
                             </div>
                         </div>
-                        <table class="table table-striped">
+                        <table class="table table-striped table-responsive">
                             <thead>
                             <tr>
                                 <th>
@@ -95,12 +95,12 @@
                                         }
                                     </script>
                                 </th>
-                                <th>{{ knp_pagination_sortable(pagination, 'Name'|trans({}, 'messages'), 'u.name') }}</th>
                                 <th>{{ knp_pagination_sortable(pagination, 'Email'|trans({}, 'messages'), 'u.email') }}</th>
+                                <th>{{ knp_pagination_sortable(pagination, 'Surname'|trans({}, 'messages'), 'u.surname') }}</th>
+                                <th>{{ knp_pagination_sortable(pagination, 'Name'|trans({}, 'messages'), 'u.name') }}</th>
+                                <th>{{ knp_pagination_sortable(pagination, 'Patronymic'|trans({}, 'messages'), 'u.patronymic') }}</th>
                                 <th>{{ knp_pagination_sortable(pagination, 'Status'|trans({}, 'messages'), 'u.status') }}</th>
                                 <th>{{ knp_pagination_sortable(pagination, 'Role'|trans({}, 'messages'), 'u.role') }}</th>
-                                <th>{% trans %}Edit{% endtrans %}</th>
-                            </tr>
                             </thead>
                             <tbody id = "user">
                                 {% for user in pagination %}
@@ -109,23 +109,24 @@
                                             <input type="checkbox" name="checkbox[]" value={{user.id}}>
                                         </td>
                                         <td>
+                                            <a href="{{ path('edit_user', {_locale: app.request.locale, id: user.id}) }}">
+                                                {{ user.email }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ user.surname }}
+                                        </td>
+                                        <td>
                                             {{ user.name }}
                                         </td>
                                         <td>
-                                            {{ user.email }}
+                                            {{ user.patronymic }}
                                         </td>
                                         <td>
                                             {{ user.status }}
                                         </td>
                                         <td>
                                             {{ user.role }}
-                                        </td>
-                                        <td>
-                                            <a href="{{ path('edit_user', {_locale: app.request.locale, id: user.id}) }}" class="btn btn-outline-success" type="submit" name="edit">
-                                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                                                </svg>
-                                            </a>
                                         </td>
                                     </tr>
                                 {% endfor %}

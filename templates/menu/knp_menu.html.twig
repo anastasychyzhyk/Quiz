@@ -1,0 +1,46 @@
+{% extends 'knp_menu.html.twig' %}
+{% import "knp_menu.html.twig" as macros %}
+{% block item %}
+    {% if item.displayed %}
+        {%- set attributes = item.attributes %}
+        {%- set is_dropdown = attributes.dropdown|default(false) %}
+        {%- set divider_prepend = attributes.divider_prepend|default(false) %}
+        {%- set divider_append = attributes.divider_append|default(false) %}
+        {%- set is_in_dropdown = attributes.is_in_dropdown|default(false) %}
+        {%- set attributes = attributes|merge({'dropdown': null, 'divider_prepend': null, 'divider_append': null, 'is_in_dropdown': null }) %}
+        {%- set classes = item.attribute('class') is not empty ? [item.attribute('class')] : [] %}
+        {%- set childrenClasses = item.childrenAttribute('class') is not empty ? [item.childrenAttribute('class')] : [] %}
+        {%- set childrenClasses = childrenClasses|merge(['menu_level_' ~ item.level]) %}
+        {%- if is_dropdown %}
+            {%- if item.level > 1 %}
+                {%- set classes = classes|merge(['dropdown-submenu']) %}
+            {%- endif %}
+            {%- set childrenClasses = childrenClasses|merge(['dropdown-menu dropdown-menu-right']) %}
+        {%- endif %}
+        {%- if classes is not empty %}
+            {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
+        {%- endif %}
+        {%- set listAttributes = item.childrenAttributes|merge({'class': childrenClasses|join(' ') }) %}
+        {{ macros.attributes(attributes) }}
+            {%- if is_dropdown %}
+                  {{ block('dropdownElement') }}
+            {%- elseif is_in_dropdown %}
+                {{ block('labelDropdown') }}
+            {%- elseif item.uri is not empty and (not matcher.isCurrent(item) or options.currentAsLink) %}
+                {{ block('linkElement') }}
+            {%- else %}
+                {{ block('spanElement') }}
+            {%- endif %}
+        {{ block('list') }}
+    {% endif %}
+{% endblock %}
+{% block dropdownElement %}
+    {%- set classes = item.linkAttribute('class') is not empty ? [item.linkAttribute('class')] : [] %}
+    {%- set classes = classes|merge(['dropdown-toggle ']) %}
+    {%- set attributes = item.linkAttributes %}
+    {%- set attributes = attributes|merge({'class': classes|join(' ')}) %}
+    {%- set attributes = attributes|merge({'data-toggle': 'dropdown'}) %}
+    <a href="#"{{ macros.attributes(attributes) }} style="color:black">{{ block('label') }}{% if item.level <= 1 %} <b class="caret"></b>{% endif %}</a>
+{% endblock %}
+{% block label %}<span class="col" style="color:black">{{ item.label|trans }}</span>{% endblock %}
+{% block labelDropdown %}<li class="ml-9" style="color:black"> {{ block('linkElement') }}</li>{% endblock %}

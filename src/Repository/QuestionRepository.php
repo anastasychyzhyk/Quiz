@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Question;
+use App\Entity\Quiz;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -20,45 +21,29 @@ class QuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, Question::class);
     }
 
-    public function findByTextQuery(string $searchedText)
+    public function findByTextQuery(string $searchedText, int $limit=0)
     {
         $qb = $this->createQueryBuilder('q');
-            $qb->andWhere('q.text LIKE :searchedText')
-                ->setParameter('searchedText', '%' . $searchedText . '%')
-            ;
+        $qb->where('q.text LIKE :searchedText')
+            ->setParameter('searchedText', '%' . $searchedText . '%');
+        if ($limit > 0) {
+            $qb->setMaxResults($limit);
+        }
         return $qb
             ->orderBy('q.text', 'ASC')
             ->getQuery()
             ;
     }
 
-
-    // /**
-    //  * @return Question[] Returns an array of Question objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByQuizQuery(Quiz $quiz)
     {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('q.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        $qb = $this->createQueryBuilder('q');
+        $qb->innerJoin('q.quizzes', 'quizzes')
+        ->where('quizzes.id = :quizzesId')
+            ->setParameter('quizzesId', $quiz->getId())
         ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Question
-    {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
+        return $qb
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ;
     }
-    */
 }

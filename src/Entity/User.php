@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -13,12 +14,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity("email", message="User.with.this.email.is.already.registered")
- * @UniqueEntity("name", message="User.with.this.name.is.already.registered")
  */
 class User implements UserInterface
 {
-    private const ROLE_USER = 'ROLE_USER';
-    private const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
     public const USER_STATUS_AWAITING = 'Awaiting Activation';
     public const USER_STATUS_ACTIVE = 'Active';
     public const USER_STATUS_BLOCKED = 'Blocked';
@@ -45,6 +45,16 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=30)
      */
     private string $name;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private string $surname;
+
+    /**
+     * @ORM\Column(type="string", length=30, nullable=true)
+     */
+    private string $patronymic;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
@@ -82,12 +92,13 @@ class User implements UserInterface
         $this->plays = new ArrayCollection();
         $this->role = self::ROLE_USER;
         $this->status = self::USER_STATUS_AWAITING;
+        $this->patronymic='';
     }
 
     public function activate()
-	{
-		$this->status = self::USER_STATUS_ACTIVE;
-	}
+    {
+        $this->status = self::USER_STATUS_ACTIVE;
+    }
 
     public function block()
     {
@@ -103,7 +114,7 @@ class User implements UserInterface
     {
         $this->role=self::ROLE_USER;
     }
-	
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -117,6 +128,32 @@ class User implements UserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPatronymic(): ?string
+    {
+        return $this->patronymic;
+    }
+
+    public function setPatronymic(?string $patronymic): self
+    {
+        if ($patronymic) {
+            $this->patronymic = $patronymic;
+        }
+
+        return $this;
+    }
+
+    public function getSurname(): ?string
+    {
+        return $this->surname;
+    }
+
+    public function setSurname(string $surname): self
+    {
+        $this->surname = $surname;
 
         return $this;
     }

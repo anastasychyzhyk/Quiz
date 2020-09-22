@@ -15,15 +15,16 @@ Account verified successfully: Account verified successfully
 Question editor: Question editor
 Save: Save
 Question: Question
+Questions: Questions
 Find: Find
 Input question...: Input question...
 Input answer...: Input answer...
-Input name...: Input name...
+Input surname...: Input surname...
+Input quiz name...: Input quiz name...
 Error occurred! More than 1 right answer: Error occurred! More than 1 right answer
 Add answers: Add answers
 Select right answer: Select right answer
 Congratulate with successful registration! Please check your email and confirm account.: Congratulate with successful registration! Please check your email and confirm account.
-log in: log in
 Sign up: Sign up
 Contact: Contact
 Language: Languale
@@ -45,6 +46,7 @@ Add new: Add new
 Activate: Activate
 Delete: Delete
 Administrator: Administrator
+Administration: Administration
 User: User
 Edit: Edit
 Sorry, you are blocked: Sorry, you are blocked
@@ -52,14 +54,27 @@ Your account is not confirmed. Please check email: Your account is not confirmed
 You are logged in as: You are logged in as
 Please sign in: Please sign in
 Sign in: Sign in
+Home: Home
 Logout: Logout
 Forget password?: Forget password?
 Please input email: Please input email
 Restore: Restore
-Email could not be found: Email could not be found
+Email could not be found.: Email could not be found.
+Invalid credentials.: Invalid credentials.
 Restore password: Restore password
 Click here to restore your password: Click here to restore your password
 If you don't need restore password, please ignore this message: If you don't need restore password, please ignore this message
 Message was sent successfully. Please check your email: Message was sent successfully. Please check your email
 Create new password: Create new password
 Show results: Show results
+Surname: Surname
+Patronymic: Patronymic
+Players: Players
+Winner: Winner
+Quizzes: Quizzes
+Quiz: Quiz
+Active: Active
+Stop: Stop
+All: All
+Is active: Is active
+Date create: Date create

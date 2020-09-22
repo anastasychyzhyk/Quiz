@@ -13,17 +13,21 @@ class UserGroupOperations extends GroupOperations
 
     public function __construct(UserRepository $userRepository)
     {
-        $this->userRepository=$userRepository;
+        $this->userRepository = $userRepository;
         parent::__construct(array('setRole', 'setStatus', 'deleteUser'));
     }
 
-    protected function doOperation(string $requestKey, string $requestValue, string $selectedItem,
-                                   ObjectManager $entityManager): void
+    protected function doOperation(
+        string $requestKey,
+        string $requestValue,
+        string $selectedItem,
+        ObjectManager $entityManager
+    ): void
     {
         if ($requestKey === 'deleteUser') {
             $this->deleteUser($selectedItem, $entityManager);
         } else {
-            call_user_func(__NAMESPACE__.'\UserGroupOperations::'.$requestKey, $selectedItem, $requestValue);
+            call_user_func(__NAMESPACE__ . '\UserGroupOperations::' . $requestKey, $selectedItem, $requestValue);
         }
     }
 
@@ -36,17 +40,17 @@ class UserGroupOperations extends GroupOperations
 
     private function setStatus(string $id, string $status): void
     {
-        $this->userRepository->findOneBy(['id'=>$id])->setStatus($status);
+        $this->userRepository->findOneBy(['id' => $id])->setStatus($status);
     }
 
     private function setRole(string $id, string $role): void
     {
-        $this->userRepository->findOneBy(['id'=>$id])->setRole($role);
+        $this->userRepository->findOneBy(['id' => $id])->setRole($role);
     }
 
     private function deletePlays(User $user, ObjectManager $entityManager): void
     {
-        $plays=$user->getPlays();
+        $plays = $user->getPlays();
         foreach ($plays as $play) {
             $entityManager->remove($play);
         }

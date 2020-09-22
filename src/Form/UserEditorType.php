@@ -1,8 +1,7 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Form;
-
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
@@ -13,7 +12,6 @@ class UserEditorType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
