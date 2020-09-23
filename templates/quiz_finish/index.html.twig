@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %} {%
+    block container %}
+    <div class="container mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-10 ml-md-auto">
+                <div class="card bg-light mb-3 mt-5" style="width: 800px">
+                    <div class="card-body">
+                        <div class="card-header mb-3 text-center">{% trans %}Top 3 players{% endtrans %}</div>
+                        {{ form_start(form) }}
+                        <table class="table table-striped text-center">
+                            <thead>
+                            <tr >
+                                <th>{% trans %}Place{% endtrans %}</th>
+                                <th>{% trans %}Player{% endtrans %}</th>
+                                <th>{% trans %}Result{% endtrans %}</th>
+                                <th>{% trans %}Time{% endtrans %}</th>
+                            </tr>
+                            </thead>
+                            <tbody id = "question">
+                            {% for result in results %}
+                                <tr>
+                                    <td>
+                                        {{ loop.index  }}
+                                    </td>
+                                    <td>
+                                        {{ result.userName }}
+                                    </td>
+                                    <td>
+                                        {{ result.result }}
+                                    </td>
+                                    <td>
+                                        {{ result.time|date('H:i:s') }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            <tr><td class="text-center" colspan="4">{% trans %}Your result{% endtrans %}</td></tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    {{ userResult.userName }}
+                                </td>
+                                <td>
+                                    {{ userResult.result }}
+                                </td>
+                                <td>
+                                    {{ userResult.time|date('H:i:s') }}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

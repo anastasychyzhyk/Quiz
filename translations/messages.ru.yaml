@@ -10,7 +10,6 @@ Confirm registration: Подтверждение регистрации
 welcome to Quiz!: добро пожаловать в Quiz!
 Click here to activate your account: Нажмите, чтобы активировать аккаунт
 An error occurred during sending email. Please contact support.: В процессе отправки сообщения возникла ошибка. Пожалуйста обратитесь в службу поддержки.
-Invalid confirmation code: Неверный код подтверждения
 Account verified successfully: Аккаунт успешно подтверждён
 Question editor: Редактор вопросов
 Save: Сохранить
@@ -78,3 +77,13 @@ Stop: Остановлена
 All: Все
 Is active: Активная
 Date create: Дата создания
+Wrong answer: Неверный ответ
+Right answer: Правильный ответ
+Play: Играть
+Congratulations! You are finish quiz!: Поздравляем! Вы прошли викторину!
+Top 3 players: Топ 3 игроков
+Place: Место
+Player: Игрок
+Result: Результат
+Time: Время
+Your result: Ваш результат

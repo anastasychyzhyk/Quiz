@@ -10,7 +10,6 @@ Confirm registration: Confirm registration
 welcome to Quiz!: welcome to Quiz!
 Click here to activate your account: Click here to activate your account
 An error occurred during sending email. Please contact support.: An error occurred during sending email. Please contact support.
-Invalid confirmation code: Invalid confirmation code
 Account verified successfully: Account verified successfully
 Question editor: Question editor
 Save: Save
@@ -78,3 +77,13 @@ Stop: Stop
 All: All
 Is active: Is active
 Date create: Date create
+Wrong answer: Wrong answer
+Right answer: Right answer
+Play: Play
+Congratulations! You are finish quiz!: Congratulations! You are finish quiz!
+Top 3 players: Top 3 players
+Place: Place
+Player: Player
+Result: Result
+Time: Time
+Your result: Your result

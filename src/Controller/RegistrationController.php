@@ -18,7 +18,6 @@ class RegistrationController extends AbstractController
     private EditUser $userEditor;
     private UserRepository $userRepository;
     private Mailer $mailer;
-    private const INVALID_CONFIRMATION='Invalid confirmation code';
     private const CONFIRM_SUCCESS='Account verified successfully';
 
     public function __construct(EditUser $userEditor, UserRepository $userRepository, Mailer $mailer)
@@ -68,7 +67,7 @@ class RegistrationController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
             $this->addFlash('notice', self::CONFIRM_SUCCESS);
         } else {
-            $this->addFlash('error', self::INVALID_CONFIRMATION);
+            throw $this->createNotFoundException();
         }
         return $this->redirectToRoute('home');
     }

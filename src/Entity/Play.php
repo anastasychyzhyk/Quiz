@@ -51,6 +51,14 @@ class Play
      */
     private $question;
 
+    public function __construct(User $user, Quiz $quiz)
+    {
+        $this->user=$user;
+        $this->quiz=$quiz;
+        $this->isFinish=false;
+        $this->rightAnswersCount=0;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

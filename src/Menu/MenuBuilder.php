@@ -24,6 +24,7 @@ final class MenuBuilder
         $menu = $this->factory->createItem('root');
         $menu->addChild('Home', ['route' => 'home']);
         if ($this->securityContext->getUser()) {
+            $menu->addChild('Play', ['route' => 'quiz_selector']);
             if ($this->securityContext->getUser()->getRole() == User::ROLE_ADMIN) {
                 $menu->addChild('Administration', ['route' => 'admin']);
             }

@@ -16,7 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 class EditQuestionController extends AbstractController
 {
     private EditQuestion $questionEditor;
-    private const RIGHT_ANSWERS_COUNT_ERROR="Error occurred! More than 1 right answer";
 
     public function __construct(EditQuestion $questionEditor)
     {
@@ -46,9 +45,6 @@ class EditQuestionController extends AbstractController
             throw $this->createNotFoundException();
         }
         $rightAnswer = $answerRepository->findRightAnswer($question);
-        if (count($rightAnswer) > 1) {
-            $this->addFlash('error', $this::RIGHT_ANSWERS_COUNT_ERROR);
-        }
         $rightAnswerPosition = array_search($rightAnswer[0], $question->getAnswers()->toArray());
         return $this->processRequest($request, $question, $rightAnswerPosition);
     }

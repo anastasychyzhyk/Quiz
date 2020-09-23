@@ -5,7 +5,7 @@
             <div class="col-md-10 ml-md-auto">
                 <div class="card bg-light mb-3 mt-5" style="width: 800px">
                     <div class="card-body">
-                        <div class="card-header mb-3">{% trans %}Quizzes{% endtrans %}</div>
+                        <div class="card-header mb-3"><div class="text-center">{% trans %}Quizzes{% endtrans %}</div></div>
                         {{ form_start(form) }}
                         <div class="input-group mb-3">
                             <input type="text" class="form-control" name="searchedText" id="searchedText" placeholder="{% trans %}Input quiz name...{% endtrans %}">
@@ -59,7 +59,7 @@
                                 <button class="btn btn-outline-primary form-control" type="submit" data-toggle="tooltip" name="filter" title="{% trans %}Show results{% endtrans %}">{% trans %}Show results{% endtrans %}</button>
                             </div>
                         </div>
-                        <table class="table table-striped">
+                        <table class="table table-striped text-center">
                             <thead>
                             <tr>
                                 <th>

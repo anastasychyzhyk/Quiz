@@ -26,7 +26,8 @@ class AnswerRepository extends ServiceEntityRepository
         $qb
             ->where('a.question=:question')
             ->setParameter('question', $question)
-            ->andWhere('a.isTrue =true');
+            ->andWhere('a.isTrue =true')
+            ->setMaxResults(1);
         return $qb->getQuery()->getResult();
     }
 }

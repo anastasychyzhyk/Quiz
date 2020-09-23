@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %} {%
+    block container %}
+    <div class="container mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-10 ml-md-auto">
+                <div class="card bg-light mb-3 mt-5" style="width: 800px">
+                    <div class="card-body">
+                        <div class="card-header mb-3"><div class="text-center">{% trans %}Quizzes{% endtrans %}</div></div>
+                        {{ form_start(form) }}
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" name="searchedText" id="searchedText" placeholder="{% trans %}Input quiz name...{% endtrans %}">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="submit" name="find" >{% trans %}Find{% endtrans %}</button>
+                            </div>
+                        </div>
+                        <table class="table table-striped text-center">
+                            <thead>
+                            <tr>
+                                <th>{{ knp_pagination_sortable(pagination, 'Quiz' |trans({}, 'messages'), 'q.name') }}</th>
+                                <th>{{ knp_pagination_sortable(pagination, 'Players' |trans({}, 'messages'), 'count') }}</th>
+                                <th>{{ knp_pagination_sortable(pagination, 'Winner' |trans({}, 'messages'), 'q.userName') }}</th>
+                            </tr>
+                            </thead>
+                            <tbody id = "question">
+                            {% for quiz in pagination %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('play', {_locale: app.request.locale, id: quiz.id}) }}">
+                                            {{ quiz.name  }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ quiz.count }}
+                                    </td>
+                                    <td>
+                                        {{ quiz.userName }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {{ knp_pagination_render(pagination) }}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

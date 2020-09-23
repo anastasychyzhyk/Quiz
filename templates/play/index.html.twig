@@ -1,0 +1,95 @@
+{% extends 'base.html.twig' %}
+{% block title %}Play{% endblock %}
+{% block container %}
+    <div class="container mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-10 ml-md-auto">
+                <div class="card bg-light mb-3 mt-5" style="width: 800px">
+                    <div class="card-body">
+                        {{ form_start(form) }}
+                        <div class="card-header mb-1"><div class="text-center">{{ quizName }}</div></div>
+                        <div class="card-header mb-3" id="question"></div>
+                        <ul class="collections" style="list-style: none;">
+                        </ul>
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4" id="nextButton" style="margin-top:5px;">
+
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        window.addEventListener('beforeunload', function (e) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'handler.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send( 'playId=' + encodeURIComponent({{ play }}));
+        }, false);
+
+        jQuery(document).ready(function() {
+            fillQuestion();
+            $('input[type=radio][name="isTrue"]').on('change', selectAnswer);
+        });
+
+        function fillQuestion() {
+            let $id, $text, $newLiElement, $newFormLi;
+            $('#question').append('<div class="text-center">{{ question.text }}</div>');
+            let $collectionHolder = $('ul.collections');
+            {% for answer in answers %}
+                $id = {{ answer.id }};
+                $text = {{ answer.text }};
+                $newLiElement = $('<div class="form-group row"><div class="form-check" id="' + $id + '">' +
+                    '<label class="form-check-label"><input class="form-check-input position-static" ' +
+                    'id="' + $id + 'Radio" type="radio" name="isTrue" value="' + $id + '">' + $text +
+                    '</label></div></div>');
+                $newFormLi = $('<li></li>').append($newLiElement);
+                $collectionHolder.append($newFormLi);
+            {% endfor %}
+        }
+
+        function selectAnswer() {
+            let $isRightAnswer=checkSelectedAnswer(this.value);
+            showRightAnswer();
+            $.ajax({
+                url:        '/save/select',
+                type:       'POST',
+                async:      true,
+                data: {
+                    isRightAnswer: $isRightAnswer,
+                    idPlay:{{ play }},
+                    idQuestion: {{ question.id }}
+                },
+                success: function() {
+                    $('#nextButton').append($('<button type="submit" class="btn btn-primary" id="next">' +
+                        '{% trans %}Next{% endtrans %}' + '</button>'));
+                },
+                error : function(xhr, textStatus) {
+                    alert(textStatus);
+                }
+            });
+        }
+
+        function checkSelectedAnswer($id) {
+            let $isRightAnswer=true;
+            if ($id !== '{{ rightAnswer.id }}') {
+                $isRightAnswer=false;
+                let $wrongAnswer = $('<small class="form-text text-danger">{% trans %}Wrong answer{% endtrans %}</small>');
+                $('#' + $id).append($wrongAnswer);
+            }
+            return $isRightAnswer;
+        }
+
+        function showRightAnswer() {
+            let $rightAnswer = $('<small class="form-text text-success">{% trans %}Right answer{% endtrans %}</small>');
+            $('#{{ rightAnswer.id }}').append($rightAnswer);
+            $('input[type=radio][name="isTrue"]').attr("disabled", true);
+        }
+</script>
+{% endblock %}

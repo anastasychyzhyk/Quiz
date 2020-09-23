@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Form\QuizEditorType;
+use App\Form\QuizType;
 use App\Repository\QuizRepository;
 use App\Service\AdminGridEditor;
 use App\Service\GroupOperations\QuizGroupOperations;
@@ -38,7 +38,7 @@ class QuizEditorController extends AbstractController
         PaginatorInterface $paginator
     ): Response
     {
-        $form = $this->createForm(QuizEditorType::class);
+        $form = $this->createForm(QuizType::class);
         $form->handleRequest($request);
         $adminGridEditor = new AdminGridEditor(
             $request,

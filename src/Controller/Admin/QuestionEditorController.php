@@ -51,7 +51,7 @@ class QuestionEditorController extends AbstractController
         }
         $pagination = $adminGridEditor->getPagination($paginator);
         return $this->render('question_editor/index.html.twig', ['form' => $form->createView(),
-            'pagination' => $pagination
+            'pagination' => $pagination,
         ]);
     }
 }
