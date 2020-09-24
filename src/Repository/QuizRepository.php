@@ -62,6 +62,20 @@ class QuizRepository extends ServiceEntityRepository
 
     public function findByTextQuery(string $searchedText, int $limit=0, array $filters=null)
     {
+        return $this->createFindQuery($searchedText, $limit, $filters)->getQuery();
+    }
+
+    public function findWithQuestionsCount(string $searchedText, int $limit=0, array $filters=null)
+    {
+        $qb=$this->createFindQuery($searchedText, $limit, $filters);
+        $qb->addSelect("count(distinct qQuestions.id) as questionCount")
+            ->innerJoin('q.question', 'qQuestions')
+            ->andWhere('q.isActive=true');
+        return $qb->getQuery();
+    }
+
+    private function createFindQuery(string $searchedText, int $limit=0, array $filters=null): QueryBuilder
+    {
         $qb = $this->createQueryBuilder('q');
         $qb ->select(
             'q.id',
@@ -90,7 +104,7 @@ class QuizRepository extends ServiceEntityRepository
         if ($limit > 0) {
             $qb->setMaxResults($limit);
         }
-        return $qb->getQuery();
+        return $qb;
     }
 
     private function setParametersFromArray(QueryBuilder $qb, array $filters)

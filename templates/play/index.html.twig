@@ -7,14 +7,12 @@
                 <div class="card bg-light mb-3 mt-5" style="width: 800px">
                     <div class="card-body">
                         {{ form_start(form) }}
-                        <div class="card-header mb-1"><div class="text-center">{{ quizName }}</div></div>
-                        <div class="card-header mb-3" id="question"></div>
+                        <div class="card-header mb-1 text-center">{{ quizName }}</div>
+                        <div class="card-header mb-3 text-center" id="question"></div>
                         <ul class="collections" style="list-style: none;">
                         </ul>
                         <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4" id="nextButton" style="margin-top:5px;">
-
-                            </div>
+                            <div class="col-md-8 col-md-offset-4" id="nextButton" style="margin-top:5px;"></div>
                         </div>
                         {{ form_end(form) }}
                     </div>
@@ -26,13 +24,6 @@
 
 {% block javascripts %}
     <script>
-        window.addEventListener('beforeunload', function (e) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'handler.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.send( 'playId=' + encodeURIComponent({{ play }}));
-        }, false);
-
         jQuery(document).ready(function() {
             fillQuestion();
             $('input[type=radio][name="isTrue"]').on('change', selectAnswer);
@@ -40,7 +31,7 @@
 
         function fillQuestion() {
             let $id, $text, $newLiElement, $newFormLi;
-            $('#question').append('<div class="text-center">{{ question.text }}</div>');
+            $('#question').append('<div>{{ question.text }}</div>');
             let $collectionHolder = $('ul.collections');
             {% for answer in answers %}
                 $id = {{ answer.id }};
@@ -64,7 +55,8 @@
                 data: {
                     isRightAnswer: $isRightAnswer,
                     idPlay:{{ play }},
-                    idQuestion: {{ question.id }}
+                    idQuestion: {{ question.id }},
+                    timeStart: '{{ time }}'
                 },
                 success: function() {
                     $('#nextButton').append($('<button type="submit" class="btn btn-primary" id="next">' +

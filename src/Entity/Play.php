@@ -5,7 +5,7 @@ namespace App\Entity;
 
 use App\Repository\PlayRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\Time;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=PlayRepository::class)
@@ -124,12 +124,12 @@ class Play
         return $this;
     }
 
-    public function getTime(): ?Time
+    public function getTime(): ?DateTime
     {
         return $this->time;
     }
 
-    public function setTime(?Time $time): self
+    public function setTime(?DateTime $time): self
     {
         $this->time = $time;
 

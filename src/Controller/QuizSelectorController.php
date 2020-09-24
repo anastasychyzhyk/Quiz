@@ -28,7 +28,7 @@ class QuizSelectorController extends AbstractController
     {
         $form = $this->createForm(QuizType::class);
         $form->handleRequest($request);
-        $query = $quizRepository->findByTextQuery($request->request->get('searchedText') ?? '');
+        $query = $quizRepository->findWithQuestionsCount($request->request->get('searchedText') ?? '');
         $pagination = $paginator->paginate($query, $request->query->getInt('page', 1), 20);
         return $this->render('quiz_selector/index.html.twig', ['form' => $form->createView(),
             'pagination' => $pagination
