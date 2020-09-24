@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Form\QuizType;
 use App\Repository\QuizRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +25,7 @@ class QuizSelectorController extends AbstractController
         PaginatorInterface $paginator
     ): Response
     {
-        $form = $this->createForm(QuizType::class);
+        $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         $query = $quizRepository->findWithQuestionsCount($request->request->get('searchedText') ?? '');
         $pagination = $paginator->paginate($query, $request->query->getInt('page', 1), 20);

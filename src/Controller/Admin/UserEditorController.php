@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\User;
-use App\Form\UserEditorType;
 use App\Repository\UserRepository;
 use App\Service\AdminGridEditor;
 use App\Service\GroupOperations\UserGroupOperations;
@@ -39,7 +38,7 @@ class UserEditorController extends AbstractController
         PaginatorInterface $paginator
     ): Response
     {
-        $form = $this->createForm(UserEditorType::class);
+        $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         $adminGridEditor = new AdminGridEditor(
             $request,

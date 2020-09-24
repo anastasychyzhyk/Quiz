@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Form\QuestionEditorType;
 use App\Service\AdminGridEditor;
 use App\Repository\QuestionRepository;
 use App\Service\GroupOperations\QuestionGroupOperations;
@@ -38,7 +37,7 @@ class QuestionEditorController extends AbstractController
         PaginatorInterface $paginator
     ): Response
     {
-        $form = $this->createForm(QuestionEditorType::class);
+        $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         $adminGridEditor = new AdminGridEditor(
             $request,

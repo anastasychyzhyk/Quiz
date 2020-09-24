@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Form\QuizType;
 use App\Repository\PlayRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +22,7 @@ class QuizFinishController extends AbstractController
         PlayRepository $playRepository, string $id
     ): Response
     {
-        $form = $this->createForm(QuizType::class);
+        $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         $results = $playRepository->findResults($id);
         if ($results == null) {

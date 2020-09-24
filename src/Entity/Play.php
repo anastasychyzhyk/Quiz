@@ -42,7 +42,7 @@ class Play
     private $isFinish;
 
     /**
-     * @ORM\Column(type="time", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $time;
 
@@ -124,12 +124,12 @@ class Play
         return $this;
     }
 
-    public function getTime(): ?DateTime
+    public function getTime(): ?int
     {
         return $this->time;
     }
 
-    public function setTime(?DateTime $time): self
+    public function setTime(?int $time): self
     {
         $this->time = $time;
 

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Form\UserEditorType;
 use App\Repository\UserRepository;
 use App\Service\Mailer;
 use App\Service\EditUser;
@@ -26,7 +25,7 @@ class ForgetPasswordController extends AbstractController
      */
     public function index(Request $request, EditUser $userEditor, Mailer $mailer, AuthenticationUtils $authenticationUtils, UserRepository $userRepository)
     {
-        $form = $this->createForm(UserEditorType::class);
+        $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         $lastUsername = $authenticationUtils->getLastUsername();
         $error = false;

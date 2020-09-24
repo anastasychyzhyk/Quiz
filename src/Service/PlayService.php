@@ -12,6 +12,7 @@ use App\Repository\PlayRepository;
 use App\Repository\QuestionRepository;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Form\FormInterface;
+use DateTime;
 
 class PlayService
 {
@@ -29,7 +30,7 @@ class PlayService
         return $this;
     }
 
-    public function loadPlay(Quiz $quiz, User $user)
+    public function loadPlay(Quiz $quiz, User $user): void
     {
         $this->play = $this->playRepository->findOneBy(['user' => $user, 'quiz' => $quiz]);
         if ($this->play == null) {
@@ -44,7 +45,7 @@ class PlayService
         return $this->play;
     }
 
-    private function loadQuestion()
+    private function loadQuestion(): void
     {
         $questions = $this->play->getQuiz()->getQuestion();
         $this->currentQuestion = null;
@@ -60,42 +61,57 @@ class PlayService
         }
     }
 
-    private function finishPlay()
+    private function finishPlay(): void
     {
         $this->play->setIsFinish(true);
         $this->play->setQuestion(null);
         $this->entityManager->flush();
     }
 
-    public function fillParameters(FormInterface $form, AnswerRepository $answerRepository)
+    public function fillParameters(FormInterface $form, AnswerRepository $answerRepository): array
     {
         $this->loadQuestion();
         return
             [
                 'form' => $form->createView(), 'rightAnswer' => $answerRepository->findRightAnswer($this->currentQuestion)[0],
                 'question' => $this->currentQuestion, 'answers' => $this->currentQuestion->getAnswers(),
-                'quizName' => $this->play->getQuiz()->getName(), 'play' => $this->play->getId(), 'time' => date("h:i:s")
+                'quizName' => $this->play->getQuiz()->getName(), 'play' => $this->play->getId(), 'time' => (new DateTime())->format("Y-m-d h:i:s")
             ];
     }
 
-    public function saveUserAnswer(QuestionRepository $questionRepository)
+    public function saveUserAnswer(QuestionRepository $questionRepository): void
     {
         $this->play = $this->playRepository->findOneBy(['id' => $_POST['idPlay']]);
-        $currentQuestion = $questionRepository->findOneBy(['id' => $_POST['idQuestion']]);
-        $questions = $this->play->getQuiz()->getQuestion();
-        for ($i = 0; $i < count($questions); $i++) {
-            if ($questions[$i] == $currentQuestion) {
-                if ($questions[$i + 1] == null) {
-                    $this->finishPlay();
-                } else {
-                    $this->play->setQuestion($currentQuestion);
-                }
-                break;
-            }
-        }
+        $this->currentQuestion = $questionRepository->findOneBy(['id' => $_POST['idQuestion']]);
+        $this->play->setTime($this->calculateTime());
+        $this->checkIsFinish();
         if ($_POST['isRightAnswer'] == 'true') {
             $this->play->setRightAnswersCount($this->play->getRightAnswersCount() + 1);
         }
         $this->entityManager->flush();
+    }
+
+    private function checkIsFinish(): void
+    {
+        $questions = $this->play->getQuiz()->getQuestion();
+        for ($i = 0; $i < count($questions); $i++) {
+            if ($questions[$i] == $this->currentQuestion) {
+                if ($questions[$i + 1] == null) {
+                    $this->finishPlay();
+                } else {
+                    $this->play->setQuestion($this->currentQuestion);
+                }
+                break;
+            }
+        }
+    }
+
+    private function calculateTime(): int
+    {
+        $startTime = new DateTime($_POST['timeStart']);
+        $endTime = new DateTime();
+        $interval = $startTime->diff($endTime);
+        $lastTime = $this->play->getTime() ?? 0;
+        return $lastTime + $interval->s;
     }
 }

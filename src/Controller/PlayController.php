@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Form\QuizType;
 use App\Repository\AnswerRepository;
 use App\Repository\PlayRepository;
 use App\Repository\QuestionRepository;
@@ -38,7 +37,7 @@ class PlayController extends AbstractController
         $playService = new PlayService($playRepository, $this->getDoctrine()->getManager());
         $playService->loadPlay($quiz, $this->getUser());
         if ($playService->getPlay()->getIsFinish()) return $this->redirectToRoute('quiz_finish', ['id' => $id]);
-        $form = $this->createForm(QuizType::class, $quiz)->handleRequest($request);
+        $form = $this->createFormBuilder()->getForm()->handleRequest($request);
         return $this->render('play/index.html.twig', $playService->fillParameters($form, $answerRepository));
     }
 
