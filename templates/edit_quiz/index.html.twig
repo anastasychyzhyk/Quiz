@@ -49,7 +49,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <input type="text" class="form-control" id="findText" data-toggle="dropdown" placeholder="{% trans %}Input question...{% endtrans %}" value="" name="search"/>
+                        <input type="text" class="form-control" id="findText" data-toggle="dropdown" autocomplete="off" placeholder="{% trans %}Input question...{% endtrans %}" value="" name="search"/>
                         <ul class="dropdown-menu" aria-labelledby="select" id="question" role="menu">
                             {% for question in questionsFind %}
                                 <li  class="result">
