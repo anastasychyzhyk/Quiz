@@ -24,6 +24,15 @@ class HomeController extends AbstractController
             'controller_name'=>'HomeController'
         ]);
     }
+
+    public static function checkAccess(AbstractController $controller)
+    {
+        $errorMessages = [User::USER_STATUS_BLOCKED=>'Sorry, you are blocked', User::USER_STATUS_AWAITING=>'Your account is not confirmed. Please check email'];
+        if (($controller->getUser()) && ($controller->getUser()->getStatus()!==User::USER_STATUS_ACTIVE)) {
+            $controller->addFlash('error', $errorMessages[$controller->getUser()->getStatus()]);
+            throw $controller->createNotFoundException();
+        }
+    }
     
     /**
     * @Route("/")

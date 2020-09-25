@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\AnswerRepository;
 use App\Repository\PlayRepository;
 use App\Repository\QuestionRepository;
@@ -32,6 +33,7 @@ class PlayController extends AbstractController
         PlayRepository $playRepository,
         string $id): Response
     {
+        HomeController::checkAccess($this);
         $quiz = $quizRepository->findOneBy(['id' => $id]);
         if ($quiz == null) throw $this->createNotFoundException();
         $playService = new PlayService($playRepository, $this->getDoctrine()->getManager());

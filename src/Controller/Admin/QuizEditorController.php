@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Controller\HomeController;
 use App\Form\Filters\QuizEditorFilter;
 use App\Repository\QuizRepository;
-use App\Service\AdminGridEditor;
-use App\Service\GroupOperations\QuizGroupOperations;
+use App\Service\PaginationWithFilter;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,29 +27,21 @@ class QuizEditorController extends AbstractController
      * @Route("/admin/{_locale<%app.supported_locales%>}/quiz/editor", name="quiz_editor")
      * @param Request $request
      * @param QuizRepository $quizRepository
-     * @param QuizGroupOperations $quizGroupOperations
      * @param PaginatorInterface $paginator
+     * @param PaginationWithFilter $paginationWithFilter
      * @return Response
      */
     public function quizzes(
         Request $request,
         QuizRepository $quizRepository,
-        QuizGroupOperations $quizGroupOperations,
-        PaginatorInterface $paginator
+        PaginatorInterface $paginator,
+        PaginationWithFilter $paginationWithFilter
     ): Response
     {
+        HomeController::checkAccess($this);
         $form = $this->createForm(QuizEditorFilter::class);
         $form->handleRequest($request);
-        $adminGridEditor = new AdminGridEditor(
-            $request,
-            $quizGroupOperations,
-            $quizRepository,
-            $this->getDoctrine()->getManager()
-        );
-        if ($form->isSubmitted()) {
-            $adminGridEditor->processRequest();
-        }
-        $pagination = $adminGridEditor->getPagination($paginator, $form);
+        $pagination = $paginationWithFilter->getPagination($paginator, $form, $request, $quizRepository);
         return $this->render('quiz_editor/index.html.twig', ['form' => $form->createView(),
             'pagination' => $pagination
         ]);

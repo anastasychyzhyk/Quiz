@@ -38,7 +38,6 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/{_locale<%app.supported_locales%>}/registration", name="registration")
      * @param Request $request
-     * @param Mailer $mailer
      * @return Response
      */
     public function index(Request $request): Response

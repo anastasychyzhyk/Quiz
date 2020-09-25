@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Controller\HomeController;
 use App\Form\EditUserType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,6 +41,7 @@ class EditUserController extends AbstractController
      */
     public function editUser(Request $request, string $id): Response
     {
+        HomeController::checkAccess($this);
         $user = $this->userRepository->findOneBy(['id' => $id]);
         if (!$user) {
             throw $this->createNotFoundException();

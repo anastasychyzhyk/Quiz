@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Controller\HomeController;
 use App\Entity\Quiz;
 use App\Form\EditQuizType;
 use App\Repository\QuestionRepository;
@@ -45,6 +46,7 @@ class EditQuizController extends AbstractController
      */
     public function edit(Request $request, QuizRepository $quizRepository, string $id): Response
     {
+        HomeController::checkAccess($this);
         $quiz = $quizRepository->findOneBy(['id' => $id]);
         if (!$quiz) {
             throw $this->createNotFoundException();
@@ -67,6 +69,7 @@ class EditQuizController extends AbstractController
      */
     public function newQuiz(Request $request): Response
     {
+        HomeController::checkAccess($this);
         $quiz = new Quiz();
         $this->getDoctrine()->getManager()->persist($quiz);
         return $this->processRequest($request, $quiz);

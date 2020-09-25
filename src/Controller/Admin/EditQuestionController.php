@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Controller\HomeController;
 use App\Repository\AnswerRepository;
 use App\Entity\Question;
 use App\Form\EditQuestionType;
@@ -24,6 +25,8 @@ class EditQuestionController extends AbstractController
 
     /**
      * @Route("/admin/edit/question/{id}")
+     * @param string $id
+     * @return Response
      */
     public function index(string $id): Response
     {
@@ -40,6 +43,7 @@ class EditQuestionController extends AbstractController
      */
     public function edit(Request $request, QuestionRepository $questionRepository, AnswerRepository $answerRepository, string $id): Response
     {
+        HomeController::checkAccess($this);
         $question = $questionRepository->findOneBy(['id' => $id]);
         if (!$question) {
             throw $this->createNotFoundException();
@@ -64,6 +68,7 @@ class EditQuestionController extends AbstractController
      */
     public function newQuestion(Request $request): Response
     {
+        HomeController::checkAccess($this);
         $question=new Question();
         return $this->processRequest($request, $question);
     }

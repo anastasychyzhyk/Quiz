@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Controller\HomeController;
 use App\Entity\User;
 use App\Form\Filters\UserEditorFilter;
 use App\Repository\UserRepository;
-use App\Service\AdminGridEditor;
-use App\Service\GroupOperations\UserGroupOperations;
+use App\Service\PaginationWithFilter;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,29 +28,21 @@ class UserEditorController extends AbstractController
      * @Route("/admin/{_locale<%app.supported_locales%>}/user/editor", name="user_editor")
      * @param Request $request
      * @param UserRepository $userRepository
-     * @param UserGroupOperations $userGroupOperations
      * @param PaginatorInterface $paginator
+     * @param PaginationWithFilter $paginationWithFilter
      * @return Response
      */
     public function index(
         Request $request,
         UserRepository $userRepository,
-        UserGroupOperations $userGroupOperations,
-        PaginatorInterface $paginator
+        PaginatorInterface $paginator,
+        PaginationWithFilter $paginationWithFilter
     ): Response
     {
+        HomeController::checkAccess($this);
         $form = $this->createForm(UserEditorFilter::class);
         $form->handleRequest($request);
-        $adminGridEditor = new AdminGridEditor(
-            $request,
-            $userGroupOperations,
-            $userRepository,
-            $this->getDoctrine()->getManager()
-        );
-        if ($form->isSubmitted()) {
-            $adminGridEditor->processRequest();
-        }
-        $pagination = $adminGridEditor->getPagination($paginator, $form);
+        $pagination = $paginationWithFilter->getPagination($paginator, $form, $request, $userRepository);
         return $this->render('user_editor/index.html.twig', ['form' => $form->createView(),
             'pagination' => $pagination, 'roles' => User::getRolesArray(), 'statuses' => User::getStatusArray()
         ]);

@@ -22,6 +22,7 @@ class QuizFinishController extends AbstractController
         PlayRepository $playRepository, string $id
     ): Response
     {
+        HomeController::checkAccess($this);
         $form = $this->createFormBuilder()->getForm();
         $form->handleRequest($request);
         $results = $playRepository->findResults($id);

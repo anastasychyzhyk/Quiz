@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Controller\HomeController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,7 @@ class AdminController extends AbstractController
      */
     public function edit(Request $request): Response
     {
+        HomeController::checkAccess($this);
         return $this->render('admin/index.html.twig');
     }
 }

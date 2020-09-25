@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Controller\HomeController;
 use App\Form\Filters\FindEditorFilter;
-use App\Service\AdminGridEditor;
+use App\Service\PaginationWithFilter;
 use App\Repository\QuestionRepository;
-use App\Service\GroupOperations\QuestionGroupOperations;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,29 +27,21 @@ class QuestionEditorController extends AbstractController
      * @Route("/admin/{_locale<%app.supported_locales%>}/question/editor", name="question_editor")
      * @param Request $request
      * @param QuestionRepository $questionRepository
-     * @param QuestionGroupOperations $questionGroupOperations
      * @param PaginatorInterface $paginator
+     * @param PaginationWithFilter $paginationWithFilter
      * @return Response
      */
     public function questionEditor(
         Request $request,
         QuestionRepository $questionRepository,
-        QuestionGroupOperations $questionGroupOperations,
-        PaginatorInterface $paginator
+        PaginatorInterface $paginator,
+        PaginationWithFilter $paginationWithFilter
     ): Response
     {
+        HomeController::checkAccess($this);
         $form = $this->createForm(FindEditorFilter::class);
         $form->handleRequest($request);
-        $adminGridEditor = new AdminGridEditor(
-            $request,
-            $questionGroupOperations,
-            $questionRepository,
-            $this->getDoctrine()->getManager()
-        );
-        if ($form->isSubmitted()) {
-            $adminGridEditor->processRequest();
-        }
-        $pagination = $adminGridEditor->getPagination($paginator, $form);
+        $pagination = $paginationWithFilter->getPagination($paginator, $form, $request, $questionRepository);
         return $this->render('question_editor/index.html.twig', ['form' => $form->createView(),
             'pagination' => $pagination,
         ]);
