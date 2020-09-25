@@ -52,4 +52,16 @@ class PlayController extends AbstractController
         (new PlayService($playRepository, $this->getDoctrine()->getManager()))->saveUserAnswer($questionRepository);
         return new JsonResponse(array());
     }
+
+    /**
+     * @Route("/{id}/save", name="save")
+     * @param PlayRepository $playRepository
+     * @param string $id
+     * @return JsonResponse
+     */
+    public function saveTime(PlayRepository $playRepository, string $id): JsonResponse
+    {
+        (new PlayService($playRepository, $this->getDoctrine()->getManager()))->saveTime($id);
+        return new JsonResponse(array());
+    }
 }

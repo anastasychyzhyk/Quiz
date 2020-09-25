@@ -7,8 +7,8 @@
                 <div class="card bg-light mb-3 mt-5" style="width: 800px">
                     <div class="card-body">
                         {{ form_start(form) }}
-                        <div class="card-header mb-1 text-center">{{ quizName }}</div>
-                        <div class="card-header mb-3 text-center" id="question"></div>
+                        <div class="card-header mb-3 text-warning text-center">{{ quizName }}</div>
+                        <div class="card-header mb-3 bg-transparent text-center" id="question"></div>
                         <ul class="collections" style="list-style: none;">
                         </ul>
                         <div class="form-group">
@@ -24,6 +24,13 @@
 
 {% block javascripts %}
     <script>
+        window.addEventListener('beforeunload', function (e) {
+            let xhr = new XMLHttpRequest();
+            xhr.open('POST', '/{{play}}/save', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send('timeStart='+encodeURIComponent('{{ time }}'));
+        }, false);
+
         jQuery(document).ready(function() {
             fillQuestion();
             $('input[type=radio][name="isTrue"]').on('change', selectAnswer);

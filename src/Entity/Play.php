@@ -57,6 +57,7 @@ class Play
         $this->quiz=$quiz;
         $this->isFinish=false;
         $this->rightAnswersCount=0;
+        $this->time=0;
     }
 
     public function getId(): ?int

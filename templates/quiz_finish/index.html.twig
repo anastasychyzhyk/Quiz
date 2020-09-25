@@ -7,16 +7,16 @@
                     <div class="card-body">
                         <div class="card-header mb-3 text-center">{% trans %}Top 3 players{% endtrans %}</div>
                         {{ form_start(form) }}
-                        <table class="table table-striped text-center">
+                        <table class="table text-center">
                             <thead>
-                            <tr >
+                            <tr class="table-success">
                                 <th>{% trans %}Place{% endtrans %}</th>
                                 <th>{% trans %}Player{% endtrans %}</th>
                                 <th>{% trans %}Right answers count{% endtrans %}</th>
                             </tr>
                             </thead>
                             <tbody id = "question">
-                            {% for result in results %}
+                            {% for result in results|slice(0, 3) %}
                                 <tr>
                                     <td>
                                         {{ loop.index  }}
@@ -29,14 +29,14 @@
                                     </td>
                                 </tr>
                             {% endfor %}
-                            <tr><td class="text-center" colspan="4">{% trans %}Your result{% endtrans %}</td></tr>
+                            <tr><td class="text-center table-warning" colspan="4">{% trans %}Your result{% endtrans %}</td></tr>
                             <tr>
-                                <td></td>
+                                <td>{{ userPosition+1}}</td>
                                 <td>
-                                    {{ userResult.userName }}
+                                    {{ results[userPosition].userName }}
                                 </td>
                                 <td>
-                                    {{ userResult.result }}
+                                    {{ results[userPosition].result }}
                                 </td>
                             </tr>
                             </tbody>

@@ -23,26 +23,13 @@ class PlayRepository extends ServiceEntityRepository
     public function findResults(string $searchedId)
     {
         $qb = $this->createQueryBuilder('p');
-        $qb->select("CONCAT(u.name, ' ', u.surname, ' ', u.patronymic) as userName", "p.rightAnswersCount as result")
+        $qb->select("u.id", "CONCAT(u.name, ' ', u.surname, ' ', u.patronymic) as userName", "p.rightAnswersCount as result")
             ->innerJoin('p.user', 'u')
             ->innerJoin('p.quiz', 'q', 'with', 'q.id=:searchedId')
             ->setParameter('searchedId', $searchedId)
             ->where('p.isFinish=true')
             ->orderBy('p.rightAnswersCount', 'DESC')
-            ->addOrderBy('p.time')
-            ->setMaxResults(3);
-        return $qb->getQuery()->getResult();
-    }
-
-    public function findUserResult(string $questId, string $userId)
-    {
-        $qb = $this->createQueryBuilder('p');
-        $qb->select("CONCAT(u.name, ' ', u.surname, ' ', u.patronymic) as userName", "p.rightAnswersCount as result")
-            ->innerJoin('p.user', 'u')
-            ->innerJoin('p.quiz', 'q', 'with', 'q.id=:searchedId')
-            ->setParameter('searchedId', $questId)
-            ->where('u.id=:userId')
-            ->setParameter('userId', $userId);
+            ->addOrderBy('p.time');
         return $qb->getQuery()->getResult();
     }
 }

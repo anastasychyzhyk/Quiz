@@ -73,21 +73,32 @@ class PlayService
         $this->loadQuestion();
         return
             [
-                'form' => $form->createView(), 'rightAnswer' => $answerRepository->findRightAnswer($this->currentQuestion)[0],
-                'question' => $this->currentQuestion, 'answers' => $this->currentQuestion->getAnswers(),
-                'quizName' => $this->play->getQuiz()->getName(), 'play' => $this->play->getId(), 'time' => (new DateTime())->format("Y-m-d h:i:s")
+                'form' => $form->createView(),
+                'rightAnswer' => $answerRepository->findRightAnswer($this->currentQuestion)[0],
+                'question' => $this->currentQuestion,
+                'answers' => $this->currentQuestion->getAnswers(),
+                'quizName' => $this->play->getQuiz()->getName(),
+                'play' => $this->play->getId(),
+                'time' => (new DateTime())->format("Y-m-d h:i:s"),
+                'quizId'=>$this->play->getQuiz()->getId()
             ];
     }
 
     public function saveUserAnswer(QuestionRepository $questionRepository): void
     {
-        $this->play = $this->playRepository->findOneBy(['id' => $_POST['idPlay']]);
+        $this->play = $this->play??$this->playRepository->findOneBy(['id' => $_POST['idPlay']]);
         $this->currentQuestion = $questionRepository->findOneBy(['id' => $_POST['idQuestion']]);
-        $this->play->setTime($this->calculateTime());
         $this->checkIsFinish();
         if ($_POST['isRightAnswer'] == 'true') {
             $this->play->setRightAnswersCount($this->play->getRightAnswersCount() + 1);
         }
+        $this->saveTime();
+    }
+
+    public function saveTime(string $idPlay=''): void
+    {
+        $this->play = $this->play??$this->playRepository->findOneBy(['id' => $idPlay]);
+        $this->play->setTime($this->calculateTime());
         $this->entityManager->flush();
     }
 

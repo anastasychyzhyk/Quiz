@@ -28,10 +28,9 @@ class QuizFinishController extends AbstractController
         if ($results == null) {
             throw $this->createNotFoundException();
         }
-        $userResult = $playRepository->findUserResult($id, $this->getUser()->getId());
-
+        $userPosition=array_search($this->getUser()->getId(), array_column($results, 'id'));
         return $this->render('quiz_finish/index.html.twig', ['form' => $form->createView(),
-            'results' => $results, 'userResult' => $userResult[0]
+            'results' => $results, 'userPosition' => $userPosition
         ]);
     }
 }
