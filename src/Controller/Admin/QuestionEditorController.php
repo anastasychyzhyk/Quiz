@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Form\Filters\FindEditorFilter;
 use App\Service\AdminGridEditor;
 use App\Repository\QuestionRepository;
 use App\Service\GroupOperations\QuestionGroupOperations;
@@ -37,7 +38,7 @@ class QuestionEditorController extends AbstractController
         PaginatorInterface $paginator
     ): Response
     {
-        $form = $this->createFormBuilder()->getForm();
+        $form = $this->createForm(FindEditorFilter::class);
         $form->handleRequest($request);
         $adminGridEditor = new AdminGridEditor(
             $request,
@@ -48,7 +49,7 @@ class QuestionEditorController extends AbstractController
         if ($form->isSubmitted()) {
             $adminGridEditor->processRequest();
         }
-        $pagination = $adminGridEditor->getPagination($paginator);
+        $pagination = $adminGridEditor->getPagination($paginator, $form);
         return $this->render('question_editor/index.html.twig', ['form' => $form->createView(),
             'pagination' => $pagination,
         ]);

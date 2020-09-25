@@ -22,7 +22,7 @@ class QuizRepository extends ServiceEntityRepository
         parent::__construct($registry, Quiz::class);
     }
 
-    public function findMaxAnswerQuery(): QueryBuilder
+    private function findMaxAnswerQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('qMaxAnswer')
             ->select('max(pMaxAnswer.rightAnswersCount)')
@@ -30,7 +30,7 @@ class QuizRepository extends ServiceEntityRepository
             ->where('pMaxAnswer.isFinish=true and qMaxAnswer=q');
     }
 
-    public function findMinTimeQuery(): QueryBuilder
+    private function findMinTimeQuery(): QueryBuilder
     {
         $minTimeQuery = $this->createQueryBuilder('qMinTime');
         $minTimeQuery->select('min(pMinTime.time)')
@@ -45,7 +45,7 @@ class QuizRepository extends ServiceEntityRepository
         return $minTimeQuery;
     }
 
-    public function findWinnerIdQuery(): QueryBuilder
+    private function findWinnerIdQuery(): QueryBuilder
     {
         $winnerIdQuery = $this->createQueryBuilder('qWinnerId');
         $winnerIdQuery ->select('pWinnerId.id')

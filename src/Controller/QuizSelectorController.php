@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\Filters\FindEditorFilter;
 use App\Repository\QuizRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,9 +26,10 @@ class QuizSelectorController extends AbstractController
         PaginatorInterface $paginator
     ): Response
     {
-        $form = $this->createFormBuilder()->getForm();
+        $form = $this->createForm(FindEditorFilter::class);
         $form->handleRequest($request);
-        $query = $quizRepository->findWithQuestionsCount($request->request->get('searchedText') ?? '');
+        $searchedText = $form->getData() ? $form->get('searchedText')->getData() : '';
+        $query = $quizRepository->findWithQuestionsCount($searchedText);
         $pagination = $paginator->paginate($query, $request->query->getInt('page', 1), 20);
         return $this->render('quiz_selector/index.html.twig', ['form' => $form->createView(),
             'pagination' => $pagination

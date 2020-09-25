@@ -8,6 +8,7 @@ use App\Service\GroupOperations\GroupOperations;
 use Doctrine\Persistence\ObjectManager;
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdminGridEditor
@@ -40,28 +41,27 @@ class AdminGridEditor
         }
     }
 
-    private function getFilters()
+    private function getFilters(FormInterface $form)
     {
         $filters = array();
-        if ($this->request->request->get('filter') !== null) {
-            if ($this->request->request->get('role') != '') {
-                $filters['role'] = $this->request->request->get('role');
+        if ($form->getData()) {
+            if (array_key_exists('role', $form->getData())) {
+                $filters['role'] = $form->get('role')->getData() ?? '';
             }
-            if ($this->request->request->get('status') != '') {
-                $filters['status'] = $this->request->request->get('status');
+            if (array_key_exists('status', $form->getData())) {
+                $filters['status'] = $form->get('status')->getData() ?? '';
             }
-            if ($this->request->request->get('isActive') != '') {
-                $filters['isActive'] = $this->request->request->get('isActive');
+            if (array_key_exists('isActive', $form->getData())) {
+                $filters['isActive'] = $form->get('isActive')->getData() ?? '';
             }
         }
         return $filters;
     }
 
-    public function getPagination(PaginatorInterface $paginator): PaginationInterface
+    public function getPagination(PaginatorInterface $paginator, FormInterface $form): PaginationInterface
     {
-        $query = $this->repository->findByTextQuery($this->request->request->get('searchedText') ?? '', 0, $this->getFilters());
-        if($this->request->request->get('find')==null)
-        return $paginator->paginate($query, $this->request->query->getInt('page', 1), 20);
-        else return $paginator->paginate($query, 1, 20);
+        $searchedText = $form->getData() ? $form->get('searchedText')->getData() ?? '' : '';
+        $query = $this->repository->findByTextQuery($searchedText, 0, $this->getFilters($form));
+        return $paginator->paginate($query, $this->request->query->getInt('page', 1), 5);
     }
 }

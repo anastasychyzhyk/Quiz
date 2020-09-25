@@ -83,7 +83,10 @@ Play: Играть
 Top 3 players: Топ 3 игроков
 Place: Место
 Player: Игрок
-Result: Результат
+Right answers count: Количество правильных ответов
 Time: Время
 Your result: Ваш результат
 Next: Далее
+User.Active: Активный
+User.Blocked: Заблокирован
+User.Awaiting: Ожидает активации

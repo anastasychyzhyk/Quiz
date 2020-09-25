@@ -12,8 +12,7 @@
                             <tr >
                                 <th>{% trans %}Place{% endtrans %}</th>
                                 <th>{% trans %}Player{% endtrans %}</th>
-                                <th>{% trans %}Result{% endtrans %}</th>
-                                <th>{% trans %}Time{% endtrans %}</th>
+                                <th>{% trans %}Right answers count{% endtrans %}</th>
                             </tr>
                             </thead>
                             <tbody id = "question">
@@ -28,9 +27,6 @@
                                     <td>
                                         {{ result.result }}
                                     </td>
-                                    <td>
-                                        {{ result.time|date('H:i:s') }}
-                                    </td>
                                 </tr>
                             {% endfor %}
                             <tr><td class="text-center" colspan="4">{% trans %}Your result{% endtrans %}</td></tr>
@@ -41,9 +37,6 @@
                                 </td>
                                 <td>
                                     {{ userResult.result }}
-                                </td>
-                                <td>
-                                    {{ userResult.time|date('H:i:s') }}
                                 </td>
                             </tr>
                             </tbody>

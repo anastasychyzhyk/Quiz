@@ -8,7 +8,7 @@
                         <div class="card-header mb-3 text-center">{% trans %}Users{% endtrans %}</div>
                         {{ form_start(form) }}
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="searchedText" id="searchedText" placeholder="{% trans %}Input surname...{% endtrans %}">
+                            {{ form_widget(form.searchedText, {'attr': {'class': 'form-control', 'placeholder': 'Input surname...'}}) }}
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="submit" name="find" >{% trans %}Find{% endtrans %}</button>
                             </div>
@@ -60,23 +60,13 @@
                                     <div class="input-group-prepend">
                                         <label class="input-group-text" for="role">{% trans %}Role{% endtrans %}</label>
                                     </div>
-                                    <select class="custom-select" id="role" name="role">
-                                        <option value="" selected>All</option>
-                                        {% for role in roles %}
-                                            <option value="{{role}}">{{ role }}</option>
-                                        {% endfor %}
-                                    </select>
+                                    {{ form_widget(form.role, {'attr': {'class': 'form-control'}}) }}
                                 </div>
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <label class="input-group-text" for="status">{% trans %}Status{% endtrans %}</label>
                                     </div>
-                                    <select class="custom-select" id="status" name="status">
-                                        <option value="" selected>All</option>
-                                        {% for status in statuses %}
-                                            <option value="{{status}}">{{ status }}</option>
-                                        {% endfor %}
-                                    </select>
+                                    {{ form_widget(form.status, {'attr': {'class': 'form-control'}}) }}
                                 </div>
                                 <button class="btn btn-outline-primary" type="submit" data-toggle="tooltip" name="filter" title="{% trans %}Show results{% endtrans %}">{% trans %}Show results{% endtrans %}</button>
                             </div>

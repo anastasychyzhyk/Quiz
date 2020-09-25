@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Form\Filters\QuizEditorFilter;
 use App\Repository\QuizRepository;
 use App\Service\AdminGridEditor;
 use App\Service\GroupOperations\QuizGroupOperations;
@@ -37,7 +38,7 @@ class QuizEditorController extends AbstractController
         PaginatorInterface $paginator
     ): Response
     {
-        $form = $this->createFormBuilder()->getForm();
+        $form = $this->createForm(QuizEditorFilter::class);
         $form->handleRequest($request);
         $adminGridEditor = new AdminGridEditor(
             $request,
@@ -48,7 +49,7 @@ class QuizEditorController extends AbstractController
         if ($form->isSubmitted()) {
             $adminGridEditor->processRequest();
         }
-        $pagination = $adminGridEditor->getPagination($paginator);
+        $pagination = $adminGridEditor->getPagination($paginator, $form);
         return $this->render('quiz_editor/index.html.twig', ['form' => $form->createView(),
             'pagination' => $pagination
         ]);

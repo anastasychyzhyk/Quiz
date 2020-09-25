@@ -8,7 +8,7 @@
                         <div class="card-header mb-3 text-center">{% trans %}Question editor{% endtrans %}</div>
                         {{ form_start(form) }}
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" name="searchedText" id="searchedText" placeholder="{% trans %}Input question...{% endtrans %}">
+                            {{ form_widget(form.searchedText, {'attr': {'class': 'form-control', 'placeholder': 'Input question...'}}) }}
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary" type="submit" name="find" >{% trans %}Find{% endtrans %}</button>
                             </div>

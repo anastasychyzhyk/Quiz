@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Form\Filters\UserEditorFilter;
 use App\Repository\UserRepository;
 use App\Service\AdminGridEditor;
 use App\Service\GroupOperations\UserGroupOperations;
@@ -38,7 +39,7 @@ class UserEditorController extends AbstractController
         PaginatorInterface $paginator
     ): Response
     {
-        $form = $this->createFormBuilder()->getForm();
+        $form = $this->createForm(UserEditorFilter::class);
         $form->handleRequest($request);
         $adminGridEditor = new AdminGridEditor(
             $request,
@@ -49,7 +50,7 @@ class UserEditorController extends AbstractController
         if ($form->isSubmitted()) {
             $adminGridEditor->processRequest();
         }
-        $pagination = $adminGridEditor->getPagination($paginator);
+        $pagination = $adminGridEditor->getPagination($paginator, $form);
         return $this->render('user_editor/index.html.twig', ['form' => $form->createView(),
             'pagination' => $pagination, 'roles' => User::getRolesArray(), 'statuses' => User::getStatusArray()
         ]);
