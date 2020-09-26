@@ -36,6 +36,6 @@ class PaginationWithFilter
     {
         $searchedText = $form->getData() ? $form->get('searchedText')->getData() ?? '' : '';
         $query = $repository->findByTextQuery($searchedText, 0, $this->getFilters($form));
-        return $paginator->paginate($query, $request->query->getInt('page', 1), 5);
+        return $paginator->paginate($query, $request->query->getInt('page', 1), 20);
     }
 }
