@@ -5,6 +5,7 @@ namespace App\Service;
 
 use App\Entity\Quiz;
 use App\Repository\QuestionRepository;
+use App\Repository\QuizRepository;
 use Doctrine\Persistence\ObjectManager;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,11 +13,13 @@ use Symfony\Component\HttpFoundation\Request;
 class EditQuiz
 {
     private QuestionRepository $questionRepository;
+    private QuizRepository $quizRepository;
     private PaginatorInterface $paginator;
 
-    public function __construct(QuestionRepository $questionRepository, PaginatorInterface $paginator)
+    public function __construct(QuestionRepository $questionRepository, PaginatorInterface $paginator, QuizRepository $quizRepository)
     {
         $this->questionRepository = $questionRepository;
+        $this->quizRepository=$quizRepository;
         $this->paginator = $paginator;
     }
 
@@ -52,11 +55,26 @@ class EditQuiz
         return $quiz;
     }
 
+    public function generateQuizName()
+    {
+        $quizNameTemplate = 'New quiz';
+        $newQuizName = $quizNameTemplate;
+        $i = 1;
+        while ($this->quizRepository->findOneBy(['name' => $newQuizName])) {
+            $newQuizName = $quizNameTemplate . $i;
+            ++$i;
+        }
+        return $newQuizName;
+    }
+
     public function getQuestionLists(Request $request, Quiz $quiz): array
     {
         $questionsFind = $this->questionRepository->findByTextQuery("", 10)->getResult();
-        $query = $this->questionRepository->findByQuizQuery($quiz);
-        $pagination = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
-        return ['questionsFind' => $questionsFind, 'pagination' => $pagination];
+        $pagination=null;
+        if(count($quiz->getQuestion())>0) {
+            $query = $this->questionRepository->findByQuizQuery($quiz);
+            $pagination = $this->paginator->paginate($query, $request->query->getInt('page', 1), 20);
+        }
+          return ['questionsFind' => $questionsFind, 'pagination' => $pagination];
     }
 }

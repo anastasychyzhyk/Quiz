@@ -89,7 +89,9 @@
                             {% endfor %}
                             </tbody>
                         </table>
+                        {% if pagination %}
                         {{ knp_pagination_render(pagination) }}
+                        {% endif %}
                         {{ form_end(form) }}
                     </div>
                 </div>

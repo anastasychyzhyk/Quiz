@@ -5,7 +5,7 @@ namespace App\Entity;
 
 use App\Repository\PlayRepository;
 use Doctrine\ORM\Mapping as ORM;
-use DateTime;
+use phpDocumentor\Reflection\Types\Collection;
 
 /**
  * @ORM\Entity(repositoryClass=PlayRepository::class)
@@ -17,44 +17,45 @@ class Play
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="plays")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Quiz::class, inversedBy="plays")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $quiz;
+    private Quiz $quiz;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $rightAnswersCount;
+    private int $rightAnswersCount;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isFinish;
+    private bool $isFinish;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $time;
+    private ?int $time;
 
     /**
      * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="plays")
      */
-    private $question;
+    private ?Question $question;
 
     public function __construct(User $user, Quiz $quiz)
     {
         $this->user=$user;
         $this->quiz=$quiz;
+        $this->question=null;
         $this->isFinish=false;
         $this->rightAnswersCount=0;
         $this->time=0;
@@ -65,27 +66,25 @@ class Play
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
-    public function getQuiz(): ?Quiz
+    public function getQuiz(): Quiz
     {
         return $this->quiz;
     }
 
-    public function setQuiz(?Quiz $quiz): self
+    public function setQuiz(Quiz $quiz): self
     {
         $this->quiz = $quiz;
-
         return $this;
     }
 
@@ -97,7 +96,6 @@ class Play
     public function setRightAnswersCount(int $rightAnswersCount): self
     {
         $this->rightAnswersCount = $rightAnswersCount;
-
         return $this;
     }
 
@@ -109,7 +107,6 @@ class Play
     public function setIsFinish(bool $isFinish): self
     {
         $this->isFinish = $isFinish;
-
         return $this;
     }
 
@@ -121,7 +118,6 @@ class Play
     public function setQuestion(?Question $question): self
     {
         $this->question = $question;
-
         return $this;
     }
 
@@ -133,7 +129,6 @@ class Play
     public function setTime(?int $time): self
     {
         $this->time = $time;
-
         return $this;
     }
 }

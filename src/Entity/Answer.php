@@ -34,7 +34,7 @@ class Answer
      * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="answers")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $question;
+    private Question $question;
 
     public function getId(): ?int
     {
@@ -69,10 +69,9 @@ class Answer
         return $this->question;
     }
 
-    public function setQuestion(?Question $question): self
+    public function setQuestion(Question $question): self
     {
         $this->question = $question;
-
         return $this;
     }
 }

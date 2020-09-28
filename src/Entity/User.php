@@ -100,22 +100,7 @@ class User implements UserInterface
         $this->status = self::USER_STATUS_ACTIVE;
     }
 
-    public function block()
-    {
-        $this->status = self::USER_STATUS_BLOCKED;
-    }
-
-    public function setRoleAdmin()
-    {
-        $this->role=self::ROLE_ADMIN;
-    }
-
-    public function setRoleUser()
-    {
-        $this->role=self::ROLE_USER;
-    }
-    
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }
@@ -128,7 +113,6 @@ class User implements UserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -142,7 +126,6 @@ class User implements UserInterface
         if ($patronymic) {
             $this->patronymic = $patronymic;
         }
-
         return $this;
     }
 
@@ -154,11 +137,10 @@ class User implements UserInterface
     public function setSurname(string $surname): self
     {
         $this->surname = $surname;
-
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getEmail(): string
     {
         return $this->email;
     }
@@ -166,7 +148,6 @@ class User implements UserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -178,14 +159,12 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
         return $this;
     }
 
     public function setStatus(string $status): self
     {
         $this->status = $status;
-
         return $this;
     }
 
@@ -197,7 +176,6 @@ class User implements UserInterface
     public function setRole(string $role): self
     {
         $this->role = $role;
-
         return $this;
     }
 
@@ -220,7 +198,6 @@ class User implements UserInterface
             $this->plays[] = $play;
             $play->setUser($this);
         }
-
         return $this;
     }
 
@@ -232,7 +209,6 @@ class User implements UserInterface
                 $play->setUser(null);
             }
         }
-
         return $this;
     }
 

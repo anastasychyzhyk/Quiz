@@ -55,9 +55,9 @@ class EditQuizController extends AbstractController
     }
 
     /**
-     * @Route("/admin/new/question")
+     * @Route("/admin/new/quiz")
      */
-    public function noLocaleNewQuestion(): Response
+    public function noLocaleNewQuiz(): Response
     {
         return $this->redirectToRoute('new_quiz');
     }
@@ -71,8 +71,10 @@ class EditQuizController extends AbstractController
     {
         HomeController::checkAccess($this);
         $quiz = new Quiz();
+        $quiz->setName($this->quizEditor->generateQuizName());
         $this->getDoctrine()->getManager()->persist($quiz);
-        return $this->processRequest($request, $quiz);
+        $this->getDoctrine()->getManager()->flush();
+        return $this->redirectToRoute('edit_quiz', ['id' => $quiz->getId()]);
     }
 
     private function processRequest(Request $request, Quiz $quiz): Response

@@ -32,18 +32,18 @@ class Question
     /**
      * @ORM\OneToMany(targetEntity=Play::class, mappedBy="question")
      */
-    private $plays;
+    private Collection $plays;
 
     /**
      * @ORM\ManyToMany(targetEntity=Quiz::class, mappedBy="question" )
      */
-    private $quizzes;
+    private Collection $quizzes;
     /**
      * @ORM\OneToMany(targetEntity=Answer::class, mappedBy="question", orphanRemoval=true, cascade={"persist"})
      * @Assert\Count(min=1)
      * @AnswerAssert\UniqueAnswers
      */
-    private $answers;
+    private Collection $answers;
 
 
     public function __construct()
@@ -66,7 +66,6 @@ class Question
     public function setText(string $text): self
     {
         $this->text = $text;
-
         return $this;
     }
 
@@ -84,7 +83,6 @@ class Question
             $this->plays[] = $play;
             $play->setQuestion($this);
         }
-
         return $this;
     }
 
@@ -127,7 +125,6 @@ class Question
             $this->quizzes[] = $quiz;
             $quiz->addQuestion($this);
         }
-
         return $this;
     }
 
@@ -137,7 +134,6 @@ class Question
             $this->quizzes->removeElement($quiz);
             $quiz->removeQuestion($this);
         }
-
         return $this;
     }
 }
